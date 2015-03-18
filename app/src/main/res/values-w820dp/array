@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="myArray">
+    <item>umbrella</item>
+    <item>star</item>
+    <item>obelisk</item>
+    <item>banana</item>
+    <item>shark</item>
+    <item>monkey</item>
+    <item>skirt</item>
+    <item>zebra</item>
+    <item>sword</item>
+    <item>knife</item>
+</string-array>
+</resources>

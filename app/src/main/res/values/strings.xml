@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DataGathering</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_coordination_ball">CoordinationBall</string>
+    <string name="title_activity_overview">OverviewActivity</string>
+    <string name="title_activity_bubble">BubbleActivity</string>
+    <string name="title_activity_trail_making">TrailMakingActivity</string>
+    <string name="title_activity_voice_to_text">VoiceToTextActivity</string>
+    <string name="speech_prompt">Say something…</string>
+    <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
+    <string name="title_activity_connect_dots_one_shot">ConnectDotsOneShotActivity</string>
+    <string name="title_activity_digit_span">DigitSpan</string>
+    <string name="title_activity_digit_span_result">DigitSpanResult</string>
+    <string name="title_activity_digit_order">DigitOrder</string>
+
+</resources>
