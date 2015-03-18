@@ -52,6 +52,10 @@
             android:name=".DigitOrder"
             android:label="@string/title_activity_digit_order" >
         </activity>
+        <activity
+            android:name=".DigitOrderResults"
+            android:label="@string/title_activity_digit_order_results" >
+        </activity>
     </application>
 
 </manifest>

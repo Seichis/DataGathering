@@ -15,5 +15,6 @@
     <string name="title_activity_digit_span">DigitSpan</string>
     <string name="title_activity_digit_span_result">DigitSpanResult</string>
     <string name="title_activity_digit_order">DigitOrder</string>
+    <string name="title_activity_digit_order_results">DigitOrderResults</string>
 
 </resources>
