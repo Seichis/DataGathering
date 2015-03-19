@@ -1,39 +1,101 @@
 package com.performance.cognitive.datagathering;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.content.Context;
+import android.os.Handler;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+import canvas.DrawingPanelOneShot;
+import datastructure.FluencyTask;
+import scheduler.Scheduler;
 
 
-public class ConnectDotsOneShotActivity extends ActionBarActivity {
-
+public class ConnectDotsOneShotActivity extends Activity {
+    Timer mTimerProgress,mTimerGame;
+    Handler mHandlerProgress,mHandlerGame;
+    DrawingPanelOneShot drawView;
+    public static float second=0;
+    public static boolean timeToReset = false;
+    Context context;
+    FluencyTask fluency;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_connect_dots_one_shot);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_connect_dots_one_shot, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        context=this;
+        fluency = new FluencyTask();
+        Scheduler.getInstance().activityStart(fluency);
+        drawView = new DrawingPanelOneShot(context);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(drawView);
+        drawView.requestFocus();
+        if (mTimerProgress != null) {
+            mTimerProgress.cancel();
+        } else {
+            mTimerProgress = new Timer();
+        }
+        mTimerProgress.scheduleAtFixedRate(new ProgressBarTimerTask(), 0, 1000);
+        mHandlerGame = new Handler();
+        if (mTimerGame != null) {
+            mTimerGame.cancel();
+        } else {
+            mTimerGame = new Timer();
         }
 
-        return super.onOptionsItemSelected(item);
+        mTimerGame.scheduleAtFixedRate(new ActionsTimerTask(), 0, 250);
+
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+    class ProgressBarTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            mHandlerGame.post(new Runnable() {
+                @Override
+                public void run() {
+
+                    if(second>30){
+                        mTimerProgress.cancel();
+                        fluency.setScore(DrawingPanelOneShot.score);
+                        Scheduler.getInstance().activityStop(fluency,true);
+                        ConnectDotsOneShotActivity.this.finish();
+                    }
+                   second++;
+
+
+
+                }
+            });
+        }
+    }
+    class ActionsTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            // run on another thread
+            mHandlerGame.post(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (timeToReset){
+                        setContentView(new DrawingPanelOneShot(context));
+                        timeToReset=false;
+                    }
+                }
+            });
+        }
+    }
+
 }

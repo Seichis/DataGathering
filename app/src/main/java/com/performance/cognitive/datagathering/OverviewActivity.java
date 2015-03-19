@@ -14,6 +14,7 @@ import java.util.List;
 
 import dataoperations.DataOperations;
 import datastructure.AttentionTask;
+import datastructure.FluencyTask;
 
 
 public class OverviewActivity extends ActionBarActivity {
@@ -25,6 +26,7 @@ public class OverviewActivity extends ActionBarActivity {
         List<String> showStats = new ArrayList<>();
         showStats.add("TODAY");
         showStats.addAll(printTodaysAttentionTasks());
+        showStats.addAll(printTodaysFluencyTasks());
         final ListView listview = (ListView) findViewById(R.id.listview);
         final ArrayAdapter adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, showStats);
@@ -39,6 +41,7 @@ public class OverviewActivity extends ActionBarActivity {
         Log.i("Stats overview", DL.toString());
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
+        int score=0;
         List<String> toPrint = new ArrayList<String>();
         toPrint.add("Attention Tasks");
         if (!DL.isEmpty())
@@ -46,17 +49,42 @@ public class OverviewActivity extends ActionBarActivity {
                 type = ex.getTaskType();
                 dateStarted = ex.getStartTimestamp();
                 dateFinished = ex.getEndTimestamp();
-
+                score=ex.getScore();
                 if (dateStarted != null && dateFinished!=null) {
                     toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
                             + dateStarted.get(dateStarted.MINUTE) + ":"
                             + dateStarted.get(dateStarted.SECOND) + ","
-                            + dateStarted.get(dateStarted.DAY_OF_MONTH) + "."
-                            + dateStarted.get(dateStarted.MONTH) + "." + dateStarted.get(dateStarted.YEAR) +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+                            + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
                             + dateFinished.get(dateFinished.MINUTE) + ":"
-                            + dateFinished.get(dateFinished.SECOND) + ","
-                            + dateFinished.get(dateFinished.DAY_OF_MONTH) + "."
-                            + dateFinished.get(dateFinished.MONTH) + "." + dateFinished.get(dateFinished.YEAR));
+                            + dateFinished.get(dateFinished.SECOND) + "."
+                            );
+                }
+            }
+        return toPrint;
+    }
+    public List<String> printTodaysFluencyTasks() {
+
+        List<FluencyTask> FT = DataOperations.getTodaysFluencyTasks();
+        Log.i("Stats overview", FT.toString());
+        String type ="";
+        GregorianCalendar dateStarted,dateFinished;
+        int score=0;
+        List<String> toPrint = new ArrayList<String>();
+        toPrint.add("Fluency Tasks");
+        if (!FT.isEmpty())
+            for (FluencyTask ex : FT) {
+                type = ex.getTaskType();
+                dateStarted = ex.getStartTimestamp();
+                dateFinished = ex.getEndTimestamp();
+                score=ex.getScore();
+                if (dateStarted != null && dateFinished!=null) {
+                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+                            + dateStarted.get(dateStarted.MINUTE) + ":"
+                            + dateStarted.get(dateStarted.SECOND) + ","
+                            + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+                            + dateFinished.get(dateFinished.MINUTE) + ":"
+                            + dateFinished.get(dateFinished.SECOND) + "."
+                            );
                 }
             }
         return toPrint;

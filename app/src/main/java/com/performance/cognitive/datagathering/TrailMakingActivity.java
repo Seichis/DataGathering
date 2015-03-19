@@ -52,7 +52,7 @@ public class TrailMakingActivity extends Activity {
             mTimer = new Timer();
         }
         mHandler = new Handler();
-        mTimer.scheduleAtFixedRate(new ActionsTimerTask(), 1000, 1000);
+        mTimer.scheduleAtFixedRate(new ActionsTimerTask(), 500, 500);
 
     }
     class ActionsTimerTask extends TimerTask {
