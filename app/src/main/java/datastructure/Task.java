@@ -12,6 +12,7 @@ public abstract class Task {
     GregorianCalendar endTimestamp;
     boolean completion;
     int completionNumber;
+    int score;
 
     public <T extends Task> T createTask(){
         this.startTimestamp = new GregorianCalendar();
@@ -36,8 +37,12 @@ public abstract class Task {
         return this.taskType;
     }
 
-    public <T extends Task> int getCompletionNumber() {
-        return this.completionNumber;
+    public <T extends Task> int getScore() {
+        return this.score;
     }
+    public <T extends Task> void setScore(int sc) {
+        this.score=sc;
+    }
+
 
 }

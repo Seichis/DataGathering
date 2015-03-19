@@ -171,6 +171,20 @@ public class DataOperations {
         }
         return DL;
     }
+    /**
+     * @return a list of Fluency objects
+     * Converts tasks from today JSON -> Objects
+     */
+    public static List<FluencyTask> getTodaysFluencyTasks() {
+        List<String> JSONlist = readFromTaskFile();
+        Gson gson = new GsonBuilder().create();
+        List<FluencyTask> SL = new ArrayList<FluencyTask>();
+        for (String json : JSONlist) {
+            if (json.contains("fluency"))
+                SL.add(gson.fromJson(json, FluencyTask.class));
+        }
+        return SL;
+    }
 
     /**
      * @return a list of Coordination objects
@@ -181,26 +195,12 @@ public class DataOperations {
         Gson gson = new GsonBuilder().create();
         List<CoordinationTask> WL = new ArrayList<CoordinationTask>();
         for (String json : JSONlist) {
-            if (json.contains("Coordination"))
+            if (json.contains("coordination"))
                 WL.add(gson.fromJson(json, CoordinationTask.class));
         }
         return WL;
     }
 
-    /**
-     * @return a list of Fluency objects
-     * Converts tasks from today JSON -> Objects
-     */
-    public static List<FluencyTask> getTodaysFluencyTasks() {
-        List<String> JSONlist = readFromTaskFile();
-        Gson gson = new GsonBuilder().create();
-        List<FluencyTask> SL = new ArrayList<FluencyTask>();
-        for (String json : JSONlist) {
-            if (json.contains("Fluency"))
-                SL.add(gson.fromJson(json, FluencyTask.class));
-        }
-        return SL;
-    }
 
     /**
      * @return a list of LongTermMemory objects
@@ -211,7 +211,7 @@ public class DataOperations {
         Gson gson = new GsonBuilder().create();
         List<LongTermMemoryTask> AL = new ArrayList<LongTermMemoryTask>();
         for (String json : JSONlist) {
-            if (json.contains("LongTermMemory"))
+            if (json.contains("longtermmemory"))
                 AL.add(gson.fromJson(json, LongTermMemoryTask.class));
         }
         return AL;
@@ -226,7 +226,7 @@ public class DataOperations {
         Gson gson = new GsonBuilder().create();
         List<ReactionTimeTask> AL = new ArrayList<ReactionTimeTask>();
         for (String json : JSONlist) {
-            if (json.contains("ReactionTime"))
+            if (json.contains("reactiontime"))
                 AL.add(gson.fromJson(json, ReactionTimeTask.class));
         }
         return AL;
@@ -241,7 +241,7 @@ public class DataOperations {
         Gson gson = new GsonBuilder().create();
         List<SelectiveAttentionTask> AL = new ArrayList<SelectiveAttentionTask>();
         for (String json : JSONlist) {
-            if (json.contains("SelectiveAttention"))
+            if (json.contains("selectiveattention"))
                 AL.add(gson.fromJson(json, SelectiveAttentionTask.class));
         }
         return AL;
@@ -256,7 +256,7 @@ public class DataOperations {
         Gson gson = new GsonBuilder().create();
         List<SpeedTask> AL = new ArrayList<SpeedTask>();
         for (String json : JSONlist) {
-            if (json.contains("Speed"))
+            if (json.contains("speed"))
                 AL.add(gson.fromJson(json,SpeedTask.class));
         }
         return AL;

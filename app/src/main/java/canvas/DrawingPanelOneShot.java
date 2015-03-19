@@ -7,6 +7,7 @@ package canvas;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
@@ -20,12 +21,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.performance.cognitive.datagathering.ConnectDotsOneShotActivity;
 import com.performance.cognitive.datagathering.TrailMakingActivity;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
+import java.util.Set;
 
 
 /**
@@ -33,7 +35,7 @@ import java.util.Random;
  */
 public class DrawingPanelOneShot extends View implements View.OnTouchListener {
     private static final String TAG = "DrawViewOneShot";
-    static int count = 0;
+    int count;
     private static final float MINP = 0.25f;
     private static final float MAXP = 0.75f;
     private List<ShapeDrawable> dotsToDraw;
@@ -45,18 +47,37 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
     private Path mPathStay;
     private Paint textPaint;
     int dotId;
+    public static int score = 0;
     boolean numberSpotted;
-    private List<ShapeDrawable> changedDotList;
+    private Set<ShapeDrawable> changedDotSet;
+    private static List<Float> measurePath = new ArrayList<>();
+    static Set<List<Float>> pmSetList = new HashSet<>();
+    Matrix mMatrix;
+    Path mergedPath = new Path();
+    private Paint barPaint;
+    private float barStartX = 20;
+    private float barStartY = 20;
+    private float barEndX;
+    private float barEndY = 30;
+    private float currentSeekBarLength = 0;
+    Point mPoint = new Point();
 
     public DrawingPanelOneShot(Context context) {
         super(context);
+        WindowManager wm = (WindowManager)
+                context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        display.getSize(mPoint);
+        changedDotSet = new HashSet<>();
         mPathStay = new Path();
         numberSpotted = false;
         count = 0;
         dotId = 0;
+        mMatrix = new Matrix();
+        mMatrix.setTranslate(0f, 0f);
         dotsToDraw = new ArrayList<>();
         textPaint = new Paint();
-        changedDotList = new ArrayList<>();
+        barPaint = new Paint();
         mPaint = new Paint();
         mCanvas = new Canvas();
         mPath = new Path();
@@ -92,6 +113,7 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        canvas.drawText(Integer.toString(score),mPoint.x/2 ,mPoint.y/8 , textPaint);
         for (ShapeDrawable dot : dotsToDraw) {
             dot.draw(canvas);
             canvas.drawText(Integer.toString(dotsToDraw.indexOf(dot) + 1), dot.getBounds().centerX(), dot.getBounds().centerY(), textPaint);
@@ -102,6 +124,12 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
         for (Path p : pathsToStay) {
             canvas.drawPath(p, mPaint);
         }
+        barEndX = this.getWidth() - 20;
+        barPaint.setColor(Color.WHITE);
+        setCurrentSeekBarLength((barEndX - barStartX) * (ConnectDotsOneShotActivity.second / 30));
+        barPaint.setColor(Color.BLUE);
+        canvas.drawRect(barStartX, barStartY, getCurrentSeekBarLength(),
+                barEndY, barPaint);
     }
 
     private float mX, mY;
@@ -123,49 +151,20 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
             mX = x;
             mY = y;
         }
-        if (checkPath((int) x, (int) y)) {
-            dotsToDraw.get(count).setColorFilter(Color.parseColor("#E91E63"), PorterDuff.Mode.DARKEN);
-            count++;
-            changedDotList.add(dotsToDraw.get(count));
+        checkPath((int) x, (int) y);
 
-            numberSpotted = true;
-        }
-        if (numberSpotted == true) {
-            mPathStay.moveTo(startX, startY);
-            mPathStay.lineTo(x, y);
-            mPathStay = new Path();
-            pathsToStay.add(mPathStay);
-            numberSpotted = false;
-            startX = x;
-            startY = y;
-        }
-        if (checkOverlapping((int) x,(int) y)){
 
-            resetLevel();
-
-        }
         mCanvas.drawPath(mPathStay, mPaint);
 
     }
 
     private void resetLevel() {
-        TrailMakingActivity.timeToReset=true;
-//        pathsToStay.clear();
-//        pathsToReset.clear();
+        ConnectDotsOneShotActivity.timeToReset = true;
+
     }
 
-    private void touch_up(float xStop, float yStop) {
+    private void touch_up() {
         mPath.reset();
-        if (numberSpotted == true) {
-            mPathStay.lineTo(xStop, yStop);
-            mPathStay = new Path();
-            pathsToStay.add(mPathStay);
-            numberSpotted = false;
-
-
-        }
-
-        mCanvas.drawPath(mPath, mPaint);
     }
 
     float startX = 0;
@@ -179,11 +178,9 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                startX = event.getX();
+                startY = event.getY();
 
-                if (count == 1) {
-                    startX = changedDotList.get(0).getBounds().centerX();
-                    startY = changedDotList.get(0).getBounds().centerY();
-                }
                 touch_start(startX, startY);
                 invalidate();
                 break;
@@ -192,9 +189,37 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
+                float totalPathLength = 0;
+                List<ShapeDrawable> changedDotList = new ArrayList<>(changedDotSet);
                 stopX = event.getX();
                 stopY = event.getY();
-                touch_up(stopX, stopY);
+                touch_up();
+                PathMeasure pmMerged;
+                pmMerged = new PathMeasure();
+                //mergedPath.close();
+                for (Path pts : pathsToStay) {
+                    pmMerged.setPath(pts, false);
+                    totalPathLength += pmMerged.getLength();
+                }
+//                for (ShapeDrawable sd : changedDotList) {
+//                    measurePath.add((float) dotsToDraw.indexOf(sd) + 10);
+//                }
+                if (totalPathLength > 100) {
+                    measurePath.add((float) Math.round(totalPathLength * 100));
+                    //Collections.sort(measurePath);
+
+                    if (!measurePath.isEmpty()) {
+
+                        Log.i("Set of lists", "    " + measurePath);
+                        pmSetList.add(measurePath);
+                        measurePath.clear();
+
+                    }
+                    Log.i("Set of lists", "    " + pmSetList.size() + "    ");
+                }
+                score = pmSetList.size();
+                resetLevel();
+
                 invalidate();
                 break;
             case MotionEvent.ACTION_CANCEL:
@@ -207,82 +232,127 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
 
     private List<ShapeDrawable> getDotList(Context context) {
         List<ShapeDrawable> dotList = new ArrayList<>();
-        List<Point> uniquePointList;
+        List<Point> fixedPointList;
         int diameter = 100;
-        uniquePointList = createUniquePoints(context);
+        fixedPointList = createFixedPoints(context);
 
-        for (Point p : uniquePointList) {
+        for (Point p : fixedPointList) {
             dotList.add(createDot(p.x, p.y, diameter));
-            Log.i("Dotlist", "width  " + p.x + "height  " + p.y + "size of list " + uniquePointList.size());
+
         }
-        Collections.shuffle(dotList);
+
         return dotList;
     }
 
-    private List<Point> createUniquePoints(Context context) {
+    private List<Point> createFixedPoints(Context context) {
 
         List<Point> pointList = new ArrayList<>();
+        Point mPointA = new Point();
+        Point mPointB = new Point();
+        Point mPointC = new Point();
+        Point mPointD = new Point();
+        Point mPointE = new Point();
         int width;
         int height;
-        WindowManager wm = (WindowManager)
-                context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
 
+        // Set Point A of the rectangle
 
-        for (int i = 0; i < 5; i++) {
-            Point mPoint = new Point();
-            display.getSize(mPoint);
-            width = (mPoint.x / 2) + randInt(-mPoint.x / 3, mPoint.x / 3);
-            height = (i + 1) * (mPoint.y / 8) - randInt(mPoint.y / 14, mPoint.y / 8);
-            Log.i("Drawing", "width  " + width + "height  " + height);
-            mPoint.set(width, height);
-            pointList.add(mPoint);
-        }
+        width = (mPoint.x / 4);
+        height = (mPoint.y / 4);
+        mPointA.set(width, height);
+        pointList.add(mPointA);
 
+        // Set Point B of the rectangle
+
+        width = (3 * mPoint.x / 4);
+        height = (mPoint.y / 4);
+        mPointB.set(width, height);
+        pointList.add(mPointB);
+
+        // Set Point C of the rectangle
+
+        width = (mPoint.x / 4);
+        height = (3 * mPoint.y / 4);
+        mPointC.set(width, height);
+        pointList.add(mPointC);
+
+        // Set Point D of the rectangle
+
+        width = (3 * mPoint.x / 4);
+        height = (3 * mPoint.y / 4);
+        mPointD.set(width, height);
+
+        pointList.add(mPointD);
+
+        // Set Point E in the center of the rectangle
+
+        width = (mPoint.x / 2);
+        height = (mPoint.y / 2);
+        mPointE.set(width, height);
+        pointList.add(mPointE);
         return pointList;
     }
 
     private ShapeDrawable createDot(int width, int height, int diameter) {
         ShapeDrawable dot = new ShapeDrawable(new OvalShape());
-        dot.setBounds(width, height, width + diameter, height + diameter);
+        dot.setBounds(width - 50, height, width + diameter, height + diameter);
         dot.getPaint().setColor(0xff74AC23);
         return dot;
     }
 
-    public static int randInt(int min, int max) {
+    private void setCurrentSeekBarLength(float x) {
 
-        // NOTE: Usually this should be a field rather than a method
-        // variable so that it is not re-seeded every call.
-        Random rand = new Random();
-
-        // nextInt is normally exclusive of the top value,
-        // so add 1 to make it inclusive
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-
-        return randomNum;
+        this.currentSeekBarLength = x;
     }
 
-    private boolean checkPath(int x, int y) {
-        boolean correct = false;
+    private float getCurrentSeekBarLength() {
 
-
-        if (count < dotsToDraw.size()) {
-            if (Math.abs(x - dotsToDraw.get(count).getBounds().centerX()) < 30 && Math.abs(y - dotsToDraw.get(count).getBounds().centerY()) < 30) {
-                correct = true;
-            }
-            return correct;
-        } else return false;
+        return this.currentSeekBarLength;
     }
-    private boolean checkOverlapping(int x, int y){
-        boolean ol = false;
-        for(ShapeDrawable sd: changedDotList){
-            if (Math.abs(x - sd.getBounds().centerX()) < 30 && Math.abs(y - sd.getBounds().centerY()) < 30) {
-                ol = true;
+
+    private void checkPath(int x, int y) {
+        double firstTapTimestamp = 0d;
+        double secondTapTimestamp = 0d;
+        PathMeasure pm;
+
+        pm = new PathMeasure(mPathStay, false);
+
+
+        for (ShapeDrawable dot : dotsToDraw) {
+            if (Math.abs(x - dot.getBounds().exactCenterX()) < 90 && Math.abs(y - dot.getBounds().exactCenterY()) < 90) {
+
+
+                if (!changedDotSet.contains(dot)) {
+                    firstTapTimestamp = System.currentTimeMillis();
+                    dot.setColorFilter(Color.parseColor("#E91E63"), PorterDuff.Mode.DARKEN);
+                    if (count == 0) {
+                        changedDotSet.clear();
+                        startX = dot.getBounds().centerX();
+                        startY = dot.getBounds().centerY();
+                        count++;
+                    }
+                    changedDotSet.add(dot);
+                    mPathStay.moveTo(startX, startY);
+                    mPathStay.lineTo(dot.getBounds().centerX(), dot.getBounds().centerY());
+
+                    mergedPath.addPath(mPathStay);
+                    //pm = new PathMeasure(mergedPath, false);
+
+                    mPathStay = new Path();
+                    pathsToStay.add(mPathStay);
+
+                    startX = dot.getBounds().centerX();
+                    startY = dot.getBounds().centerY();
+
+                    numberSpotted = true;
+                } else if (changedDotSet.contains(dot) && pm.getLength() > 100) {
+                    secondTapTimestamp = System.currentTimeMillis();
+                    if (secondTapTimestamp - firstTapTimestamp > 100) {
+                        resetLevel();
+                    }
+                }
             }
-            return ol;
         }
-        return ol;
     }
-
 }
 

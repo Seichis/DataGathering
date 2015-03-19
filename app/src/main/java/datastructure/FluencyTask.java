@@ -6,6 +6,5 @@ package datastructure;
 public class FluencyTask extends Task {
     public FluencyTask() {
         this.taskType = "fluency";
-        super.createTask();
     }
 }
