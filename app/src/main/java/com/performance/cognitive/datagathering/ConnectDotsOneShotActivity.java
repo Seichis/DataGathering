@@ -63,7 +63,6 @@ public class ConnectDotsOneShotActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       // startActivity(new Intent(ConnectDotsOneShotActivity.this,MainActivity.class));
     }
 
     class ProgressBarTimerTask extends TimerTask {
