@@ -2,8 +2,10 @@ package com.performance.cognitive.datagathering;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -17,11 +19,12 @@ import scheduler.Scheduler;
 
 public class ConnectDotsOneShotActivity extends Activity {
     Timer mTimerProgress,mTimerGame;
-    Handler mHandlerProgress,mHandlerGame;
+    Handler mHandlerGame;
     DrawingPanelOneShot drawView;
     public static float second=0;
     public static boolean timeToReset = false;
     Context context;
+    int firstTimercount,secondTimercount = 0;
     FluencyTask fluency;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,9 +51,7 @@ public class ConnectDotsOneShotActivity extends Activity {
         } else {
             mTimerGame = new Timer();
         }
-
         mTimerGame.scheduleAtFixedRate(new ActionsTimerTask(), 0, 250);
-
     }
 
     @Override
@@ -58,6 +59,13 @@ public class ConnectDotsOneShotActivity extends Activity {
         super.onResume();
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+       // startActivity(new Intent(ConnectDotsOneShotActivity.this,MainActivity.class));
+    }
+
     class ProgressBarTimerTask extends TimerTask {
 
         @Override
@@ -65,17 +73,18 @@ public class ConnectDotsOneShotActivity extends Activity {
             mHandlerGame.post(new Runnable() {
                 @Override
                 public void run() {
-
+                    firstTimercount++;
+                    Log.i("Timers","  "+ firstTimercount);
                     if(second>30){
                         mTimerProgress.cancel();
+                        mTimerGame.cancel();
                         fluency.setScore(DrawingPanelOneShot.score);
                         Scheduler.getInstance().activityStop(fluency,true);
+                        DrawingPanelOneShot.score=0;
+                        second=0;
                         ConnectDotsOneShotActivity.this.finish();
                     }
                    second++;
-
-
-
                 }
             });
         }
@@ -89,6 +98,8 @@ public class ConnectDotsOneShotActivity extends Activity {
 
                 @Override
                 public void run() {
+                    secondTimercount++;
+                    Log.i("Timers","  "+ secondTimercount);
                     if (timeToReset){
                         setContentView(new DrawingPanelOneShot(context));
                         timeToReset=false;

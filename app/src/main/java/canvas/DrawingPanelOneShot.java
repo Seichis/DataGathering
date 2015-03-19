@@ -61,10 +61,11 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
     private float barEndY = 30;
     private float currentSeekBarLength = 0;
     Point mPoint = new Point();
+    public WindowManager wm;
 
     public DrawingPanelOneShot(Context context) {
         super(context);
-        WindowManager wm = (WindowManager)
+        wm = (WindowManager)
                 context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         display.getSize(mPoint);
