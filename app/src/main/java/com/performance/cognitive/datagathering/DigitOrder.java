@@ -3,12 +3,10 @@ package com.performance.cognitive.datagathering;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -46,16 +44,17 @@ public class DigitOrder extends ActionBarActivity {
     AttentionTask mAttentionTask;
     public static List<String> digitsResults;
     public static List<String> userResults;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_digit_order);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
-        level=1;
+        level = 1;
         mAttentionTask = new AttentionTask();
         Scheduler.getInstance().activityStart(mAttentionTask);
-        digitsResults = new ArrayList<String>();
-        userResults = new ArrayList<String>();
+        digitsResults = new ArrayList<>();
+        userResults = new ArrayList<>();
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         editText = (EditText) findViewById(R.id.edit);
         editText.setVisibility(View.INVISIBLE);
@@ -79,7 +78,7 @@ public class DigitOrder extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 String userAnswer = editText.getText().toString();
-                userAnswer = userAnswer.replaceAll("\\s+","");
+                userAnswer = userAnswer.replaceAll("\\s+", "");
                 userResults.add(userAnswer);
                 Log.i(TAG, String.valueOf(userResults));
                 buttonPressed = true;
@@ -94,8 +93,8 @@ public class DigitOrder extends ActionBarActivity {
                 term = getListToShow(NUMBERS);
                 String numberList = String.valueOf(term);
                 String[] newList = numberList.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
-                String digitsComp="";
-                for (int x=0; x<newList.length; x++){
+                String digitsComp = "";
+                for (int x = 0; x < newList.length; x++) {
                     digitsComp = digitsComp + newList[x];
                 }
                 digits.setText(digitsComp);
@@ -122,16 +121,17 @@ public class DigitOrder extends ActionBarActivity {
             imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         }
     }
-        private String sortDigits(List<Integer> term) {
+
+    private String sortDigits(List<Integer> term) {
         String termStr;
         String digitsNew = "";
         Collections.sort(term);
         termStr = String.valueOf(term);
         String[] termNew = termStr.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
-        for (int x=0; x<termNew.length; x++){
+        for (int x = 0; x < termNew.length; x++) {
             digitsNew = digitsNew + termNew[x];
         }
-        digitsNew = digitsNew.replaceAll("\\s+","");
+        digitsNew = digitsNew.replaceAll("\\s+", "");
 
         return digitsNew;
     }
@@ -149,8 +149,8 @@ public class DigitOrder extends ActionBarActivity {
                         term = getListToShow(NUMBERS);
                         String numberList = String.valueOf(term);
                         String[] newList = numberList.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
-                        String digitsComp="";
-                        for (int x=0; x<newList.length; x++){
+                        String digitsComp = "";
+                        for (int x = 0; x < newList.length; x++) {
                             digitsComp = digitsComp + newList[x];
                         }
                         digits.setText(digitsComp);
@@ -164,16 +164,24 @@ public class DigitOrder extends ActionBarActivity {
                         }
 
 
-                    } else if (inputSet  && buttonPressed) {
+                    } else if (inputSet && buttonPressed) {
                         setEditTextForInput();
 
 
                     }
                     if (level == 11) {
-                        mTimer.cancel();
+                        int counter=0;
+                        for (int x=0; x<10; x++){
+                            if (userResults.get(x).equals( DigitOrder.digitsResults.get(x))) {
+                                counter+=1;
+                            }
+                        }
+
+                        mAttentionTask.setScore(counter);
                         Scheduler.getInstance().activityStop(mAttentionTask, true);
-                        Intent intent = new Intent(DigitOrder.this, DigitOrderResults.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(DigitOrder.this, DigitOrderResults.class);
+//                        startActivity(intent);
+                        mTimer.cancel();
                         DigitOrder.this.finish();
 
                     }

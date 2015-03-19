@@ -27,8 +27,10 @@ public class MainActivity extends ActionBarActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         attention1Button = (Button) findViewById(R.id.attention1_button);
         attention2Button = (Button) findViewById(R.id.attention2_button);
+        fluencyButton = (Button) findViewById(R.id.fluency_button);
+
         statsButton = (Button) findViewById(R.id.stats_button);
-        startActivity(new Intent(MainActivity.this,ConnectDotsOneShotActivity.class));
+        //startActivity(new Intent(MainActivity.this,ConnectDotsOneShotActivity.class));
         attention1Button.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
 
@@ -40,6 +42,12 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 startActivity(new Intent(MainActivity.this,DigitOrder.class));
+
+            }
+        }); fluencyButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+
+                startActivity(new Intent(MainActivity.this,ConnectDotsOneShotActivity.class));
 
             }
         });

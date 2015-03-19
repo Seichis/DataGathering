@@ -14,13 +14,7 @@ public class DigitOrderResults extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_digit_order_results);
         results = (TextView)findViewById(R.id.doresults);
-        counter=0;
-        for (int x=0; x<10; x++){
-            if (DigitOrder.userResults.get(x).equals( DigitOrder.digitsResults.get(x))) {
-                counter+=1;
-            }
-        }
-        results.setText("Correct: "+String.valueOf(counter)+" out of 10");
+
     }
 
 
