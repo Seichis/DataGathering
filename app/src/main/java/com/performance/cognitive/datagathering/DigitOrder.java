@@ -1,10 +1,12 @@
 package com.performance.cognitive.datagathering;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +26,8 @@ import scheduler.Scheduler;
 
 
 public class DigitOrder extends ActionBarActivity {
-
+    String TAG = "digits2";
+    String GAT = "digits";
     TextView digits;
     int[] NUMBERS = {1, 2, 3, 4, 5, 6, 7, 8, 9};
     List term = new ArrayList();
@@ -41,6 +44,8 @@ public class DigitOrder extends ActionBarActivity {
     Button startButton;
     boolean taskStarted;
     AttentionTask mAttentionTask;
+    public static List<String> digitsResults;
+    public static List<String> userResults;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +54,8 @@ public class DigitOrder extends ActionBarActivity {
         level=1;
         mAttentionTask = new AttentionTask();
         Scheduler.getInstance().activityStart(mAttentionTask);
-
+        digitsResults = new ArrayList<String>();
+        userResults = new ArrayList<String>();
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         editText = (EditText) findViewById(R.id.edit);
         editText.setVisibility(View.INVISIBLE);
@@ -72,7 +78,10 @@ public class DigitOrder extends ActionBarActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String userAnswer = editText.getText().toString();
+                userAnswer = userAnswer.replaceAll("\\s+","");
+                userResults.add(userAnswer);
+                Log.i(TAG, String.valueOf(userResults));
                 buttonPressed = true;
                 level++;
             }
@@ -82,7 +91,16 @@ public class DigitOrder extends ActionBarActivity {
             public void onClick(View v) {
                 taskStarted = true;
                 mTimer.scheduleAtFixedRate(new ActionsTimerTask(), 1000, 1000);
-                digits.setText(String.valueOf(getListToShow(NUMBERS)));
+                term = getListToShow(NUMBERS);
+                String numberList = String.valueOf(term);
+                String[] newList = numberList.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+                String digitsComp="";
+                for (int x=0; x<newList.length; x++){
+                    digitsComp = digitsComp + newList[x];
+                }
+                digits.setText(digitsComp);
+                digitsResults.add(sortDigits(term));
+                Log.i(GAT, String.valueOf(digitsResults));
             }
         });
 
@@ -104,6 +122,19 @@ public class DigitOrder extends ActionBarActivity {
             imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         }
     }
+        private String sortDigits(List<Integer> term) {
+        String termStr;
+        String digitsNew = "";
+        Collections.sort(term);
+        termStr = String.valueOf(term);
+        String[] termNew = termStr.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+        for (int x=0; x<termNew.length; x++){
+            digitsNew = digitsNew + termNew[x];
+        }
+        digitsNew = digitsNew.replaceAll("\\s+","");
+
+        return digitsNew;
+    }
 
     class ActionsTimerTask extends TimerTask {
 
@@ -115,7 +146,16 @@ public class DigitOrder extends ActionBarActivity {
 
 
                     if (j < 8 && inputSet == false) {
-                        digits.setText(String.valueOf(getListToShow(NUMBERS)));
+                        term = getListToShow(NUMBERS);
+                        String numberList = String.valueOf(term);
+                        String[] newList = numberList.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+                        String digitsComp="";
+                        for (int x=0; x<newList.length; x++){
+                            digitsComp = digitsComp + newList[x];
+                        }
+                        digits.setText(digitsComp);
+                        digitsResults.add(sortDigits(term));
+                        Log.i(GAT, String.valueOf(digitsResults));
                         digits.setVisibility(View.INVISIBLE);
                         buttonPressed = false;
                         if (digits.getVisibility() != View.VISIBLE) {
@@ -132,6 +172,8 @@ public class DigitOrder extends ActionBarActivity {
                     if (level == 11) {
                         mTimer.cancel();
                         Scheduler.getInstance().activityStop(mAttentionTask, true);
+                        Intent intent = new Intent(DigitOrder.this, DigitOrderResults.class);
+                        startActivity(intent);
                         DigitOrder.this.finish();
 
                     }
