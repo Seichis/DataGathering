@@ -27,13 +27,8 @@ import datastructure.SpeedNumberTask;
 import datastructure.SpeedTapTask;
 import datastructure.Task;
 
-/**
- * Created by User1 on 8/3/2015.
- */
-public class DataOperations {
-    public static final String[] tasks = {"Coordination", "Attention", "ReactionTime", "SelectiveAttention", "Speed", "LongTermMemory",
-            "Fluency"};
 
+public class DataOperations {
     private static DataOperations dataOPS = new DataOperations();
 
     private DataOperations() {
@@ -69,7 +64,6 @@ public class DataOperations {
     }
 
 
-
     /**
      * @return JSONlist
      * @throws IOException Reads all the JSON data from the task file to a list of strings
@@ -101,9 +95,6 @@ public class DataOperations {
 
         return JSONlist;
     }
-
-
-
 
 
     /**
@@ -157,6 +148,7 @@ public class DataOperations {
             e.printStackTrace();
         }
     }
+
     /**
      * @return a list of Attention objects
      * Converts tasks from today JSON -> Objects
@@ -172,6 +164,7 @@ public class DataOperations {
         }
         return DL;
     }
+
     /**
      * @return a list of Attention objects
      * Converts tasks from today JSON -> Objects
@@ -187,6 +180,7 @@ public class DataOperations {
         }
         return DL;
     }
+
     /**
      * @return a list of Fluency objects
      * Converts tasks from today JSON -> Objects
@@ -277,6 +271,7 @@ public class DataOperations {
         }
         return AL;
     }
+
     /**
      * @return a list of Speed Tap objects
      * Converts tasks from today JSON -> Objects
