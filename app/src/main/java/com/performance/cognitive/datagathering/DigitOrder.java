@@ -98,6 +98,7 @@ public class DigitOrder extends ActionBarActivity {
                 }
                 digits.setText(digitsComp);
                 digitsResults.add(sortDigits(term));
+                startButton.setVisibility(View.INVISIBLE);
                 Log.i(GAT, String.valueOf(digitsResults));
             }
         });
@@ -168,7 +169,9 @@ public class DigitOrder extends ActionBarActivity {
 
 
                     }
-                    if (level == 11) {
+                    if (level > 10) {
+                        digits.setVisibility(View.INVISIBLE);
+
                         int counter=0;
                         for (int x=0; x<10; x++){
                             if (userResults.get(x).equals( DigitOrder.digitsResults.get(x))) {

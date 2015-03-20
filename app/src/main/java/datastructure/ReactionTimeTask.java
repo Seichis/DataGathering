@@ -6,6 +6,5 @@ package datastructure;
 public class ReactionTimeTask extends Task {
     public ReactionTimeTask() {
         this.taskType = "reactiontime";
-
     }
 }

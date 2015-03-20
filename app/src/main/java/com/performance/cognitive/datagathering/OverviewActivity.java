@@ -17,6 +17,7 @@ import datastructure.AttentionDigitSpanTask;
 import datastructure.AttentionTaskDigitOrder;
 import datastructure.CoordinationTask;
 import datastructure.FluencyTask;
+import datastructure.ReactionTimeTask;
 import datastructure.SpeedNumberTask;
 import datastructure.SpeedTapTask;
 
@@ -35,6 +36,7 @@ public class OverviewActivity extends ActionBarActivity {
         showStats.addAll(printTodaysSpeedTapTasks());
         showStats.addAll(printTodaysSpeedNumberTasks());
         showStats.addAll(printTodaysCoordinationTasks());
+        showStats.addAll(printTodaysReactionTimeTasks());
         final ListView listview = (ListView) findViewById(R.id.listview);
         final ArrayAdapter adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, showStats);
@@ -185,10 +187,37 @@ public class OverviewActivity extends ActionBarActivity {
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
         int score=0;
-        List<String> toPrint = new ArrayList<String>();
+        List<String> toPrint = new ArrayList<>();
         toPrint.add("Coordination Tasks");
         if (!CT.isEmpty())
             for (CoordinationTask ex : CT) {
+                type = ex.getTaskType();
+                dateStarted = ex.getStartTimestamp();
+                dateFinished = ex.getEndTimestamp();
+                score=ex.getScore();
+                if (dateStarted != null && dateFinished!=null) {
+                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+                                    + dateStarted.get(dateStarted.MINUTE) + ":"
+                                    + dateStarted.get(dateStarted.SECOND) + ","
+                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+                                    + dateFinished.get(dateFinished.MINUTE) + ":"
+                                    + dateFinished.get(dateFinished.SECOND) + "."
+                    );
+                }
+            }
+        return toPrint;
+    }
+    public List<String> printTodaysReactionTimeTasks() {
+
+        List<ReactionTimeTask> RT = DataOperations.getTodaysReactionTimeTasks();
+        Log.i("Stats overview", RT.toString());
+        String type ="";
+        GregorianCalendar dateStarted,dateFinished;
+        int score=0;
+        List<String> toPrint = new ArrayList<>();
+        toPrint.add("Reaction Time Tasks");
+        if (!RT.isEmpty())
+            for (ReactionTimeTask ex : RT) {
                 type = ex.getTaskType();
                 dateStarted = ex.getStartTimestamp();
                 dateFinished = ex.getEndTimestamp();

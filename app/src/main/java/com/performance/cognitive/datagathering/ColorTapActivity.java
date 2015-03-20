@@ -55,6 +55,7 @@ public class ColorTapActivity extends Activity {
 //                    Intent intent = new Intent(ColorTapActivity.this, ColorTapResults.class);
 //                    startActivity(intent);
                     reaction.setScore((int)(averageScore(score)*1000));
+                    Scheduler.getInstance().activityStop(reaction,true);
                     ColorTapActivity.this.finish();
                 }
             }
