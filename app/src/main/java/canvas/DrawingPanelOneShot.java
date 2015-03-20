@@ -103,7 +103,7 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
         super.onDraw(canvas);
         canvas.drawText(Integer.toString(score),mPoint.x/2 ,mPoint.y/8 , textPaint);
         drawDots(canvas);
-        mCustomProgressBar.drawProgressBar(canvas);
+        mCustomProgressBar.drawProgressBar(canvas,ConnectDotsOneShotActivity.second);
 //        for (Path p : pathsToReset) {
 //            canvas.drawPath(p, mPaint);
 //        }

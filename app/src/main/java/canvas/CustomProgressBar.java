@@ -36,9 +36,9 @@ public class CustomProgressBar {
         return this.currentSeekBarLength;
     }
 
-    public void drawProgressBar(Canvas c) {
+    public void drawProgressBar(Canvas c,float seconds) {
         barPaint.setColor(Color.WHITE);
-        setCurrentSeekBarLength((barEndX - barStartX) * (TrailMakingActivity.getSecondElapsed() / 30));
+        setCurrentSeekBarLength((barEndX - barStartX) * (seconds / 30));
         barPaint.setColor(Color.BLUE);
         barPaint.setStyle(Paint.Style.STROKE);
         barPaint.setStrokeWidth(10);

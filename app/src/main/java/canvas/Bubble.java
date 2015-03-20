@@ -12,6 +12,8 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.performance.cognitive.datagathering.BubbleActivity;
+
 public class Bubble extends View {
     private int diameter;
     private int moveX;
@@ -56,7 +58,7 @@ public class Bubble extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        mCustomProgressBar.drawProgressBar(canvas);
+        mCustomProgressBar.drawProgressBar(canvas, (float) BubbleActivity.sec);
         getBubble().draw(canvas);
         getOuterCircle().draw(canvas);
         canvas.drawText(Integer.toString((int)getScore()),mPoint.x/2 ,mPoint.y/8 , getTextPaint());

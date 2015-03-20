@@ -25,7 +25,7 @@ public class BubbleActivity extends Activity implements Orientation.Listener, Se
     SpeedTask speed;
     Timer mTimer;
     Handler mHandler;
-    int sec;
+    public static int sec;
 
 
     public void onCreate(Bundle savedInstanceState) {

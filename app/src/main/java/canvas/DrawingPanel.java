@@ -98,8 +98,8 @@ public class DrawingPanel extends View implements View.OnTouchListener {
             dot.draw(canvas);
             canvas.drawText(Integer.toString(dotsToDraw.indexOf(dot) + 1), dot.getBounds().centerX(), dot.getBounds().centerY(), textPaint);
         }
-
-        mCustomProgressBar.drawProgressBar(canvas);
+Log.i("DrawTrail","  "+(int)TrailMakingActivity.getSecondElapsed());
+        mCustomProgressBar.drawProgressBar(canvas,TrailMakingActivity.getSecondElapsed());
        // drawProgressBar(canvas);
 //        for (Path p : pathsToReset) {
 //            canvas.drawPath(p, mPaint);
