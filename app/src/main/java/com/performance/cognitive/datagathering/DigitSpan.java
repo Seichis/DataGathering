@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import datastructure.AttentionTask;
+import datastructure.AttentionDigitSpanTask;
 import scheduler.Scheduler;
 
 
@@ -32,7 +32,7 @@ public class DigitSpan extends ActionBarActivity {
     public int rnd;
     public int get;
     public int count;
-    AttentionTask mAttentionTask;
+    AttentionDigitSpanTask mAttentionDigitSpanTask;
 
 
     @Override
@@ -40,14 +40,14 @@ public class DigitSpan extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_digit_span);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
-        mAttentionTask = new AttentionTask();
+        mAttentionDigitSpanTask = new AttentionDigitSpanTask();
         number = (ImageView) findViewById(R.id.number);
         button1 = (Button) findViewById(R.id.button1);
         button2 = (Button) findViewById(R.id.button2);
         text1 = (EditText) findViewById(R.id.text1);
         textView = (TextView) findViewById(R.id.textView);
 
-        Scheduler.getInstance().activityStart(mAttentionTask);
+        Scheduler.getInstance().activityStart(mAttentionDigitSpanTask);
 
     }
 
@@ -196,7 +196,7 @@ public class DigitSpan extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Scheduler.getInstance().activityStop(mAttentionTask, true);
+        Scheduler.getInstance().activityStop(mAttentionDigitSpanTask, true);
         Intent intent = new Intent(DigitSpan.this, DigitSpanResult.class);
         Bundle bl = new Bundle();
         bl.putInt("round", round - 1);

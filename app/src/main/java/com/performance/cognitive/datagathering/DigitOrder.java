@@ -1,7 +1,6 @@
 package com.performance.cognitive.datagathering;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import datastructure.AttentionTask;
+import datastructure.AttentionTaskDigitOrder;
 import scheduler.Scheduler;
 
 
@@ -41,7 +40,7 @@ public class DigitOrder extends ActionBarActivity {
     Button submitButton;
     Button startButton;
     boolean taskStarted;
-    AttentionTask mAttentionTask;
+    AttentionTaskDigitOrder mAttentionTaskDigitOrder;
     public static List<String> digitsResults;
     public static List<String> userResults;
 
@@ -51,8 +50,8 @@ public class DigitOrder extends ActionBarActivity {
         setContentView(R.layout.activity_digit_order);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         level = 1;
-        mAttentionTask = new AttentionTask();
-        Scheduler.getInstance().activityStart(mAttentionTask);
+        mAttentionTaskDigitOrder = new AttentionTaskDigitOrder();
+        Scheduler.getInstance().activityStart(mAttentionTaskDigitOrder);
         digitsResults = new ArrayList<>();
         userResults = new ArrayList<>();
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -177,8 +176,8 @@ public class DigitOrder extends ActionBarActivity {
                             }
                         }
 
-                        mAttentionTask.setScore(counter);
-                        Scheduler.getInstance().activityStop(mAttentionTask, true);
+                        mAttentionTaskDigitOrder.setScore(counter);
+                        Scheduler.getInstance().activityStop(mAttentionTaskDigitOrder, true);
 //                        Intent intent = new Intent(DigitOrder.this, DigitOrderResults.class);
 //                        startActivity(intent);
                         mTimer.cancel();

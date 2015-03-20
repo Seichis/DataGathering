@@ -13,7 +13,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import dataoperations.DataOperations;
-import datastructure.AttentionTask;
+import datastructure.AttentionDigitSpanTask;
+import datastructure.AttentionTaskDigitOrder;
 import datastructure.CoordinationTask;
 import datastructure.FluencyTask;
 import datastructure.SpeedTask;
@@ -26,8 +27,9 @@ public class OverviewActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
         List<String> showStats = new ArrayList<>();
-        showStats.add("TODAY");
-        showStats.addAll(printTodaysAttentionTasks());
+        //showStats.add("TODAY");
+        showStats.addAll(printTodaysAttentionDigitOrderTasks());
+        showStats.addAll(printTodaysAttentionDigitSpanTasks());
         showStats.addAll(printTodaysFluencyTasks());
         showStats.addAll(printTodaysSpeedTasks());
         showStats.addAll(printTodaysCoordinationTasks());
@@ -39,17 +41,44 @@ public class OverviewActivity extends ActionBarActivity {
 
     }
 
-    public List<String> printTodaysAttentionTasks() {
+    public List<String> printTodaysAttentionDigitOrderTasks() {
 
-        List<AttentionTask> DL = DataOperations.getTodaysAttentionTasks();
+        List<AttentionTaskDigitOrder> DL = DataOperations.getTodaysAttentionDigitOrderTasks();
         Log.i("Stats overview", DL.toString());
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
         int score=0;
         List<String> toPrint = new ArrayList<String>();
-        toPrint.add("Attention Tasks");
+        toPrint.add("Attention Digit Order Tasks");
         if (!DL.isEmpty())
-            for (AttentionTask ex : DL) {
+            for (AttentionTaskDigitOrder ex : DL) {
+                type = ex.getTaskType();
+                dateStarted = ex.getStartTimestamp();
+                dateFinished = ex.getEndTimestamp();
+                score=ex.getScore();
+                if (dateStarted != null && dateFinished!=null) {
+                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+                            + dateStarted.get(dateStarted.MINUTE) + ":"
+                            + dateStarted.get(dateStarted.SECOND) + ","
+                            + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+                            + dateFinished.get(dateFinished.MINUTE) + ":"
+                            + dateFinished.get(dateFinished.SECOND) + "."
+                            );
+                }
+            }
+        return toPrint;
+    }
+    public List<String> printTodaysAttentionDigitSpanTasks() {
+
+        List<AttentionDigitSpanTask> ADST = DataOperations.getTodaysAttentionDigitSpanTasks();
+        Log.i("Stats overview", ADST.toString());
+        String type ="";
+        GregorianCalendar dateStarted,dateFinished;
+        int score=0;
+        List<String> toPrint = new ArrayList<String>();
+        toPrint.add("Attention Digit Span Tasks");
+        if (!ADST.isEmpty())
+            for (AttentionDigitSpanTask ex : ADST) {
                 type = ex.getTaskType();
                 dateStarted = ex.getStartTimestamp();
                 dateFinished = ex.getEndTimestamp();

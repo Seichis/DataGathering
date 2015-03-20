@@ -1,6 +1,5 @@
 package dataoperations;
 
-import android.content.Context;
 import android.os.Environment;
 
 import com.google.gson.Gson;
@@ -17,7 +16,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import datastructure.AttentionTask;
+import datastructure.AttentionDigitSpanTask;
+import datastructure.AttentionTaskDigitOrder;
 import datastructure.CoordinationTask;
 import datastructure.FluencyTask;
 import datastructure.LongTermMemoryTask;
@@ -160,14 +160,29 @@ public class DataOperations {
      * @return a list of Attention objects
      * Converts tasks from today JSON -> Objects
      */
-    public static List<AttentionTask> getTodaysAttentionTasks() {
+    public static List<AttentionTaskDigitOrder> getTodaysAttentionDigitOrderTasks() {
 
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
-        List<AttentionTask> DL = new ArrayList<>();
+        List<AttentionTaskDigitOrder> DL = new ArrayList<>();
         for (String json : JSONlist) {
-            if (json.contains("attention"))
-                DL.add(gson.fromJson(json, AttentionTask.class));
+            if (json.contains("attentiondigitorder"))
+                DL.add(gson.fromJson(json, AttentionTaskDigitOrder.class));
+        }
+        return DL;
+    }
+    /**
+     * @return a list of Attention objects
+     * Converts tasks from today JSON -> Objects
+     */
+    public static List<AttentionDigitSpanTask> getTodaysAttentionDigitSpanTasks() {
+
+        List<String> JSONlist = readFromTaskFile();
+        Gson gson = new GsonBuilder().create();
+        List<AttentionDigitSpanTask> DL = new ArrayList<>();
+        for (String json : JSONlist) {
+            if (json.contains("attentiondigitspan"))
+                DL.add(gson.fromJson(json, AttentionDigitSpanTask.class));
         }
         return DL;
     }
