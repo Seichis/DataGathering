@@ -26,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
         speedButton = (Button) findViewById(R.id.speed_button);
 
         statsButton = (Button) findViewById(R.id.stats_button);
-        //      startActivity(new Intent(MainActivity.this,TrailMakingActivity.class));
+             startActivity(new Intent(MainActivity.this,BubbleActivity.class));
         attention1Button.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
 

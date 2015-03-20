@@ -7,18 +7,30 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import canvas.Bubble;
 import canvas.Orientation;
+import datastructure.SpeedTask;
+import scheduler.Scheduler;
 
 public class BubbleActivity extends Activity implements Orientation.Listener, SensorEventListener {
     private SensorManager manager;
     private Bubble bubbleView;
     private Sensor accel;
     Orientation mOrientation;
+    SpeedTask speed;
+    Timer mTimer;
+    Handler mHandler;
+    int sec;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sec = 0;
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         bubbleView = new Bubble(this);
         setContentView(bubbleView);
@@ -29,11 +41,46 @@ public class BubbleActivity extends Activity implements Orientation.Listener, Se
         mOrientation = new Orientation(
                 (SensorManager) getSystemService(Activity.SENSOR_SERVICE),
                 getWindow().getWindowManager());
+        speed = new SpeedTask();
+        Scheduler.getInstance().activityStart(speed);
+        if (mTimer != null) {
+            mTimer.cancel();
+        } else {
+            mTimer = new Timer();
+        }
+        mHandler = new Handler();
+        mTimer.scheduleAtFixedRate(new ActionsTimerTask(), 0, 1000);
+
+
     }
+
+    class ActionsTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            // run on another thread
+            mHandler.post(new Runnable() {
+
+                @Override
+                public void run() {
+                    sec++;
+                    bubbleView.invalidate();
+                    if (sec > 30) {
+                        speed.setScore((int) bubbleView.getScore());
+                        Scheduler.getInstance().activityStop(speed, true);
+                        BubbleActivity.this.finish();
+                        mTimer.cancel();
+                    }
+
+                }
+            });
+        }
+    }
+
 
     @Override
     public void onOrientationChanged(float pitch, float roll) {
-        bubbleView.move((2)*roll, (float) (1.5* pitch));
+        bubbleView.move((2) * roll, (float) (2.5 * roll));
         bubbleView.invalidate();
     }
 
