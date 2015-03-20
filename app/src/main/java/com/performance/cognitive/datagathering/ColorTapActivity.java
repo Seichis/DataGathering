@@ -10,13 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import datastructure.ReactionTimeTask;
+import scheduler.Scheduler;
+
 /* Change screen color */
 public class ColorTapActivity extends Activity {
     private static View myView = null;
     public static final String TAG = "Score";
-    public static List<Long> score = new ArrayList<Long>();
+    List<Long> score = new ArrayList<>();
     Long tsColor;
     Long tsClick;
+    ReactionTimeTask reaction;
     int currentColor = 0;
     int i = 0;
     Random random = new Random();
@@ -30,6 +34,8 @@ public class ColorTapActivity extends Activity {
         setContentView(R.layout.activity_color_tap);
         myView = (View) findViewById(R.id.my_view);
         time = System.currentTimeMillis() - startTime;
+        reaction = new ReactionTimeTask();
+        Scheduler.getInstance().activityStart(reaction);
         new Thread(new Runnable() {
             public void run() {
                 while (time <= 30000) {
@@ -46,8 +52,9 @@ public class ColorTapActivity extends Activity {
                 }
                 if (time > 30000) {
                     //Thread.yield();
-                    Intent intent = new Intent(ColorTapActivity.this, ColorTapResults.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(ColorTapActivity.this, ColorTapResults.class);
+//                    startActivity(intent);
+                    reaction.setScore((int)(averageScore(score)*1000));
                     ColorTapActivity.this.finish();
                 }
             }
@@ -79,5 +86,14 @@ public class ColorTapActivity extends Activity {
 
         });
     }
-
+    private double averageScore(List<Long> score) {
+        Long sum=0L;
+        if(!score.isEmpty()) {
+            for (Long i : score) {
+                sum += i;
+            }
+            return sum.doubleValue() / score.size();
+        }
+        return sum;
+    }
 }
