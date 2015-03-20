@@ -23,7 +23,8 @@ import datastructure.FluencyTask;
 import datastructure.LongTermMemoryTask;
 import datastructure.ReactionTimeTask;
 import datastructure.SelectiveAttentionTask;
-import datastructure.SpeedTask;
+import datastructure.SpeedNumberTask;
+import datastructure.SpeedTapTask;
 import datastructure.Task;
 
 /**
@@ -193,7 +194,7 @@ public class DataOperations {
     public static List<FluencyTask> getTodaysFluencyTasks() {
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
-        List<FluencyTask> SL = new ArrayList<FluencyTask>();
+        List<FluencyTask> SL = new ArrayList<>();
         for (String json : JSONlist) {
             if (json.contains("fluency"))
                 SL.add(gson.fromJson(json, FluencyTask.class));
@@ -208,7 +209,7 @@ public class DataOperations {
     public static List<CoordinationTask> getTodaysCoordinationTasks() {
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
-        List<CoordinationTask> WL = new ArrayList<CoordinationTask>();
+        List<CoordinationTask> WL = new ArrayList<>();
         for (String json : JSONlist) {
             if (json.contains("coordination"))
                 WL.add(gson.fromJson(json, CoordinationTask.class));
@@ -224,7 +225,7 @@ public class DataOperations {
     public static List<LongTermMemoryTask> getTodaysLongTermMemoryTasks() {
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
-        List<LongTermMemoryTask> AL = new ArrayList<LongTermMemoryTask>();
+        List<LongTermMemoryTask> AL = new ArrayList<>();
         for (String json : JSONlist) {
             if (json.contains("longtermmemory"))
                 AL.add(gson.fromJson(json, LongTermMemoryTask.class));
@@ -239,7 +240,7 @@ public class DataOperations {
     public static List<ReactionTimeTask> getTodaysReactionTimeTasks() {
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
-        List<ReactionTimeTask> AL = new ArrayList<ReactionTimeTask>();
+        List<ReactionTimeTask> AL = new ArrayList<>();
         for (String json : JSONlist) {
             if (json.contains("reactiontime"))
                 AL.add(gson.fromJson(json, ReactionTimeTask.class));
@@ -254,7 +255,7 @@ public class DataOperations {
     public static List<SelectiveAttentionTask> getTodaysSelectiveAttentionTasks() {
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
-        List<SelectiveAttentionTask> AL = new ArrayList<SelectiveAttentionTask>();
+        List<SelectiveAttentionTask> AL = new ArrayList<>();
         for (String json : JSONlist) {
             if (json.contains("selectiveattention"))
                 AL.add(gson.fromJson(json, SelectiveAttentionTask.class));
@@ -263,16 +264,30 @@ public class DataOperations {
     }
 
     /**
-     * @return a list of Speed objects
+     * @return a list of Speed Tap objects
      * Converts tasks from today JSON -> Objects
      */
-    public static List<SpeedTask> getTodaysSpeedTasks() {
+    public static List<SpeedTapTask> getTodaysSpeedTapTasks() {
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
-        List<SpeedTask> AL = new ArrayList<SpeedTask>();
+        List<SpeedTapTask> AL = new ArrayList<>();
         for (String json : JSONlist) {
-            if (json.contains("speed"))
-                AL.add(gson.fromJson(json,SpeedTask.class));
+            if (json.contains("speedtap"))
+                AL.add(gson.fromJson(json, SpeedTapTask.class));
+        }
+        return AL;
+    }
+    /**
+     * @return a list of Speed Tap objects
+     * Converts tasks from today JSON -> Objects
+     */
+    public static List<SpeedNumberTask> getTodaysSpeedNumberTasks() {
+        List<String> JSONlist = readFromTaskFile();
+        Gson gson = new GsonBuilder().create();
+        List<SpeedNumberTask> AL = new ArrayList<>();
+        for (String json : JSONlist) {
+            if (json.contains("speednumber"))
+                AL.add(gson.fromJson(json, SpeedNumberTask.class));
         }
         return AL;
     }

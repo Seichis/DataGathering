@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import datastructure.SpeedTapTask;
+import scheduler.Scheduler;
+
 
 public class TapActivity extends ActionBarActivity {
     CountDownTimer count;
@@ -18,6 +21,7 @@ public class TapActivity extends ActionBarActivity {
     ImageView imageButton;
     TextView taps;
     TextView start;
+    SpeedTapTask speed;
     public static int i;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,8 @@ public class TapActivity extends ActionBarActivity {
         taps = (TextView) findViewById(R.id.taps);
         start = (TextView) findViewById(R.id.start);
         i = 0;
+        speed=new SpeedTapTask();
+        Scheduler.getInstance().activityStart(speed);
         count = new CountDownTimer(4000, 1000) {
             public void onTick(long millisUntilFinished) {
                 int seconds = (int) ((millisUntilFinished / 1000));
@@ -52,8 +58,11 @@ public class TapActivity extends ActionBarActivity {
                     }
 
                     public void onFinish() {
-                        Intent intent = new Intent(TapActivity.this, TapResults.class);
-                        startActivity(intent);
+                        speed.setScore(i);
+
+                        Scheduler.getInstance().activityStop(speed, true);
+//                        Intent intent = new Intent(TapActivity.this, TapResults.class);
+//                        startActivity(intent);
                         TapActivity.this.finish();
                     }
                 }.start();

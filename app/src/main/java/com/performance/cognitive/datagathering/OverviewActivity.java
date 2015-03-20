@@ -17,7 +17,8 @@ import datastructure.AttentionDigitSpanTask;
 import datastructure.AttentionTaskDigitOrder;
 import datastructure.CoordinationTask;
 import datastructure.FluencyTask;
-import datastructure.SpeedTask;
+import datastructure.SpeedNumberTask;
+import datastructure.SpeedTapTask;
 
 
 public class OverviewActivity extends ActionBarActivity {
@@ -31,7 +32,8 @@ public class OverviewActivity extends ActionBarActivity {
         showStats.addAll(printTodaysAttentionDigitOrderTasks());
         showStats.addAll(printTodaysAttentionDigitSpanTasks());
         showStats.addAll(printTodaysFluencyTasks());
-        showStats.addAll(printTodaysSpeedTasks());
+        showStats.addAll(printTodaysSpeedTapTasks());
+        showStats.addAll(printTodaysSpeedNumberTasks());
         showStats.addAll(printTodaysCoordinationTasks());
         final ListView listview = (ListView) findViewById(R.id.listview);
         final ArrayAdapter adapter = new ArrayAdapter(this,
@@ -48,7 +50,7 @@ public class OverviewActivity extends ActionBarActivity {
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
         int score=0;
-        List<String> toPrint = new ArrayList<String>();
+        List<String> toPrint = new ArrayList<>();
         toPrint.add("Attention Digit Order Tasks");
         if (!DL.isEmpty())
             for (AttentionTaskDigitOrder ex : DL) {
@@ -75,7 +77,7 @@ public class OverviewActivity extends ActionBarActivity {
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
         int score=0;
-        List<String> toPrint = new ArrayList<String>();
+        List<String> toPrint = new ArrayList<>();
         toPrint.add("Attention Digit Span Tasks");
         if (!ADST.isEmpty())
             for (AttentionDigitSpanTask ex : ADST) {
@@ -102,7 +104,7 @@ public class OverviewActivity extends ActionBarActivity {
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
         int score=0;
-        List<String> toPrint = new ArrayList<String>();
+        List<String> toPrint = new ArrayList<>();
         toPrint.add("Fluency Tasks");
         if (!FT.isEmpty())
             for (FluencyTask ex : FT) {
@@ -122,17 +124,44 @@ public class OverviewActivity extends ActionBarActivity {
             }
         return toPrint;
     }
-    public List<String> printTodaysSpeedTasks() {
+    public List<String> printTodaysSpeedTapTasks() {
 
-        List<SpeedTask> ST = DataOperations.getTodaysSpeedTasks();
+        List<SpeedTapTask> ST = DataOperations.getTodaysSpeedTapTasks();
         Log.i("Stats overview", ST.toString());
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
         int score=0;
-        List<String> toPrint = new ArrayList<String>();
-        toPrint.add("Speed Tasks");
+        List<String> toPrint = new ArrayList<>();
+        toPrint.add("Speed Tap Tasks");
         if (!ST.isEmpty())
-            for (SpeedTask ex : ST) {
+            for (SpeedTapTask ex : ST) {
+                type = ex.getTaskType();
+                dateStarted = ex.getStartTimestamp();
+                dateFinished = ex.getEndTimestamp();
+                score=ex.getScore();
+                if (dateStarted != null && dateFinished!=null) {
+                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+                                    + dateStarted.get(dateStarted.MINUTE) + ":"
+                                    + dateStarted.get(dateStarted.SECOND) + ","
+                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+                                    + dateFinished.get(dateFinished.MINUTE) + ":"
+                                    + dateFinished.get(dateFinished.SECOND) + "."
+                    );
+                }
+            }
+        return toPrint;
+    }
+    public List<String> printTodaysSpeedNumberTasks() {
+
+        List<SpeedNumberTask> ST = DataOperations.getTodaysSpeedNumberTasks();
+        Log.i("Stats overview", ST.toString());
+        String type ="";
+        GregorianCalendar dateStarted,dateFinished;
+        int score=0;
+        List<String> toPrint = new ArrayList<>();
+        toPrint.add("Speed Number Tasks");
+        if (!ST.isEmpty())
+            for (SpeedNumberTask ex : ST) {
                 type = ex.getTaskType();
                 dateStarted = ex.getStartTimestamp();
                 dateFinished = ex.getEndTimestamp();
