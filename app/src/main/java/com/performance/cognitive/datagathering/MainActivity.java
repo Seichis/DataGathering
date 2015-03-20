@@ -11,7 +11,7 @@ import android.widget.Button;
 
 
 public class MainActivity extends ActionBarActivity {
-    Button attention1Button, attention2Button, coordinationButton, fluencyButton, longTermMemoryButton, reactionTimeButton, selectiveAttentionButton, speedButton, statsButton;
+    Button attention1Button, attention2Button, coordinationButton, fluencyButton, longTermMemoryButton, tapSpeedButton, reactionTimeButton, selectiveAttentionButton, speedButton, statsButton;
 
     boolean pressedTest = false;
 
@@ -26,6 +26,10 @@ public class MainActivity extends ActionBarActivity {
         speedButton = (Button) findViewById(R.id.speed_button);
         coordinationButton = (Button) findViewById(R.id.coordination_button);
         statsButton = (Button) findViewById(R.id.stats_button);
+        longTermMemoryButton = (Button) findViewById(R.id.longtermmemory_button);
+        tapSpeedButton = (Button) findViewById(R.id.tapspeed_button);
+        reactionTimeButton = (Button) findViewById(R.id.reactiontime_button);
+
              //startActivity(new Intent(MainActivity.this,BubbleActivity.class));
 
         attention1Button.setOnClickListener(new Button.OnClickListener() {
@@ -70,6 +74,21 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, OverviewActivity.class));
 
+            }
+        });
+        longTermMemoryButton.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Words.class));
+            }
+        });
+        tapSpeedButton.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, TapActivity.class));
+            }
+        });
+        reactionTimeButton.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ColorTapActivity.class));
             }
         });
     }
