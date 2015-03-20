@@ -6,6 +6,6 @@ package datastructure;
 public class SpeedTask extends Task {
     public SpeedTask() {
         this.taskType = "speed";
-        super.createTask();
+
     }
 }

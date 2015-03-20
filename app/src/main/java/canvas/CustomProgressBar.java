@@ -40,6 +40,8 @@ public class CustomProgressBar {
         barPaint.setColor(Color.WHITE);
         setCurrentSeekBarLength((barEndX - barStartX) * (TrailMakingActivity.getSecondElapsed() / 30));
         barPaint.setColor(Color.BLUE);
+        barPaint.setStyle(Paint.Style.STROKE);
+        barPaint.setStrokeWidth(10);
         c.drawRect(barStartX, barStartY, getCurrentSeekBarLength(),
                 barEndY, barPaint);
 

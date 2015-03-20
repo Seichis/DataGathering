@@ -72,7 +72,10 @@ public class ConnectDotsOneShotActivity extends Activity {
             mHandlerGame.post(new Runnable() {
                 @Override
                 public void run() {
+                   // drawView.invalidate();
                     firstTimercount++;
+                    drawView.invalidate();
+
                     Log.i("Timers","  "+ firstTimercount);
                     if(second>30){
                         mTimerProgress.cancel();
@@ -97,10 +100,13 @@ public class ConnectDotsOneShotActivity extends Activity {
 
                 @Override
                 public void run() {
+                    drawView.invalidate();
+
                     secondTimercount++;
                     Log.i("Timers","  "+ secondTimercount);
                     if (timeToReset){
-                        setContentView(new DrawingPanelOneShot(context));
+                        drawView=new DrawingPanelOneShot(context);
+                        setContentView(drawView);
                         timeToReset=false;
                     }
                 }

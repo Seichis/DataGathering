@@ -15,6 +15,10 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+
+import com.performance.cognitive.datagathering.ConnectDotsOneShotActivity;
+import com.performance.cognitive.datagathering.TrailMakingActivity;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,12 +30,13 @@ import java.util.Random;
 public class DrawingPanel extends View implements View.OnTouchListener {
     private static final String TAG = "DrawView";
     static int count = 0;
-    private static final float MINP = 0.25f;
-    private static final float MAXP = 0.75f;
+
     private List<ShapeDrawable> dotsToDraw;
     private Canvas mCanvas;
     private Path mPath;
-    private Paint mPaint;
+    Paint barPaint;
+    CustomProgressBar mCustomProgressBar;
+    //    private Paint mPaint;
     private List<Path> pathsToReset = new ArrayList<>();
     private List<Path> pathsToStay = new ArrayList<>();
     private Path mPathStay;
@@ -47,29 +52,30 @@ public class DrawingPanel extends View implements View.OnTouchListener {
         dotId = 0;
         dotsToDraw = new ArrayList<>();
         textPaint = new Paint();
-
-        mPaint = new Paint();
+        barPaint = new Paint();
+        mCustomProgressBar=new CustomProgressBar(20,20,350,40);
+//        mPaint = new Paint();
         mCanvas = new Canvas();
         mPath = new Path();
         setFocusable(true);
         setFocusableInTouchMode(true);
         this.setOnTouchListener(this);
         setTextPaint(textPaint);
-        setDotPaint(mPaint);
+//        setDotPaint(mPaint);
         pathsToReset.add(mPath);
         pathsToStay.add(mPathStay);
         dotsToDraw = getDotList(context);
     }
 
-    private void setDotPaint(Paint paint) {
-        paint.setAntiAlias(true);
-        paint.setDither(true);
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeJoin(Paint.Join.ROUND);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setStrokeWidth(20);
-    }
+//    private void setDotPaint(Paint paint) {
+//        paint.setAntiAlias(true);
+//        paint.setDither(true);
+//        paint.setColor(Color.BLACK);
+//        paint.setStyle(Paint.Style.STROKE);
+//        paint.setStrokeJoin(Paint.Join.ROUND);
+//        paint.setStrokeCap(Paint.Cap.ROUND);
+//        paint.setStrokeWidth(20);
+//    }
 
     public void setTextPaint(Paint paint) {
         paint.setColor(Color.WHITE);
@@ -92,14 +98,29 @@ public class DrawingPanel extends View implements View.OnTouchListener {
             dot.draw(canvas);
             canvas.drawText(Integer.toString(dotsToDraw.indexOf(dot) + 1), dot.getBounds().centerX(), dot.getBounds().centerY(), textPaint);
         }
-        for (Path p : pathsToReset) {
-            canvas.drawPath(p, mPaint);
-        }
-        for (Path p : pathsToStay) {
-            canvas.drawPath(p, mPaint);
-        }
-    }
 
+        mCustomProgressBar.drawProgressBar(canvas);
+       // drawProgressBar(canvas);
+//        for (Path p : pathsToReset) {
+//            canvas.drawPath(p, mPaint);
+//        }
+//        for (Path p : pathsToStay) {
+//            canvas.drawPath(p, mPaint);
+//        }
+
+    }
+//    private void drawProgressBar(Canvas c) {
+//        float barStartX = 20;
+//        float barStartY = 20;
+//        float barEndX;
+//        float barEndY = 30;
+//        barEndX = this.getWidth() - 20;
+//        barPaint.setColor(Color.WHITE);
+//        setCurrentSeekBarLength((barEndX - barStartX) * (ConnectDotsOneShotActivity.second / 30));
+//        barPaint.setColor(Color.BLUE);
+//        c.drawRect(barStartX, barStartY, getCurrentSeekBarLength(),
+//                barEndY, barPaint);
+//    }
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
 
@@ -133,7 +154,7 @@ public class DrawingPanel extends View implements View.OnTouchListener {
             startX = x;
             startY = y;
         }
-        mCanvas.drawPath(mPathStay, mPaint);
+//        mCanvas.drawPath(mPathStay, mPaint);
 
     }
 
@@ -146,7 +167,7 @@ public class DrawingPanel extends View implements View.OnTouchListener {
             numberSpotted = false;
         }
 
-        mCanvas.drawPath(mPath, mPaint);
+//        mCanvas.drawPath(mPath, mPaint);
     }
 
     float startX = 0;
@@ -183,7 +204,11 @@ public class DrawingPanel extends View implements View.OnTouchListener {
         }
         return true;
     }
+    private void resetLevel() {
 
+        TrailMakingActivity.timeToReset = true;
+
+    }
     private List<ShapeDrawable> getDotList(Context context) {
         List<ShapeDrawable> dotList = new ArrayList<>();
         List<Point> uniquePointList;
@@ -192,7 +217,6 @@ public class DrawingPanel extends View implements View.OnTouchListener {
 
         for (Point p : uniquePointList) {
             dotList.add(createDot(p.x, p.y, diameter));
-            Log.i("Dotlist", "width  " + p.x + "height  " + p.y + "size of list " + uniquePointList.size());
         }
         Collections.shuffle(dotList);
         return dotList;
@@ -213,7 +237,7 @@ public class DrawingPanel extends View implements View.OnTouchListener {
             display.getSize(mPoint);
             width = (mPoint.x / 2) + randInt(-mPoint.x / 3, mPoint.x / 3);
             height = (i + 1) * (mPoint.y / 8) - randInt(mPoint.y / 14, mPoint.y / 8);
-            Log.i("Drawing", "width  " + width + "height  " + height);
+
             mPoint.set(width, height);
             pointList.add(mPoint);
         }
@@ -246,11 +270,11 @@ public class DrawingPanel extends View implements View.OnTouchListener {
         PathMeasure pm = new PathMeasure();
 
         if (count < 8) {
-            if (Math.abs(x - dotsToDraw.get(count).getBounds().centerX()) < 30 && Math.abs(y - dotsToDraw.get(count).getBounds().centerY()) < 30) {
+            if (Math.abs(x - dotsToDraw.get(count).getBounds().centerX()) < 50 && Math.abs(y - dotsToDraw.get(count).getBounds().centerY()) < 50) {
                 correct = true;
             }
             return correct;
-        } else return false;
+        } else {resetLevel();return false;}
     }
 
 

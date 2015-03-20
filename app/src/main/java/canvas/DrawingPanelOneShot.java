@@ -48,12 +48,8 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
     private static List<Float> measurePath = new ArrayList<>();
     static Set<List<Float>> pmSetList = new HashSet<>();
     Path mergedPath = new Path();
-    private Paint barPaint;
-    private float barStartX = 20;
-    private float barStartY = 20;
-    private float barEndX;
-    private float barEndY = 30;
-    private float currentSeekBarLength = 0;
+    private CustomProgressBar mCustomProgressBar;
+
     Point mPoint = new Point();
     public WindowManager wm;
     Display display;
@@ -66,10 +62,11 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
         changedDotSet = new HashSet<>();
         mPathStay = new Path();
         count = 0;
+        mCustomProgressBar=new CustomProgressBar(20,20,350,40);
 
         dotsToDraw = new ArrayList<>();
         textPaint = new Paint();
-        barPaint = new Paint();
+
   //      mPaint = new Paint();
         mPath = new Path();
         setFocusable(true);
@@ -106,7 +103,7 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
         super.onDraw(canvas);
         canvas.drawText(Integer.toString(score),mPoint.x/2 ,mPoint.y/8 , textPaint);
         drawDots(canvas);
-        drawProgressBar(canvas);
+        mCustomProgressBar.drawProgressBar(canvas);
 //        for (Path p : pathsToReset) {
 //            canvas.drawPath(p, mPaint);
 //        }
@@ -124,14 +121,14 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
         }
     }
 
-    private void drawProgressBar(Canvas c) {
-        barEndX = this.getWidth() - 20;
-        barPaint.setColor(Color.WHITE);
-        setCurrentSeekBarLength((barEndX - barStartX) * (ConnectDotsOneShotActivity.second / 30));
-        barPaint.setColor(Color.BLUE);
-        c.drawRect(barStartX, barStartY, getCurrentSeekBarLength(),
-                barEndY, barPaint);
-    }
+//    private void drawProgressBar(Canvas c) {
+//        barEndX = this.getWidth() - 20;
+//        barPaint.setColor(Color.WHITE);
+//        setCurrentSeekBarLength((barEndX - barStartX) * (ConnectDotsOneShotActivity.second / 30));
+//        barPaint.setColor(Color.BLUE);
+//        c.drawRect(barStartX, barStartY, getCurrentSeekBarLength(),
+//                barEndY, barPaint);
+//    }
 
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
@@ -289,15 +286,15 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
         return dot;
     }
 
-    private void setCurrentSeekBarLength(float x) {
-
-        this.currentSeekBarLength = x;
-    }
-
-    private float getCurrentSeekBarLength() {
-
-        return this.currentSeekBarLength;
-    }
+//    private void setCurrentSeekBarLength(float x) {
+//
+//        this.currentSeekBarLength = x;
+//    }
+//
+//    private float getCurrentSeekBarLength() {
+//
+//        return this.currentSeekBarLength;
+//    }
 
     private void checkPath(int x, int y) {
         double firstTapTimestamp = 0d;

@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity {
         fluencyButton = (Button) findViewById(R.id.fluency_button);
 
         statsButton = (Button) findViewById(R.id.stats_button);
-        //startActivity(new Intent(MainActivity.this,ConnectDotsOneShotActivity.class));
+        startActivity(new Intent(MainActivity.this,TrailMakingActivity.class));
         attention1Button.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
 
@@ -48,7 +48,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 startActivity(new Intent(MainActivity.this,ConnectDotsOneShotActivity.class));
-             //   MainActivity.this.finish();
+
 
             }
         });

@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,13 +27,21 @@ import java.util.TimerTask;
 import canvas.Dots;
 import canvas.DrawingPanel;
 import canvas.DrawingPanelOneShot;
+import datastructure.SpeedTask;
+import scheduler.Scheduler;
 
 
 public class TrailMakingActivity extends Activity {
-    DrawingPanelOneShot drawView;
+    DrawingPanel drawView;
     Context context;
     Timer mTimer;
     Handler mHandler;
+    static int score=0;
+    SpeedTask speed;
+
+
+
+    static float secondElapsed=0;
     public static boolean timeToReset = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +51,9 @@ public class TrailMakingActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         context=this;
-        drawView = new DrawingPanelOneShot(context);
+        speed=new SpeedTask();
+        Scheduler.getInstance().activityStart(speed);
+        drawView = new DrawingPanel(context);
         setContentView(drawView);
         drawView.requestFocus();
 
@@ -52,7 +63,8 @@ public class TrailMakingActivity extends Activity {
             mTimer = new Timer();
         }
         mHandler = new Handler();
-        mTimer.scheduleAtFixedRate(new ActionsTimerTask(), 500, 500);
+        mTimer.scheduleAtFixedRate(new ActionsTimerTask(), 0, 500);
+
 
     }
     class ActionsTimerTask extends TimerTask {
@@ -64,12 +76,34 @@ public class TrailMakingActivity extends Activity {
 
                 @Override
                 public void run() {
+                    setSecondElapsed(++secondElapsed);
+                    drawView.invalidate();
+                    Log.i("Seconds", "  " + getSecondElapsed());
                     if (timeToReset){
-                        setContentView(new DrawingPanelOneShot(context));
+                        drawView = new DrawingPanel(context);
+                        setContentView(drawView);
+                        score++;
                         timeToReset=false;
+                    }
+                    if(getSecondElapsed()/2>30){
+                        Log.i("Seconds", "  " + getSecondElapsed());
+
+                        speed.setScore(score);
+                        Scheduler.getInstance().activityStop(speed, true);
+                        score=0;
+                        mTimer.cancel();
+                        TrailMakingActivity.this.finish();
+
                     }
                 }
             });
         }
+    }
+    public static float getSecondElapsed() {
+        return secondElapsed;
+    }
+
+    public static void setSecondElapsed(float secondElapsed) {
+        TrailMakingActivity.secondElapsed = secondElapsed;
     }
 }
