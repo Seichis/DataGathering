@@ -24,9 +24,10 @@ public class MainActivity extends ActionBarActivity {
         attention2Button = (Button) findViewById(R.id.attention2_button);
         fluencyButton = (Button) findViewById(R.id.fluency_button);
         speedButton = (Button) findViewById(R.id.speed_button);
-
+        coordinationButton = (Button) findViewById(R.id.coordination_button);
         statsButton = (Button) findViewById(R.id.stats_button);
-             startActivity(new Intent(MainActivity.this,BubbleActivity.class));
+             //startActivity(new Intent(MainActivity.this,BubbleActivity.class));
+
         attention1Button.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
 
@@ -53,6 +54,14 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 startActivity(new Intent(MainActivity.this, TrailMakingActivity.class));
+
+
+            }
+        });
+        coordinationButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+
+                startActivity(new Intent(MainActivity.this, BubbleActivity.class));
 
 
             }
