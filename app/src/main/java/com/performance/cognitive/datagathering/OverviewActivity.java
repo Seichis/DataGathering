@@ -15,6 +15,7 @@ import java.util.List;
 import dataoperations.DataOperations;
 import datastructure.AttentionTask;
 import datastructure.FluencyTask;
+import datastructure.SpeedTask;
 
 
 public class OverviewActivity extends ActionBarActivity {
@@ -27,6 +28,7 @@ public class OverviewActivity extends ActionBarActivity {
         showStats.add("TODAY");
         showStats.addAll(printTodaysAttentionTasks());
         showStats.addAll(printTodaysFluencyTasks());
+        showStats.addAll(printTodaysSpeedTasks());
         final ListView listview = (ListView) findViewById(R.id.listview);
         final ArrayAdapter adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, showStats);
@@ -89,6 +91,34 @@ public class OverviewActivity extends ActionBarActivity {
             }
         return toPrint;
     }
+    public List<String> printTodaysSpeedTasks() {
+
+        List<SpeedTask> ST = DataOperations.getTodaysSpeedTasks();
+        Log.i("Stats overview", ST.toString());
+        String type ="";
+        GregorianCalendar dateStarted,dateFinished;
+        int score=0;
+        List<String> toPrint = new ArrayList<String>();
+        toPrint.add("Speed Tasks");
+        if (!ST.isEmpty())
+            for (SpeedTask ex : ST) {
+                type = ex.getTaskType();
+                dateStarted = ex.getStartTimestamp();
+                dateFinished = ex.getEndTimestamp();
+                score=ex.getScore();
+                if (dateStarted != null && dateFinished!=null) {
+                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+                                    + dateStarted.get(dateStarted.MINUTE) + ":"
+                                    + dateStarted.get(dateStarted.SECOND) + ","
+                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+                                    + dateFinished.get(dateFinished.MINUTE) + ":"
+                                    + dateFinished.get(dateFinished.SECOND) + "."
+                    );
+                }
+            }
+        return toPrint;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
