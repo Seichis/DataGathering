@@ -3,23 +3,18 @@ package com.performance.cognitive.datagathering;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.GregorianCalendar;
-
-import datastructure.AttentionTask;
-import scheduler.Scheduler;
-
 
 public class MainActivity extends ActionBarActivity {
-    Button attention1Button,attention2Button, coordinationButton, fluencyButton, longTermMemoryButton, reactionTimeButton, selectiveAttentionButton, speedButton,statsButton;
+    Button attention1Button, attention2Button, coordinationButton, fluencyButton, longTermMemoryButton, reactionTimeButton, selectiveAttentionButton, speedButton, statsButton;
 
-    boolean pressedTest=false;
+    boolean pressedTest = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,33 +23,43 @@ public class MainActivity extends ActionBarActivity {
         attention1Button = (Button) findViewById(R.id.attention1_button);
         attention2Button = (Button) findViewById(R.id.attention2_button);
         fluencyButton = (Button) findViewById(R.id.fluency_button);
+        speedButton = (Button) findViewById(R.id.speed_button);
 
         statsButton = (Button) findViewById(R.id.stats_button);
-        startActivity(new Intent(MainActivity.this,TrailMakingActivity.class));
+        //      startActivity(new Intent(MainActivity.this,TrailMakingActivity.class));
         attention1Button.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
 
-                startActivity(new Intent(MainActivity.this,DigitSpan.class));
+                startActivity(new Intent(MainActivity.this, DigitSpan.class));
 
             }
         });
         attention2Button.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
 
-                startActivity(new Intent(MainActivity.this,DigitOrder.class));
+                startActivity(new Intent(MainActivity.this, DigitOrder.class));
 
             }
-        }); fluencyButton.setOnClickListener(new Button.OnClickListener() {
+        });
+        fluencyButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
 
-                startActivity(new Intent(MainActivity.this,ConnectDotsOneShotActivity.class));
+                startActivity(new Intent(MainActivity.this, ConnectDotsOneShotActivity.class));
 
 
             }
         });
-       statsButton.setOnClickListener(new Button.OnClickListener() {
+        speedButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,OverviewActivity.class));
+
+                startActivity(new Intent(MainActivity.this, TrailMakingActivity.class));
+
+
+            }
+        });
+        statsButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, OverviewActivity.class));
 
             }
         });
