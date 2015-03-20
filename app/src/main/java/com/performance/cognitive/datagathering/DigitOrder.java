@@ -31,7 +31,7 @@ public class DigitOrder extends ActionBarActivity {
     List term = new ArrayList();
     int j = 3;
     int x = 0;
-    int level;
+    static int level;
     InputMethodManager imm;
     boolean inputSet;
     Timer mTimer;
