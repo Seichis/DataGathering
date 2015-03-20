@@ -15,7 +15,6 @@ import java.util.TimerTask;
 import canvas.Bubble;
 import canvas.Orientation;
 import datastructure.CoordinationTask;
-import datastructure.SpeedTask;
 import scheduler.Scheduler;
 
 public class BubbleActivity extends Activity implements Orientation.Listener, SensorEventListener {
