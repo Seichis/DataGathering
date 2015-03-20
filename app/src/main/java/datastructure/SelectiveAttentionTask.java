@@ -6,6 +6,6 @@ package datastructure;
 public class SelectiveAttentionTask extends Task {
     public SelectiveAttentionTask() {
         this.taskType = "selectiveattention";
-        super.createTask();
+
     }
 }

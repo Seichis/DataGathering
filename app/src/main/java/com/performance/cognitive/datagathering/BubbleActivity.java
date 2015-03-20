@@ -14,6 +14,7 @@ import java.util.TimerTask;
 
 import canvas.Bubble;
 import canvas.Orientation;
+import datastructure.CoordinationTask;
 import datastructure.SpeedTask;
 import scheduler.Scheduler;
 
@@ -22,7 +23,7 @@ public class BubbleActivity extends Activity implements Orientation.Listener, Se
     private Bubble bubbleView;
     private Sensor accel;
     Orientation mOrientation;
-    SpeedTask speed;
+    CoordinationTask coordination;
     Timer mTimer;
     Handler mHandler;
     public static int sec;
@@ -41,8 +42,8 @@ public class BubbleActivity extends Activity implements Orientation.Listener, Se
         mOrientation = new Orientation(
                 (SensorManager) getSystemService(Activity.SENSOR_SERVICE),
                 getWindow().getWindowManager());
-        speed = new SpeedTask();
-        Scheduler.getInstance().activityStart(speed);
+        coordination = new CoordinationTask();
+        Scheduler.getInstance().activityStart(coordination);
         if (mTimer != null) {
             mTimer.cancel();
         } else {
@@ -66,8 +67,8 @@ public class BubbleActivity extends Activity implements Orientation.Listener, Se
                     sec++;
                     bubbleView.invalidate();
                     if (sec > 30) {
-                        speed.setScore((int) bubbleView.getScore());
-                        Scheduler.getInstance().activityStop(speed, true);
+                        coordination.setScore((int) bubbleView.getScore());
+                        Scheduler.getInstance().activityStop(coordination, true);
                         BubbleActivity.this.finish();
                         mTimer.cancel();
                     }

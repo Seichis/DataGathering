@@ -6,6 +6,6 @@ package datastructure;
 public class LongTermMemoryTask extends Task {
     public LongTermMemoryTask() {
         this.taskType = "longtermmemory";
-        super.createTask();
+
     }
 }

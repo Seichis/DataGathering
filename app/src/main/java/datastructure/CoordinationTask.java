@@ -6,6 +6,5 @@ package datastructure;
 public class CoordinationTask extends Task {
     public CoordinationTask() {
         this.taskType = "coordination";
-        super.createTask();
     }
 }

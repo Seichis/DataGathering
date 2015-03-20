@@ -14,6 +14,7 @@ import java.util.List;
 
 import dataoperations.DataOperations;
 import datastructure.AttentionTask;
+import datastructure.CoordinationTask;
 import datastructure.FluencyTask;
 import datastructure.SpeedTask;
 
@@ -29,6 +30,7 @@ public class OverviewActivity extends ActionBarActivity {
         showStats.addAll(printTodaysAttentionTasks());
         showStats.addAll(printTodaysFluencyTasks());
         showStats.addAll(printTodaysSpeedTasks());
+        showStats.addAll(printTodaysCoordinationTasks());
         final ListView listview = (ListView) findViewById(R.id.listview);
         final ArrayAdapter adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, showStats);
@@ -102,6 +104,33 @@ public class OverviewActivity extends ActionBarActivity {
         toPrint.add("Speed Tasks");
         if (!ST.isEmpty())
             for (SpeedTask ex : ST) {
+                type = ex.getTaskType();
+                dateStarted = ex.getStartTimestamp();
+                dateFinished = ex.getEndTimestamp();
+                score=ex.getScore();
+                if (dateStarted != null && dateFinished!=null) {
+                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+                                    + dateStarted.get(dateStarted.MINUTE) + ":"
+                                    + dateStarted.get(dateStarted.SECOND) + ","
+                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+                                    + dateFinished.get(dateFinished.MINUTE) + ":"
+                                    + dateFinished.get(dateFinished.SECOND) + "."
+                    );
+                }
+            }
+        return toPrint;
+    }
+    public List<String> printTodaysCoordinationTasks() {
+
+        List<CoordinationTask> CT = DataOperations.getTodaysCoordinationTasks();
+        Log.i("Stats overview", CT.toString());
+        String type ="";
+        GregorianCalendar dateStarted,dateFinished;
+        int score=0;
+        List<String> toPrint = new ArrayList<String>();
+        toPrint.add("Coordination Tasks");
+        if (!CT.isEmpty())
+            for (CoordinationTask ex : CT) {
                 type = ex.getTaskType();
                 dateStarted = ex.getStartTimestamp();
                 dateFinished = ex.getEndTimestamp();
