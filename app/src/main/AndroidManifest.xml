@@ -77,6 +77,10 @@
             android:name=".ColorTapResults"
             android:label="@string/title_activity_color_tap_results" >
         </activity>
+        <activity
+            android:name=".SelectiveActivity"
+            android:label="@string/title_activity_selective" >
+        </activity>
     </application>
 
 </manifest>
