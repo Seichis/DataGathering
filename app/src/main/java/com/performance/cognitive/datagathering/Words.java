@@ -16,6 +16,9 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import datastructure.LongTermMemoryTask;
+import scheduler.Scheduler;
+
 
 public class Words extends ActionBarActivity {
     Timer mTimer;
@@ -30,10 +33,13 @@ public class Words extends ActionBarActivity {
     private static String mFileName = null;
     private Button mRecordButton;
     private MediaRecorder mRecorder = null;
+    LongTermMemoryTask longTermMemory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        longTermMemory=new LongTermMemoryTask();
+        Scheduler.getInstance().activityStart(longTermMemory);
         setContentView(R.layout.activity_words);
         word = (TextView)findViewById(R.id.word);
 
@@ -72,6 +78,13 @@ public class Words extends ActionBarActivity {
         });
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Scheduler.getInstance().activityStop(longTermMemory,true);
+    }
+
     class ActionsTimerTask extends TimerTask {
 
         @Override
