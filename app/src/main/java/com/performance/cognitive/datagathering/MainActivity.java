@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity {
         tapSpeedButton = (Button) findViewById(R.id.tapspeed_button);
         reactionTimeButton = (Button) findViewById(R.id.reactiontime_button);
 
-             //startActivity(new Intent(MainActivity.this,BubbleActivity.class));
+         //    startActivity(new Intent(MainActivity.this,SelectiveActivity.class));
 
         attention1Button.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {

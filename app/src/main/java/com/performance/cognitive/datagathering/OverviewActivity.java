@@ -18,6 +18,7 @@ import datastructure.AttentionTaskDigitOrder;
 import datastructure.CoordinationTask;
 import datastructure.FluencyTask;
 import datastructure.ReactionTimeTask;
+import datastructure.SelectiveAttentionTask;
 import datastructure.SpeedNumberTask;
 import datastructure.SpeedTapTask;
 
@@ -37,6 +38,7 @@ public class OverviewActivity extends ActionBarActivity {
         showStats.addAll(printTodaysSpeedNumberTasks());
         showStats.addAll(printTodaysCoordinationTasks());
         showStats.addAll(printTodaysReactionTimeTasks());
+        showStats.addAll(printTodaysSelectiveAttentionTasks());
         final ListView listview = (ListView) findViewById(R.id.listview);
         final ArrayAdapter adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, showStats);
@@ -218,6 +220,33 @@ public class OverviewActivity extends ActionBarActivity {
         toPrint.add("Reaction Time Tasks");
         if (!RT.isEmpty())
             for (ReactionTimeTask ex : RT) {
+                type = ex.getTaskType();
+                dateStarted = ex.getStartTimestamp();
+                dateFinished = ex.getEndTimestamp();
+                score=ex.getScore();
+                if (dateStarted != null && dateFinished!=null) {
+                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+                                    + dateStarted.get(dateStarted.MINUTE) + ":"
+                                    + dateStarted.get(dateStarted.SECOND) + ","
+                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+                                    + dateFinished.get(dateFinished.MINUTE) + ":"
+                                    + dateFinished.get(dateFinished.SECOND) + "."
+                    );
+                }
+            }
+        return toPrint;
+    }
+    public List<String> printTodaysSelectiveAttentionTasks() {
+
+        List<SelectiveAttentionTask> RT = DataOperations.getTodaysSelectiveAttentionTasks();
+        Log.i("Stats overview", RT.toString());
+        String type ="";
+        GregorianCalendar dateStarted,dateFinished;
+        int score=0;
+        List<String> toPrint = new ArrayList<>();
+        toPrint.add("Selective Attention Tasks");
+        if (!RT.isEmpty())
+            for (SelectiveAttentionTask ex : RT) {
                 type = ex.getTaskType();
                 dateStarted = ex.getStartTimestamp();
                 dateFinished = ex.getEndTimestamp();
