@@ -96,7 +96,7 @@ public class MainActivity extends ActionBarActivity {
         });
         selectiveAttentionButton.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SelectiveAttentionTask.class));
+                startActivity(new Intent(MainActivity.this, SelectiveActivity.class));
             }
         });
     }
