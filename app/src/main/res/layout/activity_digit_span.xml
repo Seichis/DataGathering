@@ -31,9 +31,9 @@
         android:layout_height="wrap_content"
         android:text="Start!"
         android:id="@+id/start_button"
+        android:layout_marginBottom="69dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="127dp" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
