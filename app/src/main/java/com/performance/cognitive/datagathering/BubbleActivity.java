@@ -8,6 +8,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -19,6 +22,8 @@ import scheduler.Scheduler;
 
 public class BubbleActivity extends Activity implements Orientation.Listener, SensorEventListener {
     private SensorManager manager;
+    TextView info;
+    Button playButton;
     private Bubble bubbleView;
     private Sensor accel;
     Orientation mOrientation;
@@ -30,6 +35,16 @@ public class BubbleActivity extends Activity implements Orientation.Listener, Se
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_bubble);
+        playButton = (Button) findViewById(R.id.playbutton);
+        info = (TextView) findViewById(R.id.info);
+        info.setText("Control the position of the ball in the center of the screen");
+        playButton.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v){
+                playButton.setVisibility(View.INVISIBLE);
+                info.setVisibility(View.INVISIBLE);
+            }
+        });
         sec = 0;
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         bubbleView = new Bubble(this);

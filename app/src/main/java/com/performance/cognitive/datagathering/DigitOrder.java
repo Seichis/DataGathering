@@ -26,6 +26,8 @@ public class DigitOrder extends ActionBarActivity {
     String TAG = "digits2";
     String GAT = "digits";
     TextView digits;
+    TextView info;
+    Button playButton;
     int[] NUMBERS = {1, 2, 3, 4, 5, 6, 7, 8, 9};
     List term = new ArrayList();
     int j = 3;
@@ -48,19 +50,34 @@ public class DigitOrder extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_digit_order);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
-        level = 1;
-        mAttentionTaskDigitOrder = new AttentionTaskDigitOrder();
-        Scheduler.getInstance().activityStart(mAttentionTaskDigitOrder);
-        digitsResults = new ArrayList<>();
-        userResults = new ArrayList<>();
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        info = (TextView)findViewById(R.id.info);
+        playButton = (Button)findViewById(R.id.playbutton);
+        info.setText("Write the digits in right order (lower to higher)");
         editText = (EditText) findViewById(R.id.edit);
         editText.setVisibility(View.INVISIBLE);
         digits = (TextView) findViewById(R.id.numbers);
         digits.setText("");
         submitButton = (Button) findViewById(R.id.submit_answer);
         startButton = (Button) findViewById(R.id.start_button);
+        startButton.setVisibility(View.INVISIBLE);
+        submitButton.setVisibility(View.INVISIBLE);
+        playButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                info.setVisibility(View.INVISIBLE);
+                playButton.setVisibility(View.INVISIBLE);
+                startButton.setVisibility(View.VISIBLE);
+                submitButton.setVisibility(View.VISIBLE);
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+            }
+        });
+
+        level = 1;
+        mAttentionTaskDigitOrder = new AttentionTaskDigitOrder();
+        Scheduler.getInstance().activityStart(mAttentionTaskDigitOrder);
+        digitsResults = new ArrayList<>();
+        userResults = new ArrayList<>();
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
         buttonPressed = false;
         taskStarted = false;
         inputSet = false;
@@ -102,6 +119,7 @@ public class DigitOrder extends ActionBarActivity {
                 Log.i(GAT, String.valueOf(digitsResults));
             }
         });
+
 
     }
 

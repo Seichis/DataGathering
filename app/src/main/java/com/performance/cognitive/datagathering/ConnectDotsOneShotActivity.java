@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,6 +28,8 @@ public class ConnectDotsOneShotActivity extends Activity {
     Context context;
     int firstTimercount,secondTimercount = 0;
     FluencyTask fluency;
+    TextView info;
+    Button playButton;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 

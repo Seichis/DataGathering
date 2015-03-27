@@ -25,4 +25,21 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="151dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/info"
+        android:layout_alignTop="@+id/word"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PLAY"
+        android:id="@+id/playbutton"
+        android:layout_below="@+id/record"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

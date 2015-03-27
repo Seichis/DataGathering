@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,6 +19,8 @@ import scheduler.Scheduler;
 /* Change screen color */
 public class ColorTapActivity extends Activity {
     private static View myView = null;
+    Button playButton;
+    TextView info;
     public static final String TAG = "Score";
     List<Long> score = new ArrayList<>();
     Long tsColor;
@@ -32,34 +37,44 @@ public class ColorTapActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_tap);
+        info = (TextView)findViewById(R.id.info);
+        info.setText("Tap the screen when the display color changes");
+        playButton = (Button) findViewById(R.id.playbutton);
         myView = (View) findViewById(R.id.my_view);
-        time = System.currentTimeMillis() - startTime;
-        reaction = new ReactionTimeTask();
-        Scheduler.getInstance().activityStart(reaction);
-        new Thread(new Runnable() {
-            public void run() {
-                while (time <= 30000) {
-                    i = random.nextInt(3000) + 1000;
-                    try {
-                        Thread.sleep(i);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        playButton.setOnClickListener(new Button.OnClickListener() {
+             public void onClick(View v) {
+                 playButton.setVisibility(View.INVISIBLE);
+                 info.setVisibility(View.INVISIBLE);
+                 time = System.currentTimeMillis() - startTime;
+                 reaction = new ReactionTimeTask();
+                 Scheduler.getInstance().activityStart(reaction);
+                 new Thread(new Runnable() {
+                     public void run() {
+                         while (time <= 30000) {
+                             i = random.nextInt(3000) + 1000;
+                             try {
+                                 Thread.sleep(i);
+                             } catch (InterruptedException e) {
+                                 e.printStackTrace();
+                             }
 
-                    updateColor();
-                    time = System.currentTimeMillis() - startTime;
+                             updateColor();
+                             time = System.currentTimeMillis() - startTime;
 
-                }
-                if (time > 30000) {
-                    //Thread.yield();
+                         }
+                         if (time > 30000) {
+                             //Thread.yield();
 //                    Intent intent = new Intent(ColorTapActivity.this, ColorTapResults.class);
 //                    startActivity(intent);
-                    reaction.setScore((int)(averageScore(score)*1000));
-                    Scheduler.getInstance().activityStop(reaction,true);
-                    ColorTapActivity.this.finish();
-                }
-            }
-        }).start();
+                             reaction.setScore((int)(averageScore(score)*1000));
+                             Scheduler.getInstance().activityStop(reaction,true);
+                             ColorTapActivity.this.finish();
+                         }
+                     }
+                 }).start();
+             }
+        });
+
     }
 
 

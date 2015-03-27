@@ -32,6 +32,8 @@ public class Words extends ActionBarActivity {
     private static final String LOG_TAG = "AudioRecordTest";
     private static String mFileName = null;
     private Button mRecordButton;
+    Button playButton;
+    TextView info;
     private MediaRecorder mRecorder = null;
     LongTermMemoryTask longTermMemory;
 
@@ -42,7 +44,17 @@ public class Words extends ActionBarActivity {
         Scheduler.getInstance().activityStart(longTermMemory);
         setContentView(R.layout.activity_words);
         word = (TextView)findViewById(R.id.word);
-
+        info = (TextView)findViewById(R.id.info);
+        info.setText("Memorize the words shown on screen. Repeat the words on microphone and memorize the words one more time.");
+        playButton = (Button) findViewById(R.id.playbutton);
+        playButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                playButton.setVisibility(View.INVISIBLE);
+                info.setVisibility(View.INVISIBLE);
+                mHandler = new Handler();
+                mTimer.scheduleAtFixedRate(new ActionsTimerTask(), 1000, 1000);
+            }
+        });
         mRecordButton = (Button) findViewById(R.id.record);
         i=0;
         if (mTimer != null) {
@@ -55,8 +67,7 @@ public class Words extends ActionBarActivity {
         } else {
             sTimer = new Timer();
         }
-        mHandler = new Handler();
-        mTimer.scheduleAtFixedRate(new ActionsTimerTask(), 1000, 1000);
+
         mRecordButton.setVisibility(View.INVISIBLE);
         mRecordButton.setOnClickListener(new Button.OnClickListener() {
             boolean mStartRecording = true;
