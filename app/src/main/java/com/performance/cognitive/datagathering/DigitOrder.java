@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,7 +41,7 @@ public class DigitOrder extends ActionBarActivity {
     Handler mHandler;
     EditText editText;
     boolean buttonPressed;
-    Button submitButton;
+   // Button submitButton;
     Button startButton;
     boolean taskStarted;
     AttentionTaskDigitOrder mAttentionTaskDigitOrder;
@@ -57,19 +59,40 @@ public class DigitOrder extends ActionBarActivity {
         editText.setVisibility(View.INVISIBLE);
         digits = (TextView) findViewById(R.id.numbers);
         digits.setText("");
-        submitButton = (Button) findViewById(R.id.submit_answer);
+
         startButton = (Button) findViewById(R.id.start_button);
         startButton.setVisibility(View.INVISIBLE);
-        submitButton.setVisibility(View.INVISIBLE);
+
         playButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 info.setVisibility(View.INVISIBLE);
                 playButton.setVisibility(View.INVISIBLE);
                 startButton.setVisibility(View.VISIBLE);
-                submitButton.setVisibility(View.VISIBLE);
+
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
             }
         });
+
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    String userAnswer = editText.getText().toString();
+                    userAnswer = userAnswer.replaceAll("\\s+", "");
+                    userResults.add(userAnswer);
+                    Log.i(TAG, String.valueOf(userResults));
+                    buttonPressed = true;
+                    level++;
+
+
+                }
+                return false;
+            }
+        });
+
+
 
         level = 1;
         mAttentionTaskDigitOrder = new AttentionTaskDigitOrder();
@@ -90,17 +113,7 @@ public class DigitOrder extends ActionBarActivity {
         }
 
         mHandler = new Handler();
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String userAnswer = editText.getText().toString();
-                userAnswer = userAnswer.replaceAll("\\s+", "");
-                userResults.add(userAnswer);
-                Log.i(TAG, String.valueOf(userResults));
-                buttonPressed = true;
-                level++;
-            }
-        });
+
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +140,7 @@ public class DigitOrder extends ActionBarActivity {
         if (inputSet == true && buttonPressed == false) {
             editText.setVisibility(View.VISIBLE);
             editText.setText("");
-            submitButton.setVisibility(View.VISIBLE);
+
             imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
         }
         if (buttonPressed == true) {
@@ -135,8 +148,8 @@ public class DigitOrder extends ActionBarActivity {
             digits.setVisibility(View.VISIBLE);
             buttonPressed = false;
             inputSet = false;
-            submitButton.setVisibility(View.INVISIBLE);
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+
+
         }
     }
 

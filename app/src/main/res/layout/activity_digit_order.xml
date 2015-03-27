@@ -12,20 +12,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Medium Text"
         android:id="@+id/numbers"
+        android:textSize="40sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="89dp" />
 
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        android:id="@+id/submit_answer"
-        android:layout_below="@+id/edit"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="66dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -52,8 +43,7 @@
         android:text="Medium Text"
         android:id="@+id/info"
         android:layout_below="@+id/numbers"
-        android:layout_alignRight="@+id/submit_answer"
-        android:layout_alignEnd="@+id/submit_answer" />
+        />
 
     <Button
         android:layout_width="wrap_content"
@@ -61,6 +51,5 @@
         android:text="PLAY"
         android:id="@+id/playbutton"
         android:layout_above="@+id/start_button"
-        android:layout_alignLeft="@+id/submit_answer"
-        android:layout_alignStart="@+id/submit_answer" />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
