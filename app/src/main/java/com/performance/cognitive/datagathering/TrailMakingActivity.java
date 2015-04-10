@@ -21,9 +21,9 @@ public class TrailMakingActivity extends Activity {
     Context context;
     Timer mTimer;
     Handler mHandler;
-    static int score = 0;
+    static int score;
     SpeedNumberTask speed;
-    static float secondElapsed = 0;
+    static float secondElapsed;
     public static boolean timeToReset = false;
 
     @Override
@@ -34,11 +34,13 @@ public class TrailMakingActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         context = this;
+        secondElapsed = 0;
+        score = 0;
         speed = new SpeedNumberTask();
         Scheduler.getInstance().activityStart(speed);
         drawView = new DrawingPanel(context);
         setContentView(drawView);
-        drawView.requestFocus();
+        //drawView.requestFocus();
         if (mTimer != null) {
             mTimer.cancel();
         } else {
@@ -46,6 +48,15 @@ public class TrailMakingActivity extends Activity {
         }
         mHandler = new Handler();
         mTimer.scheduleAtFixedRate(new ActionsTimerTask(), 0, 500);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     class ActionsTimerTask extends TimerTask {
@@ -68,10 +79,10 @@ public class TrailMakingActivity extends Activity {
                     }
                     if (getSecondElapsed() / 2 > 30) {
                         Log.i("Seconds", "  " + getSecondElapsed());
+                        mTimer.cancel();
                         speed.setScore(score);
                         Scheduler.getInstance().activityStop(speed, true);
-                        score = 0;
-                        mTimer.cancel();
+//
                         TrailMakingActivity.this.finish();
                     }
                 }
