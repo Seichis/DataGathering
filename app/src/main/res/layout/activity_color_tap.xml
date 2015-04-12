@@ -30,4 +30,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="132dp" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tick"
+        android:src="@drawable/tick"
+        android:layout_below="@+id/info"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
