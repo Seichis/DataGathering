@@ -3,45 +3,59 @@ package com.performance.cognitive.datagathering;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import adapters.ImageAdapter;
 import canvas.DrawingPanelOneShot;
 import datastructure.FluencyTask;
 import scheduler.Scheduler;
 
 
 public class ConnectDotsOneShotActivity extends Activity {
-    Timer mTimerProgress,mTimerGame;
+//    Timer mTimerGame;
+    Timer mTimerProgress;
     Handler mHandlerGame;
-    DrawingPanelOneShot drawView;
+    DrawingPanelOneShot drawView,drawReset;
     public static float second=0;
     public static boolean timeToReset = false;
-    Context context;
-    int firstTimercount,secondTimercount = 0;
+    int firstTimercount = 0;
     FluencyTask fluency;
-    TextView info;
-    Button playButton;
+    static GridView mGridView;
+    static ImageAdapter mImageAdapter;
+    public static int positionOfAnswerArray;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        context=this;
+        positionOfAnswerArray=0;
+        setContentView(R.layout.activity_connect_dots_one_shot);
         fluency = new FluencyTask();
         Scheduler.getInstance().activityStart(fluency);
-        drawView = new DrawingPanelOneShot(context);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(drawView);
+
+
+
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        drawView =(DrawingPanelOneShot)findViewById(R.id.drawPanel);
+
         drawView.requestFocus();
         if (mTimerProgress != null) {
             mTimerProgress.cancel();
@@ -50,12 +64,15 @@ public class ConnectDotsOneShotActivity extends Activity {
         }
         mTimerProgress.scheduleAtFixedRate(new ProgressBarTimerTask(), 0, 1000);
         mHandlerGame = new Handler();
-        if (mTimerGame != null) {
-            mTimerGame.cancel();
-        } else {
-            mTimerGame = new Timer();
-        }
-        mTimerGame.scheduleAtFixedRate(new ActionsTimerTask(), 0, 250);
+//        if (mTimerGame != null) {
+//            mTimerGame.cancel();
+//        } else {
+//            mTimerGame = new Timer();
+//        }
+//        mTimerGame.scheduleAtFixedRate(new ActionsTimerTask(), 0, 250);
+        mGridView=(GridView)findViewById(R.id.answerImages);
+        mImageAdapter = new ImageAdapter(this);
+        mGridView.setAdapter(mImageAdapter);
     }
 
     @Override
@@ -78,12 +95,15 @@ public class ConnectDotsOneShotActivity extends Activity {
                 public void run() {
                    // drawView.invalidate();
                     firstTimercount++;
+
                     drawView.invalidate();
+
+
 
                     Log.i("Timers","  "+ firstTimercount);
                     if(second>30){
                         mTimerProgress.cancel();
-                        mTimerGame.cancel();
+                        //mTimerGame.cancel();
                         fluency.setScore(DrawingPanelOneShot.score);
                         Scheduler.getInstance().activityStop(fluency,true);
                         DrawingPanelOneShot.score=0;
@@ -95,27 +115,30 @@ public class ConnectDotsOneShotActivity extends Activity {
             });
         }
     }
-    class ActionsTimerTask extends TimerTask {
-
-        @Override
-        public void run() {
-            // run on another thread
-            mHandlerGame.post(new Runnable() {
-
-                @Override
-                public void run() {
-                    drawView.invalidate();
-
-                    secondTimercount++;
-                    Log.i("Timers","  "+ secondTimercount);
-                    if (timeToReset){
-                        drawView=new DrawingPanelOneShot(context);
-                        setContentView(drawView);
-                        timeToReset=false;
-                    }
-                }
-            });
-        }
-    }
-
+//    class ActionsTimerTask extends TimerTask {
+//
+//        @Override
+//        public void run() {
+//            // run on another thread
+//            mHandlerGame.post(new Runnable() {
+//
+//                @Override
+//                public void run() {
+//                    drawView.invalidate();
+//
+//                    secondTimercount++;
+//                    Log.i("Timers","  "+ secondTimercount);
+//                    if (timeToReset){
+//                        drawView=new DrawingPanelOneShot(context,null);
+//
+//
+//                        timeToReset=false;
+//                    }
+//                }
+//            });
+//        }
+//    }
+     public static void setAdapterToShow(){
+         mImageAdapter.notifyDataSetChanged();
+     }
 }

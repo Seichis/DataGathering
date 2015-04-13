@@ -5,9 +5,9 @@ package canvas;
  */
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
@@ -15,30 +15,36 @@ import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.performance.cognitive.datagathering.ConnectDotsOneShotActivity;
-import com.performance.cognitive.datagathering.TrailMakingActivity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import adapters.ImageAdapter;
+
 
 /**
  * Created by User1 on 14/3/2015.
  */
-public class DrawingPanelOneShot extends View implements View.OnTouchListener {
+public class DrawingPanelOneShot extends ImageView implements View.OnTouchListener {
     int count;
+
+
+
     private List<ShapeDrawable> dotsToDraw;
     private Path mPath;
- //   private Paint mPaint;
-    //private List<Path> pathsToReset = new ArrayList<>();
+       private Paint mPaint;
+    private List<Path> pathsToReset = new ArrayList<>();
     private List<Path> pathsToStay = new ArrayList<>();
     private Path mPathStay;
     private Paint textPaint;
@@ -53,8 +59,9 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
     Point mPoint = new Point();
     public WindowManager wm;
     Display display;
-    public DrawingPanelOneShot(Context context) {
-        super(context);
+
+    public DrawingPanelOneShot(Context context, AttributeSet attrs) {
+        super(context, attrs);
         wm = (WindowManager)
                 context.getSystemService(Context.WINDOW_SERVICE);
         display = wm.getDefaultDisplay();
@@ -62,32 +69,32 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
         changedDotSet = new HashSet<>();
         mPathStay = new Path();
         count = 0;
-        mCustomProgressBar=new CustomProgressBar(20,20,350,40);
+        mCustomProgressBar = new CustomProgressBar(20, 20, 350, 40);
 
         dotsToDraw = new ArrayList<>();
         textPaint = new Paint();
 
-  //      mPaint = new Paint();
+              mPaint = new Paint();
         mPath = new Path();
         setFocusable(true);
         setFocusableInTouchMode(true);
         this.setOnTouchListener(this);
         setTextPaint(textPaint);
-//        setDotPaint(mPaint);
-//        pathsToReset.add(mPath);
-//        pathsToStay.add(mPathStay);
-        dotsToDraw = getDotList(context);
+        setDotPaint(mPaint);
+        pathsToReset.add(mPath);
+        pathsToStay.add(mPathStay);
+        setDotsToDraw(dotsToDraw,context);
     }
 
-//    private void setDotPaint(Paint paint) {
-//        paint.setAntiAlias(true);
-//        paint.setDither(true);
-//        paint.setColor(Color.BLACK);
-//        paint.setStyle(Paint.Style.STROKE);
-//        paint.setStrokeJoin(Paint.Join.ROUND);
-//        paint.setStrokeCap(Paint.Cap.ROUND);
-//        paint.setStrokeWidth(20);
-//    }
+    private void setDotPaint(Paint paint) {
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setStrokeWidth(20);
+    }
 
     public void setTextPaint(Paint paint) {
         paint.setColor(Color.BLACK);
@@ -101,15 +108,15 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawText(Integer.toString(score),mPoint.x/2 ,mPoint.y/8 , textPaint);
+        canvas.drawText(Integer.toString(score), mPoint.x / 2, mPoint.y / 8, textPaint);
         drawDots(canvas);
-        mCustomProgressBar.drawProgressBar(canvas,ConnectDotsOneShotActivity.second);
-//        for (Path p : pathsToReset) {
-//            canvas.drawPath(p, mPaint);
-//        }
-//        for (Path p : pathsToStay) {
-//            canvas.drawPath(p, mPaint);
-//        }
+        mCustomProgressBar.drawProgressBar(canvas, ConnectDotsOneShotActivity.second);
+        for (Path p : pathsToReset) {
+            canvas.drawPath(p, mPaint);
+        }
+        for (Path p : pathsToStay) {
+            canvas.drawPath(p, mPaint);
+        }
 
 
     }
@@ -117,18 +124,8 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
     private void drawDots(Canvas c) {
         for (ShapeDrawable dot : dotsToDraw) {
             dot.draw(c);
-            //canvas.drawText(Integer.toString(dotsToDraw.indexOf(dot) + 1), dot.getBounds().centerX(), dot.getBounds().centerY(), textPaint);
         }
     }
-
-//    private void drawProgressBar(Canvas c) {
-//        barEndX = this.getWidth() - 20;
-//        barPaint.setColor(Color.WHITE);
-//        setCurrentSeekBarLength((barEndX - barStartX) * (ConnectDotsOneShotActivity.second / 30));
-//        barPaint.setColor(Color.BLUE);
-//        c.drawRect(barStartX, barStartY, getCurrentSeekBarLength(),
-//                barEndY, barPaint);
-//    }
 
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
@@ -154,11 +151,22 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
 
     private void resetLevel() {
         ConnectDotsOneShotActivity.timeToReset = true;
+        for (ShapeDrawable dot : dotsToDraw) {
+            dot.getPaint().setColor(Color.BLACK);
+            changedDotSet.clear();
+        }
+        this.buildDrawingCache(true);
+        Bitmap b = Bitmap.createBitmap(this.getDrawingCache(true));
+        this.setDrawingCacheEnabled(false);
+        ImageAdapter.addImage(b);
+        ConnectDotsOneShotActivity.setAdapterToShow();
+        Log.i("reset","..");
 
     }
 
     private void touch_up() {
-        mPath.reset();PathMeasure pmMerged;
+        mPath.reset();
+        PathMeasure pmMerged;
         pmMerged = new PathMeasure();
         float totalPathLength = 0;
 
@@ -182,6 +190,8 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
         }
         score = pmSetList.size();
         resetLevel();
+
+
     }
 
     float startX = 0;
@@ -199,6 +209,7 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
                 startY = event.getY();
                 touch_start(startX, startY);
                 invalidate();
+                pathsToStay.clear();
                 break;
             case MotionEvent.ACTION_MOVE:
                 touch_move(event.getX(), event.getY());
@@ -216,20 +227,14 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
         return true;
     }
 
-    private List<ShapeDrawable> getDotList(Context context) {
-        List<ShapeDrawable> dotList = new ArrayList<>();
-        List<Point> fixedPointList;
+    public void setDotsToDraw(List<ShapeDrawable> dotsToDraw,Context context) {
         int diameter = 100;
-        fixedPointList = createFixedPoints(context);
-
-        for (Point p : fixedPointList) {
-            dotList.add(createDot(p.x, p.y, diameter));
+        for (Point p : createFixedPoints(context)) {
+            this.dotsToDraw.add(createDot(p.x, p.y, diameter));
 
         }
-
-        return dotList;
+        this.dotsToDraw = dotsToDraw;
     }
-
     private List<Point> createFixedPoints(Context context) {
 
         List<Point> pointList = new ArrayList<>();
@@ -244,28 +249,28 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
         // Set Point A of the rectangle
 
         width = (mPoint.x / 4);
-        height = (mPoint.y / 4);
+        height = (mPoint.y / 8);
         mPointA.set(width, height);
         pointList.add(mPointA);
 
         // Set Point B of the rectangle
 
         width = (3 * mPoint.x / 4);
-        height = (mPoint.y / 4);
+        height = (mPoint.y / 8);
         mPointB.set(width, height);
         pointList.add(mPointB);
 
         // Set Point C of the rectangle
 
         width = (mPoint.x / 4);
-        height = (3 * mPoint.y / 4);
+        height = (3 * mPoint.y / 8);
         mPointC.set(width, height);
         pointList.add(mPointC);
 
         // Set Point D of the rectangle
 
         width = (3 * mPoint.x / 4);
-        height = (3 * mPoint.y / 4);
+        height = (3 * mPoint.y / 8);
         mPointD.set(width, height);
 
         pointList.add(mPointD);
@@ -273,7 +278,7 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
         // Set Point E in the center of the rectangle
 
         width = (mPoint.x / 2);
-        height = (mPoint.y / 2);
+        height = (mPoint.y / 4);
         mPointE.set(width, height);
         pointList.add(mPointE);
         return pointList;
@@ -281,20 +286,11 @@ public class DrawingPanelOneShot extends View implements View.OnTouchListener {
 
     private ShapeDrawable createDot(int width, int height, int diameter) {
         ShapeDrawable dot = new ShapeDrawable(new OvalShape());
-        dot.setBounds(width - 50, height, width + diameter, height + diameter);
-        dot.getPaint().setColor(0xff74AC23);
+        dot.setBounds(width, height, width + diameter, height + diameter);
+        dot.getPaint().setColor(Color.BLACK);
         return dot;
     }
 
-//    private void setCurrentSeekBarLength(float x) {
-//
-//        this.currentSeekBarLength = x;
-//    }
-//
-//    private float getCurrentSeekBarLength() {
-//
-//        return this.currentSeekBarLength;
-//    }
 
     private void checkPath(int x, int y) {
         double firstTapTimestamp = 0d;
