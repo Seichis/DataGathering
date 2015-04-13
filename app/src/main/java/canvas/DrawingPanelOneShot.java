@@ -40,19 +40,18 @@ public class DrawingPanelOneShot extends ImageView implements View.OnTouchListen
     int count;
 
 
-
     private List<ShapeDrawable> dotsToDraw;
     private Path mPath;
-       private Paint mPaint;
+    private Paint mPaint;
     private List<Path> pathsToReset = new ArrayList<>();
     private List<Path> pathsToStay = new ArrayList<>();
     private Path mPathStay;
     private Paint textPaint;
-
+    static int temp = 0;
     public static int score = 0;
     private Set<ShapeDrawable> changedDotSet;
-    private static List<Float> measurePath = new ArrayList<>();
-    static Set<List<Float>> pmSetList = new HashSet<>();
+    private static List<Integer> dotIdForSet = new ArrayList<>();
+    static Set<List<Integer>> pmSetList = new HashSet<>();
     Path mergedPath = new Path();
     private CustomProgressBar mCustomProgressBar;
 
@@ -74,7 +73,7 @@ public class DrawingPanelOneShot extends ImageView implements View.OnTouchListen
         dotsToDraw = new ArrayList<>();
         textPaint = new Paint();
 
-              mPaint = new Paint();
+        mPaint = new Paint();
         mPath = new Path();
         setFocusable(true);
         setFocusableInTouchMode(true);
@@ -83,7 +82,7 @@ public class DrawingPanelOneShot extends ImageView implements View.OnTouchListen
         setDotPaint(mPaint);
         pathsToReset.add(mPath);
         pathsToStay.add(mPathStay);
-        setDotsToDraw(dotsToDraw,context);
+        setDotsToDraw(dotsToDraw);
     }
 
     private void setDotPaint(Paint paint) {
@@ -117,8 +116,6 @@ public class DrawingPanelOneShot extends ImageView implements View.OnTouchListen
         for (Path p : pathsToStay) {
             canvas.drawPath(p, mPaint);
         }
-
-
     }
 
     private void drawDots(Canvas c) {
@@ -155,49 +152,37 @@ public class DrawingPanelOneShot extends ImageView implements View.OnTouchListen
             dot.getPaint().setColor(Color.BLACK);
             changedDotSet.clear();
         }
-        this.buildDrawingCache(true);
-        Bitmap b = Bitmap.createBitmap(this.getDrawingCache(true));
-        this.setDrawingCacheEnabled(false);
-        ImageAdapter.addImage(b);
         ConnectDotsOneShotActivity.setAdapterToShow();
-        Log.i("reset","..");
-
     }
 
     private void touch_up() {
         mPath.reset();
-        PathMeasure pmMerged;
-        pmMerged = new PathMeasure();
-        float totalPathLength = 0;
 
-        for (Path pts : pathsToStay) {
-            pmMerged.setPath(pts, false);
-            totalPathLength += pmMerged.getLength();
-        }
+        if (dotIdForSet.size() > 1) {
 
-        if (totalPathLength > 100) {
-            measurePath.add((float) Math.round(totalPathLength * 100));
-            //Collections.sort(measurePath);
-
-            if (!measurePath.isEmpty()) {
-
-                Log.i("Set of lists", "    " + measurePath);
-                pmSetList.add(measurePath);
-                measurePath.clear();
-
-            }
+            pmSetList.add(dotIdForSet);
             Log.i("Set of lists", "    " + pmSetList.size() + "    ");
+            Log.i("Set of lists", "    " + dotIdForSet + "    ");
+//            Log.i("Set of lists", "    " + pmSetList + "    ");
+
+            if (temp != pmSetList.size()) {
+                temp = pmSetList.size();
+
+                this.buildDrawingCache(true);
+                Bitmap b = Bitmap.createBitmap(this.getDrawingCache(true));
+
+                ImageAdapter.addImage(b);
+                this.setDrawingCacheEnabled(false);
+                score++;
+            }
+            dotIdForSet.clear();
         }
-        score = pmSetList.size();
         resetLevel();
-
-
     }
 
     float startX = 0;
     float startY = 0;
-//    float stopX = 0;
-//    float stopY = 0;
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -227,15 +212,16 @@ public class DrawingPanelOneShot extends ImageView implements View.OnTouchListen
         return true;
     }
 
-    public void setDotsToDraw(List<ShapeDrawable> dotsToDraw,Context context) {
+    public void setDotsToDraw(List<ShapeDrawable> dotsToDraw) {
         int diameter = 100;
-        for (Point p : createFixedPoints(context)) {
+        for (Point p : createFixedPoints()) {
             this.dotsToDraw.add(createDot(p.x, p.y, diameter));
 
         }
         this.dotsToDraw = dotsToDraw;
     }
-    private List<Point> createFixedPoints(Context context) {
+
+    private List<Point> createFixedPoints() {
 
         List<Point> pointList = new ArrayList<>();
         Point mPointA = new Point();
@@ -318,14 +304,12 @@ public class DrawingPanelOneShot extends ImageView implements View.OnTouchListen
                     mPathStay.lineTo(dot.getBounds().centerX(), dot.getBounds().centerY());
 
                     mergedPath.addPath(mPathStay);
-                    //pm = new PathMeasure(mergedPath, false);
-
                     mPathStay = new Path();
                     pathsToStay.add(mPathStay);
 
                     startX = dot.getBounds().centerX();
                     startY = dot.getBounds().centerY();
-
+                    dotIdForSet.add(dotsToDraw.indexOf(dot));
                 } else if (changedDotSet.contains(dot) && pm.getLength() > 100) {
                     secondTapTimestamp = System.currentTimeMillis();
                     if (secondTapTimestamp - firstTapTimestamp > 100) {
