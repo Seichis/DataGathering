@@ -2,6 +2,7 @@ package com.performance.cognitive.datagathering;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ public class DigitOrder extends ActionBarActivity {
     String TAG = "digits2";
     String GAT = "digits";
     TextView digits;
-    TextView result;
+    ImageView result;
     TextView info;
     Button playButton;
     int[] NUMBERS = {1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -57,7 +59,7 @@ public class DigitOrder extends ActionBarActivity {
         setContentView(R.layout.activity_digit_order);
         info = (TextView)findViewById(R.id.info);
         playButton = (Button)findViewById(R.id.playbutton);
-        result = (TextView) findViewById(R.id.result);
+        result = (ImageView) findViewById(R.id.result);
         info.setText("Write the digits in right order (lower to higher)");
         editText = (EditText) findViewById(R.id.edit);
         editText.setVisibility(View.INVISIBLE);
@@ -90,13 +92,15 @@ public class DigitOrder extends ActionBarActivity {
                     Log.i(TAG, String.valueOf(userResults));
                     final String finalUserAnswer = userAnswer;
 
-                    new CountDownTimer(3000, 1000) {
+                    new CountDownTimer(2000, 1000) {
                         public void onTick(long millisUntilFinished) {
                             result.setVisibility(View.VISIBLE);
                             if (userResults.get(ind).equals(DigitOrder.digitsResults.get(ind))) {
-                                result.setText("correct ");
+                                Resources res = getResources();
+                                result.setImageDrawable(res.getDrawable(R.drawable.tickgreen));
                             }else {
-                                result.setText("wrong");
+                                Resources res = getResources();
+                                result.setImageDrawable(res.getDrawable(R.drawable.wrong));
                             }
                         }
 

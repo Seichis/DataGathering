@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.performance.cognitive.datagathering">
+    package="com.performance.cognitive.datagathering" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -9,10 +9,10 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,52 +21,56 @@
         </activity>
         <activity
             android:name=".OverviewActivity"
-            android:label="@string/title_activity_overview"/>
+            android:label="@string/title_activity_overview" />
         <activity
             android:name=".BubbleActivity"
             android:label="@string/title_activity_bubble"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TrailMakingActivity"
             android:label="@string/title_activity_trail_making"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
         <activity
             android:name=".VoiceToTextActivity"
-            android:label="@string/title_activity_voice_to_text"/>
+            android:label="@string/title_activity_voice_to_text" />
         <activity
             android:name=".ConnectDotsOneShotActivity"
             android:label="@string/title_activity_connect_dots_one_shot"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
         <activity
             android:name=".DigitSpan"
-            android:label="@string/title_activity_digit_span"/>
+            android:label="@string/title_activity_digit_span" />
         <activity
             android:name=".DigitSpanResult"
-            android:label="@string/title_activity_digit_span_result"/>
+            android:label="@string/title_activity_digit_span_result" />
         <activity
             android:name=".DigitOrder"
-            android:label="@string/title_activity_digit_order"/>
+            android:label="@string/title_activity_digit_order" />
         <activity
             android:name=".DigitOrderResults"
-            android:label="@string/title_activity_digit_order_results"/>
+            android:label="@string/title_activity_digit_order_results" />
         <activity
             android:name=".Words"
-            android:label="@string/title_activity_words"/>
+            android:label="@string/title_activity_words" />
         <activity
             android:name=".TapActivity"
-            android:label="@string/title_activity_tap"/>
+            android:label="@string/title_activity_tap" />
         <activity
             android:name=".TapResults"
-            android:label="@string/title_activity_tap_results"/>
+            android:label="@string/title_activity_tap_results" />
         <activity
             android:name=".ColorTapActivity"
-            android:label="@string/title_activity_color_tap"/>
+            android:label="@string/title_activity_color_tap" />
         <activity
             android:name=".ColorTapResults"
-            android:label="@string/title_activity_color_tap_results"/>
+            android:label="@string/title_activity_color_tap_results" />
         <activity
             android:name=".SelectiveActivity"
-            android:label="@string/title_activity_selective"/>
+            android:label="@string/title_activity_selective" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>
