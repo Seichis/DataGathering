@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import scheduler.Scheduler;
 public class ColorTapActivity extends Activity {
     private static View myView = null;
     Button playButton;
+    ImageView tickOk;
     TextView info;
     public static final String TAG = "Score";
     List<Long> score = new ArrayList<>();
@@ -38,6 +40,8 @@ public class ColorTapActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_tap);
         info = (TextView)findViewById(R.id.info);
+        tickOk = (ImageView) findViewById(R.id.tick);
+        tickOk.setVisibility(View.INVISIBLE);
         info.setText("Tap the screen when the display color changes");
         playButton = (Button) findViewById(R.id.playbutton);
         myView = (View) findViewById(R.id.my_view);
@@ -87,12 +91,14 @@ public class ColorTapActivity extends Activity {
 
                 }
                 myView.setBackgroundColor(COLORS[currentColor]);
+                tickOk.setVisibility(View.INVISIBLE);
                 tsColor = System.currentTimeMillis();
                 myView.setOnClickListener(new ImageButton.OnClickListener() {
 
                     public void onClick(View v) {
                         tsClick = System.currentTimeMillis();
                         score.add(tsClick - tsColor);
+                        tickOk.setVisibility(View.VISIBLE);
                         //Log.e(TAG, String.valueOf(score));
                     }
                 });

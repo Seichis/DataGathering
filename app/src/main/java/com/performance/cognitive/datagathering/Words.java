@@ -10,9 +10,14 @@ import android.widget.Button;
 import android.view.View;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import android.widget.TextView;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,8 +32,8 @@ public class Words extends ActionBarActivity {
     Handler sHandler;
     TextView word;
     int i;
-    String[] WORDS = {"table", "sun", "toast", "justice", "car", "yogurt", "red", "bag", "flag", "spoon", "absence","kid",
-            "music", "go", "watch", "balloon", "plane", "secret", "boss", "energy" };
+    //String[] WORDS = {"table", "sun", "toast", "justice", "car", "yogurt", "red", "bag", "flag", "spoon", "absence","kid",
+          //  "music", "go", "watch", "balloon", "plane", "secret", "boss", "energy" };
     private static final String LOG_TAG = "AudioRecordTest";
     private static String mFileName = null;
     private Button mRecordButton;
@@ -36,6 +41,7 @@ public class Words extends ActionBarActivity {
     TextView info;
     private MediaRecorder mRecorder = null;
     LongTermMemoryTask longTermMemory;
+    ArrayList<String> words= new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,26 @@ public class Words extends ActionBarActivity {
         info = (TextView)findViewById(R.id.info);
         info.setText("Memorize the words shown on screen. Repeat the words on microphone and memorize the words one more time.");
         playButton = (Button) findViewById(R.id.playbutton);
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(
+                    new InputStreamReader(getAssets().open("mappe.txt")));
+
+            String mLine = reader.readLine();
+            while (mLine != null) {
+                words.add(mLine);
+                mLine = reader.readLine();
+
+            }
+        } catch (IOException e) {
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                }
+            }
+        }
         playButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 playButton.setVisibility(View.INVISIBLE);
@@ -104,7 +130,7 @@ public class Words extends ActionBarActivity {
                 @Override
                 public void run() {
                     if (i<10 ) {
-                        word.setText(WORDS[i]);
+                        word.setText(words.get(i));
                         i++;
 
                     }else {
@@ -129,7 +155,7 @@ public class Words extends ActionBarActivity {
                     if (i<10 ) {
 
                         word.setVisibility(View.VISIBLE);
-                        word.setText(WORDS[i]);
+                        word.setText(words.get(i));
                         i++;
 
                     }else {

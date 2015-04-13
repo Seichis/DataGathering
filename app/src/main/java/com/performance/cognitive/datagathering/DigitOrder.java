@@ -2,7 +2,9 @@ package com.performance.cognitive.datagathering;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,12 +31,14 @@ public class DigitOrder extends ActionBarActivity {
     String TAG = "digits2";
     String GAT = "digits";
     TextView digits;
+    ImageView result;
     TextView info;
     Button playButton;
     int[] NUMBERS = {1, 2, 3, 4, 5, 6, 7, 8, 9};
     List term = new ArrayList();
     int j = 3;
     int x = 0;
+    int ind=0;
     static int level;
     InputMethodManager imm;
     boolean inputSet;
@@ -54,6 +59,7 @@ public class DigitOrder extends ActionBarActivity {
         setContentView(R.layout.activity_digit_order);
         info = (TextView)findViewById(R.id.info);
         playButton = (Button)findViewById(R.id.playbutton);
+        result = (ImageView) findViewById(R.id.result);
         info.setText("Write the digits in right order (lower to higher)");
         editText = (EditText) findViewById(R.id.edit);
         editText.setVisibility(View.INVISIBLE);
@@ -80,12 +86,31 @@ public class DigitOrder extends ActionBarActivity {
 
                     imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                     String userAnswer = editText.getText().toString();
+
                     userAnswer = userAnswer.replaceAll("\\s+", "");
                     userResults.add(userAnswer);
                     Log.i(TAG, String.valueOf(userResults));
-                    buttonPressed = true;
-                    level++;
+                    final String finalUserAnswer = userAnswer;
 
+                    new CountDownTimer(2000, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                            result.setVisibility(View.VISIBLE);
+                            if (userResults.get(ind).equals(DigitOrder.digitsResults.get(ind))) {
+                                Resources res = getResources();
+                                result.setImageDrawable(res.getDrawable(R.drawable.tickgreen));
+                            }else {
+                                Resources res = getResources();
+                                result.setImageDrawable(res.getDrawable(R.drawable.wrong));
+                            }
+                        }
+
+                        public void onFinish() {
+                            result.setVisibility(View.INVISIBLE);
+                            buttonPressed = true;
+                            level++;
+                            ind++;
+                        }
+                    }.start();
 
                 }
                 return false;
