@@ -2,30 +2,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.performance.cognitive.datagathering.ConnectDotsOneShotActivity"
-    android:focusable="true" >
+    tools:context="com.performance.cognitive.datagathering.ConnectDotsOneShotActivity">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/info"
-        android:layout_alignParentTop="true"
+    <GridView
+        android:id="@+id/answerImages"
+        android:layout_width="fill_parent"
+        android:layout_height="225dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="97dp" />
+        android:columnWidth="50dp"
+        android:gravity="center"
+        android:numColumns="auto_fit"
+        android:orientation="horizontal"
+        android:stretchMode="columnWidth" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/playbutton"
+
+    <canvas.DrawingPanelOneShot
+
+        android:id="@+id/drawPanel"
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="162dp" />
+        android:layout_below="@id/answerImages"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
