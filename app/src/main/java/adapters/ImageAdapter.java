@@ -3,7 +3,6 @@ package adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,8 +17,7 @@ public class ImageAdapter extends BaseAdapter {
 
     int count;
     static List<Bitmap> mBitmaps;
-    LayoutInflater inflater;
-    View v;
+
 
     // Constructor
     public ImageAdapter(Context c) {
@@ -27,10 +25,7 @@ public class ImageAdapter extends BaseAdapter {
         count = 0;
         mBitmaps = new ArrayList<>();
         Log.i("Adapter", " Construct ");
-//        inflater = (LayoutInflater) mContext
-//                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        v = new View(mContext);
-//        v = inflater.inflate(R.layout.answer_images, null);
+
     }
 
 
@@ -51,36 +46,16 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ImageView imageView;
-//        if (convertView == null) {
-        // if it's not recycled, initialize some attributes
+
         imageView = new ImageView(mContext);
         imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setPadding(8, 8, 8, 8);
-//        } else {
-       // imageView = (ImageView) convertView;
-//        }
-
 
         imageView.setImageBitmap(mBitmaps.get(position));
         Log.i("Adapter", " if  " + position);
         return imageView;
 
-
-//            inflater = (LayoutInflater) mContext
-//                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            v = new View(mContext);
-//            v = inflater.inflate(R.layout.answer_images, null);
-//           ImageView imageView = (ImageView) v.findViewById(R.id.grid_image);
-//
-//
-//            mIvArray.get(count).buildDrawingCache(true);
-//            Bitmap b = Bitmap.createBitmap(mIvArray.get(mIvArray.).getDrawingCache(true));
-//            imageView.setImageBitmap(b);
-//            // mIvArray.get(position).setDrawingCacheEnabled(false);
-//
-//            Log.i("Adapter", " if  " + position);
-//        return v;
     }
 
 

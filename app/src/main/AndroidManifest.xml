@@ -67,6 +67,7 @@
         <activity
             android:name=".SelectiveActivity"
             android:label="@string/title_activity_selective" />
+
     </application>
 
 </manifest>
