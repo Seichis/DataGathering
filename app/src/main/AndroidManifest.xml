@@ -67,6 +67,9 @@
         <activity
             android:name=".SelectiveActivity"
             android:label="@string/title_activity_selective" />
+        <activity
+            android:name=".Settings"
+            android:label="@string/title_activity_settings" />
 
     </application>
 
