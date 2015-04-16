@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+>
+    <EditTextPreference
+        android:dialogTitle="Enter Time"
+        android:key="name"
+        android:summary="Enter Time"
+        android:title="Edit Time Preference" />
+</PreferenceScreen>

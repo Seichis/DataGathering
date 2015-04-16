@@ -22,5 +22,6 @@
     <string name="title_activity_color_tap">ColorTapActivity</string>
     <string name="title_activity_color_tap_results">ColorTapResults</string>
     <string name="title_activity_selective">SelectiveActivity</string>
+    <string name="title_activity_settings">Settings</string>
 
 </resources>

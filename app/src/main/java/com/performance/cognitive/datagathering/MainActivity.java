@@ -13,7 +13,7 @@ import datastructure.SelectiveAttentionTask;
 
 
 public class MainActivity extends ActionBarActivity {
-    Button attention1Button, attention2Button, coordinationButton, fluencyButton, longTermMemoryButton, tapSpeedButton, reactionTimeButton, selectiveAttentionButton, speedButton, statsButton;
+    Button attention1Button, attention2Button, coordinationButton, fluencyButton, longTermMemoryButton, tapSpeedButton, reactionTimeButton, selectiveAttentionButton, speedButton, statsButton, settingsButton;
 
     boolean pressedTest = false;
 
@@ -32,6 +32,7 @@ public class MainActivity extends ActionBarActivity {
         tapSpeedButton = (Button) findViewById(R.id.tapspeed_button);
         reactionTimeButton = (Button) findViewById(R.id.reactiontime_button);
         selectiveAttentionButton = (Button) findViewById(R.id.selectiveattention_button);
+        settingsButton = (Button) findViewById(R.id.settings_button);
 
          //    startActivity(new Intent(MainActivity.this,SelectiveActivity.class));
 
@@ -97,6 +98,12 @@ public class MainActivity extends ActionBarActivity {
         selectiveAttentionButton.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, SelectiveActivity.class));
+            }
+        });
+
+        settingsButton.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Settings.class));
             }
         });
     }
