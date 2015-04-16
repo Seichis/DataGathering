@@ -1,35 +1,74 @@
 package com.performance.cognitive.datagathering;
 
 import android.content.Intent;
-import android.os.SystemClock;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Chronometer;
+import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageButton;
+import android.widget.TextView;
 
 import adapters.TextAdapter;
-import canvas.FindT;
 import datastructure.SelectiveAttentionTask;
 import scheduler.Scheduler;
 
 
-public class SelectiveActivity extends ActionBarActivity {
-
+public class SelectiveActivity extends ActionBarActivity implements View.OnTouchListener {
+    public static int tPosition;
     GridView myGridView;
-
-
+    TextAdapter mTextAdapter;
+    static int score;
+    SelectiveAttentionTask mSelectiveAttentionTask;
+    float tapX=0, tapY=0;
+    TextView timer;
+    CountDownTimer mCountDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selective);
         myGridView = (GridView) findViewById(R.id.gridView);
-        myGridView.setAdapter(new TextAdapter(this));
+        mTextAdapter = new TextAdapter(this);
+        mTextAdapter.fillArray();
+        mSelectiveAttentionTask = new SelectiveAttentionTask();
+        Scheduler.getInstance().activityStart(mSelectiveAttentionTask);
+        score = 0;
+        tPosition = 0;
+        myGridView.setAdapter(mTextAdapter);
+        timer = (TextView) findViewById(R.id.timer);
 
+        myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
+                if(mTextAdapter.mylist.get(position).getText().equals("T")){
+                    score++;
+                    mTextAdapter.clearList();
+                    mTextAdapter.fillArray();
+                    mTextAdapter.notifyDataSetChanged();
+                }
+            }
+
+        });
+        mCountDownTimer = new CountDownTimer(30000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                int seconds = (int) ((millisUntilFinished / 1000));
+                timer.setText(seconds + "  seconds ");
+            }
+
+            public void onFinish() {
+                mSelectiveAttentionTask.setScore(score);
+                Scheduler.getInstance().activityStop(mSelectiveAttentionTask,true);
+                SelectiveActivity.this.finish();
+
+            }
+        };
+
+        mCountDownTimer.start();
     }
 
     @Override
@@ -65,5 +104,29 @@ public class SelectiveActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                tapX = event.getX();
+                tapY = event.getY();
+
+                break;
+            case MotionEvent.ACTION_MOVE:
+
+                break;
+            case MotionEvent.ACTION_UP:
+
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                break;
+            default:
+                break;
+        }
+
+        return false;
     }
 }
