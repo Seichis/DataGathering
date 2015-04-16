@@ -64,7 +64,6 @@ public class SelectiveActivity extends ActionBarActivity implements View.OnTouch
                 mSelectiveAttentionTask.setScore(score);
                 Scheduler.getInstance().activityStop(mSelectiveAttentionTask,true);
                 SelectiveActivity.this.finish();
-
             }
         };
 
