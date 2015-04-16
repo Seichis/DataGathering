@@ -47,13 +47,6 @@ public class ConnectDotsOneShotActivity extends Activity {
         setContentView(R.layout.activity_connect_dots_one_shot);
         fluency = new FluencyTask();
         Scheduler.getInstance().activityStart(fluency);
-
-
-
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         drawView =(DrawingPanelOneShot)findViewById(R.id.drawPanel);
 
         drawView.requestFocus();
@@ -64,12 +57,6 @@ public class ConnectDotsOneShotActivity extends Activity {
         }
         mTimerProgress.scheduleAtFixedRate(new ProgressBarTimerTask(), 0, 1000);
         mHandlerGame = new Handler();
-//        if (mTimerGame != null) {
-//            mTimerGame.cancel();
-//        } else {
-//            mTimerGame = new Timer();
-//        }
-//        mTimerGame.scheduleAtFixedRate(new ActionsTimerTask(), 0, 250);
         mGridView=(GridView)findViewById(R.id.answerImages);
         mImageAdapter = new ImageAdapter(this);
         mGridView.setAdapter(mImageAdapter);
@@ -93,17 +80,10 @@ public class ConnectDotsOneShotActivity extends Activity {
             mHandlerGame.post(new Runnable() {
                 @Override
                 public void run() {
-                   // drawView.invalidate();
                     firstTimercount++;
-
-                    drawView.invalidate();
-
-
-
                     Log.i("Timers","  "+ firstTimercount);
                     if(second>30){
                         mTimerProgress.cancel();
-                        //mTimerGame.cancel();
                         fluency.setScore(DrawingPanelOneShot.score);
                         Scheduler.getInstance().activityStop(fluency,true);
                         DrawingPanelOneShot.score=0;
@@ -115,29 +95,7 @@ public class ConnectDotsOneShotActivity extends Activity {
             });
         }
     }
-//    class ActionsTimerTask extends TimerTask {
-//
-//        @Override
-//        public void run() {
-//            // run on another thread
-//            mHandlerGame.post(new Runnable() {
-//
-//                @Override
-//                public void run() {
-//                    drawView.invalidate();
-//
-//                    secondTimercount++;
-//                    Log.i("Timers","  "+ secondTimercount);
-//                    if (timeToReset){
-//                        drawView=new DrawingPanelOneShot(context,null);
-//
-//
-//                        timeToReset=false;
-//                    }
-//                }
-//            });
-//        }
-//    }
+
      public static void setAdapterToShow(){
          mImageAdapter.notifyDataSetChanged();
      }

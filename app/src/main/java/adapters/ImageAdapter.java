@@ -32,6 +32,7 @@ public class ImageAdapter extends BaseAdapter {
     public int getCount() {
 
         return mBitmaps.size();
+
     }
 
     public Object getItem(int position) {
@@ -48,7 +49,7 @@ public class ImageAdapter extends BaseAdapter {
         ImageView imageView;
 
         imageView = new ImageView(mContext);
-        imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+        imageView.setLayoutParams(new GridView.LayoutParams(100, 100));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setPadding(8, 8, 8, 8);
 
