@@ -31,7 +31,7 @@ public class ConnectDotsOneShotActivity extends Activity {
 //    Timer mTimerGame;
     Timer mTimerProgress;
     Handler mHandlerGame;
-    DrawingPanelOneShot drawView,drawReset;
+    DrawingPanelOneShot drawView;
     public static float second=0;
     public static boolean timeToReset = false;
     int firstTimercount = 0;
@@ -81,6 +81,7 @@ public class ConnectDotsOneShotActivity extends Activity {
                 @Override
                 public void run() {
                     firstTimercount++;
+                    drawView.invalidate();
                     Log.i("Timers","  "+ firstTimercount);
                     if(second>30){
                         mTimerProgress.cancel();
