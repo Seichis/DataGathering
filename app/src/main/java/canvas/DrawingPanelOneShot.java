@@ -175,7 +175,7 @@ public class DrawingPanelOneShot extends ImageView implements View.OnTouchListen
 
                 Bitmap b = Bitmap.createBitmap(this.getDrawingCache(false));
                 ImageAdapter.addImage(b);
-                this.setDrawingCacheEnabled(false);
+                this.destroyDrawingCache();
                 temp = pmSetList.size();
 
             }
