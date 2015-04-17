@@ -1,6 +1,7 @@
 package com.performance.cognitive.datagathering;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -60,6 +61,7 @@ public class DigitSpan extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_digit_span);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         final ActionsTimerTask timetTask = new ActionsTimerTask();
         attention = new AttentionDigitSpanTask();
         numberListShown = new ArrayList<>();

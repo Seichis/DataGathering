@@ -2,6 +2,7 @@ package com.performance.cognitive.datagathering;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -39,6 +40,7 @@ public class ColorTapActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_tap);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         info = (TextView)findViewById(R.id.info);
         tickOk = (ImageView) findViewById(R.id.tick);
         tickOk.setVisibility(View.INVISIBLE);

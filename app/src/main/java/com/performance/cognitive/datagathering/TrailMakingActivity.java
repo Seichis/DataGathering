@@ -2,6 +2,7 @@ package com.performance.cognitive.datagathering;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -40,6 +41,7 @@ public class TrailMakingActivity extends Activity {
         Scheduler.getInstance().activityStart(speed);
         drawView = new DrawingPanel(context);
         setContentView(drawView);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         //drawView.requestFocus();
         if (mTimer != null) {
             mTimer.cancel();

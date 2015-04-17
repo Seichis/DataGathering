@@ -1,5 +1,6 @@
 package com.performance.cognitive.datagathering;
 
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,7 @@ public class OverviewActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         List<String> showStats = new ArrayList<>();
         //showStats.add("TODAY");
         showStats.addAll(printTodaysAttentionDigitOrderTasks());

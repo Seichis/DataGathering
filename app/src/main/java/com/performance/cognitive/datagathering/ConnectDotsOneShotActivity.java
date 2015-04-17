@@ -3,6 +3,7 @@ package com.performance.cognitive.datagathering;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ public class ConnectDotsOneShotActivity extends Activity {
         super.onCreate(savedInstanceState);
         positionOfAnswerArray=0;
         setContentView(R.layout.activity_connect_dots_one_shot);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         fluency = new FluencyTask();
         Scheduler.getInstance().activityStart(fluency);
         drawView =(DrawingPanelOneShot)findViewById(R.id.drawPanel);

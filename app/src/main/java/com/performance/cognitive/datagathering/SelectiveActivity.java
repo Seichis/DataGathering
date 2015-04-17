@@ -1,6 +1,7 @@
 package com.performance.cognitive.datagathering;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
@@ -31,6 +32,7 @@ public class SelectiveActivity extends ActionBarActivity implements View.OnTouch
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selective);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         myGridView = (GridView) findViewById(R.id.gridView);
         mTextAdapter = new TextAdapter(this);
         mTextAdapter.fillArray();
