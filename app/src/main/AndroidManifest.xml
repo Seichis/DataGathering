@@ -21,7 +21,8 @@
         </activity>
         <activity
             android:name=".OverviewActivity"
-            android:label="@string/title_activity_overview" />
+            android:label="@string/title_activity_overview"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".BubbleActivity"
             android:label="@string/title_activity_bubble"
@@ -29,47 +30,61 @@
         <activity
             android:name=".TrailMakingActivity"
             android:label="@string/title_activity_trail_making"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".VoiceToTextActivity"
-            android:label="@string/title_activity_voice_to_text" />
+            android:label="@string/title_activity_voice_to_text"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ConnectDotsOneShotActivity"
             android:label="@string/title_activity_connect_dots_one_shot"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DigitSpan"
-            android:label="@string/title_activity_digit_span" />
+            android:label="@string/title_activity_digit_span"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DigitSpanResult"
-            android:label="@string/title_activity_digit_span_result" />
+            android:label="@string/title_activity_digit_span_result"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DigitOrder"
-            android:label="@string/title_activity_digit_order" />
+            android:label="@string/title_activity_digit_order"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DigitOrderResults"
-            android:label="@string/title_activity_digit_order_results" />
+            android:label="@string/title_activity_digit_order_results"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Words"
-            android:label="@string/title_activity_words" />
+            android:label="@string/title_activity_words"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".TapActivity"
-            android:label="@string/title_activity_tap" />
+            android:label="@string/title_activity_tap"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".TapResults"
-            android:label="@string/title_activity_tap_results" />
+            android:label="@string/title_activity_tap_results"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ColorTapActivity"
-            android:label="@string/title_activity_color_tap" />
+            android:label="@string/title_activity_color_tap"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ColorTapResults"
-            android:label="@string/title_activity_color_tap_results" />
+            android:label="@string/title_activity_color_tap_results"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SelectiveActivity"
-            android:label="@string/title_activity_selective" />
+            android:label="@string/title_activity_selective"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Settings"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait"/>
 
     </application>
 
