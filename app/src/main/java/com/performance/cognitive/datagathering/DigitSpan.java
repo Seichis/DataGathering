@@ -1,6 +1,8 @@
 package com.performance.cognitive.datagathering;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -99,11 +101,16 @@ public class DigitSpan extends ActionBarActivity {
 
                     isCorrect = checkNumberInput(s.charAt(charCount), charCount);
                     if (!isCorrect) {
-
+                        numberTextView.setText(s.toString());
+                        numberTextView.setTextColor(Color.RED);
                         life--;
                         nextRound();
+
                         charCount = 0;
 
+                    }else{
+                        numberTextView.setText(s.toString());
+                        numberTextView.setTextColor(Color.GREEN);
                     }
                     charCount++;
                     Log.i(" Text watcher ", " After  " + charCount + "   " + isCorrect);
@@ -192,10 +199,10 @@ public class DigitSpan extends ActionBarActivity {
                                 int temp = getNumber();
                                 numberListShown.add(temp);
                                 numberTextView.setText(Integer.toString(temp));
+                                numberTextView.setTextColor(Color.BLACK);
                                 isNumber = true;
                                 count++;
                                 x = +1;
-
                             } else {
                                 numberTextView.setText("");
                                 isNumber = false;
