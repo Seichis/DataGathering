@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +40,7 @@ public class DigitSpan extends ActionBarActivity {
     Timer mTimer;
     Handler mHandler;
     boolean isNumber;
+    boolean isCorrect;
     int countNumberShown;
     boolean isPadOn;
     boolean isNextLevel;
@@ -50,14 +52,14 @@ public class DigitSpan extends ActionBarActivity {
     List<Integer> numberListShown;
     List<Integer> numberListAnswer;
     AttentionDigitSpanTask attention;
-
+    int charCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_digit_span);
         final ActionsTimerTask timetTask = new ActionsTimerTask();
-        attention= new AttentionDigitSpanTask();
+        attention = new AttentionDigitSpanTask();
         numberListShown = new ArrayList<>();
         numberListAnswer = new ArrayList<>();
         answer = "";
@@ -70,6 +72,7 @@ public class DigitSpan extends ActionBarActivity {
         life = 1;
         level = 1;
         isNumber = false;
+        isCorrect = false;
         countNumberShown = 4;
         livesTextView = (TextView) findViewById(R.id.life_textView);
         numberTextView = (TextView) findViewById(R.id.number_textView);
@@ -79,41 +82,54 @@ public class DigitSpan extends ActionBarActivity {
         startButton = (Button) findViewById(R.id.start_button);
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         isPadOn = false;
+        charCount = 0;
         if (mTimer != null) {
             mTimer.cancel();
         } else {
             mTimer = new Timer();
         }
-        inputEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        inputEditText.setVisibility(View.INVISIBLE);
+        inputEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                    imm.hideSoftInputFromWindow(inputEditText.getWindowToken(), 0);
-                    setNumbersFromInput(inputEditText.getText().toString().trim());
-                    inputEditText.setText("");
-                    if(numberListAnswer.equals(numberListShown)){
-                        if ((level % 2) == 0) {
-                            countNumberShown++;
-                        }
-                        level++;
-                    }else{
+                // TODO Auto-generated method stub
+                if (s.length() > 0 && s.length() <= numberListShown.size()) {
+                    // TODO Auto-generated method stub
+
+                    isCorrect = checkNumberInput(s.charAt(charCount), charCount);
+                    if (!isCorrect) {
+
                         life--;
+                        nextRound();
+                        charCount = 0;
+
                     }
+                    charCount++;
+                    Log.i(" Text watcher ", " After  " + charCount + "   " + isCorrect);
+                } else {
 
-                    if(life<0){
-                        DigitSpan.this.finish();
-                    }
-                    isPadOn = false;
-                    inputEditText.clearFocus();
+                    charCount = 0;
+                    Log.i(" Text watcher ", " After  " + charCount);
 
-
-                    count = 0;
-                    numberListShown.clear();
                 }
-                return false;
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (s.length() > 0 && s.length() == numberListShown.size()) {
+                    nextRound();
+                }
             }
         });
+
         mHandler = new Handler();
         mCountDownTimer = new CountDownTimer(60000, 1000) {
             @Override
@@ -144,11 +160,20 @@ public class DigitSpan extends ActionBarActivity {
         });
     }
 
+    private boolean checkNumberInput(char c, int position) {
+        char temp = numberListShown.get(position).toString().charAt(0);
+        if (temp == c) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         attention.setScore(level);
-        Scheduler.getInstance().activityStop(attention,true);
+        Scheduler.getInstance().activityStop(attention, true);
     }
 
     class ActionsTimerTask extends TimerTask {
@@ -158,6 +183,9 @@ public class DigitSpan extends ActionBarActivity {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
+                    if (life < 0) {
+                        DigitSpan.this.finish();
+                    }
                     if (isPadOn == false) {
                         if (count < countNumberShown) {
                             if (isNumber == false) {
@@ -173,7 +201,8 @@ public class DigitSpan extends ActionBarActivity {
                                 isNumber = false;
                             }
                         } else if (count == countNumberShown) {
-
+                            inputEditText.setText("");
+                            inputEditText.setVisibility(View.VISIBLE);
                             imm.showSoftInput(inputEditText, InputMethodManager.SHOW_IMPLICIT);
                             numberTextView.setText("Go!!");
                             isPadOn = true;
@@ -183,6 +212,28 @@ public class DigitSpan extends ActionBarActivity {
             });
         }
 
+    }
+
+    private void nextRound() {
+
+        setNumbersFromInput(inputEditText.getText().toString().trim());
+
+        if (numberListAnswer.equals(numberListShown)) {
+            if ((level % 2) == 0) {
+                countNumberShown++;
+            }
+            level++;
+        }
+
+
+        imm.hideSoftInputFromWindow(inputEditText.getWindowToken(), 0);
+        inputEditText.setVisibility(View.INVISIBLE);
+        isPadOn = false;
+        inputEditText.clearFocus();
+
+
+        count = 0;
+        numberListShown.clear();
     }
 
     private void setNumbersFromInput(String answer) {
