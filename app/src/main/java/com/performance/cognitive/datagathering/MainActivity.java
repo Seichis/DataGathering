@@ -34,7 +34,7 @@ public class MainActivity extends ActionBarActivity {
         selectiveAttentionButton = (Button) findViewById(R.id.selectiveattention_button);
         settingsButton = (Button) findViewById(R.id.settings_button);
 
-             startActivity(new Intent(MainActivity.this,GlobalSettingsActivity.class));
+
 
         attention1Button.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
@@ -119,6 +119,7 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(MainActivity.this,GlobalSettingsActivity.class));
             return true;
         }
 
