@@ -90,7 +90,7 @@ public class DigitOrder extends ActionBarActivity {
                     userAnswer = userAnswer.replaceAll("\\s+", "");
                     userResults.add(userAnswer);
                     Log.i(TAG, String.valueOf(userResults));
-                    final String finalUserAnswer = userAnswer;
+
 
                     new CountDownTimer(2000, 1000) {
                         public void onTick(long millisUntilFinished) {

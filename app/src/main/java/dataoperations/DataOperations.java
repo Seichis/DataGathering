@@ -115,7 +115,7 @@ public class DataOperations {
         return JSONlist;
     }
 
-
+ //   Reads all the JSON data from the settings file to a list of strings
     public List<String> readFromSettingsFile() {
 
 
@@ -160,19 +160,7 @@ public class DataOperations {
         return JSONtemp;
     }
 
-    /**
-     * @param JSONlist
-     * @return OBJlist
-     * Converts a list of task objects to a JSON list
-     */
-    public List<Task> JSONlistToTaskList(List<String> JSONlist) {
-        Gson gson = new GsonBuilder().create();
-        List<Task> EXL = new ArrayList<Task>();
-        for (String json : JSONlist) {
-            EXL.add(gson.fromJson(json, Task.class));
-        }
-        return EXL;
-    }
+
 
     /**
      * @param JSON

@@ -22,17 +22,23 @@ public class GlobalSettingsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_global_settings);
-
+        mSettings=new SettingsObj();
         inputDO=(EditText)findViewById(R.id.input_time_digit_order);
         inputDS=(EditText)findViewById(R.id.input_time_digit_span);
         inputCoordDist=(EditText)findViewById(R.id.input_distance_coordination);
         inputCoordRad=(EditText)findViewById(R.id.input_radius_coordination);
         inputLT=(EditText)findViewById(R.id.input_time_long_term);
         saveSettings=(Button)findViewById(R.id.save_settings_button);
+
+        for(String tempJson:DataOperations.getInstance().readFromSettingsFile()){
+            mSettings=DataOperations.getInstance().JSONToSettings(tempJson);
+        }
+
+        inputDO.setText(Integer.toString(mSettings.getDigitOrderShowNumberTimeSpan()));
         saveSettings.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 DataOperations.getInstance().clearSettingsFile();
-                mSettings=new SettingsObj();
+
                 mSettings.setCoordDistanceFromCenter(Float.parseFloat(inputCoordDist.getText().toString()));
                 mSettings.setCoordRadiusOfCircle(Integer.parseInt(inputCoordRad.getText().toString()));
                 mSettings.setDigitOrderShowNumberTimeSpan(Integer.parseInt(inputDO.getText().toString()));
@@ -42,6 +48,7 @@ public class GlobalSettingsActivity extends ActionBarActivity {
                 DataOperations.getInstance().writeToSettingsFile(temp);
             }
         });
+
     }
 
 
