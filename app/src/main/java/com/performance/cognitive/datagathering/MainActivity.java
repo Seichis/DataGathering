@@ -100,12 +100,6 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(new Intent(MainActivity.this, SelectiveActivity.class));
             }
         });
-
-        settingsButton.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Settings.class));
-            }
-        });
     }
 
 

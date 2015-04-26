@@ -63,14 +63,34 @@ public class DataOperations {
         }
     }
 
+    public static void writeToSettingsFile(String content) {
+        try {
+            File file = new File(Environment.getExternalStorageDirectory()
+                    .getPath() + "/settings.json");
+            if (!file.exists())
+                file.createNewFile();
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(content + "\n");
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+
+
 
     /**
      * @return JSONlist
      * @throws IOException Reads all the JSON data from the task file to a list of strings
      */
     public static List<String> readFromTaskFile() {
-        File file = new File(Environment.getExternalStorageDirectory()
-                .getPath() + "/task.json");
+//        File file = new File(Environment.getExternalStorageDirectory()
+//                .getPath() + "/task.json");
 //        if (!file.exists())
 //            try {
 //                file.createNewFile();
@@ -78,12 +98,41 @@ public class DataOperations {
 //                e1.printStackTrace();
 //            }
 
-        BufferedReader br = null;
+        BufferedReader br;
         List<String> JSONlist = new ArrayList<>();
         String line;
         try {
             String fpath = Environment.getExternalStorageDirectory().getPath()
                     + "/task.json";
+            br = new BufferedReader(new FileReader(fpath));
+            while ((line = br.readLine()) != null) {
+                JSONlist.add(line);
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return JSONlist;
+    }
+
+
+    public static List<String> readFromSettingsFile() {
+//        File file = new File(Environment.getExternalStorageDirectory()
+//                .getPath() + "/settings.json");
+//        if (!file.exists())
+//            try {
+//                file.createNewFile();
+//            } catch (IOException e1) {
+//                e1.printStackTrace();
+//            }
+
+        BufferedReader br;
+        List<String> JSONlist = new ArrayList<>();
+        String line;
+        try {
+            String fpath = Environment.getExternalStorageDirectory().getPath()
+                    + "/settings.json";
             br = new BufferedReader(new FileReader(fpath));
             while ((line = br.readLine()) != null) {
                 JSONlist.add(line);
