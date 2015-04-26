@@ -1,51 +1,73 @@
 package com.performance.cognitive.datagathering;
 
+import android.content.Context;
 import android.content.Intent;
-import android.provider.ContactsContract;
-import android.support.v7.app.ActionBarActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import dataoperations.DataOperations;
-import settings.SettingsObj;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class GlobalSettingsActivity extends ActionBarActivity {
-    EditText inputDO,inputDS,inputCoordRad,inputCoordDist,inputLT;
-    Button saveSettings;
-    SettingsObj mSettings;
+    EditText inputDO, inputDS, inputCoordRad, inputCoordDist, inputLT;
+    Button saveSettings, startSession;
+    SharedPreferences pref;
+    Timer mTimer;
+    Handler mHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_global_settings);
-        mSettings=new SettingsObj();
-        inputDO=(EditText)findViewById(R.id.input_time_digit_order);
-        inputDS=(EditText)findViewById(R.id.input_time_digit_span);
-        inputCoordDist=(EditText)findViewById(R.id.input_distance_coordination);
-        inputCoordRad=(EditText)findViewById(R.id.input_radius_coordination);
-        inputLT=(EditText)findViewById(R.id.input_time_long_term);
-        saveSettings=(Button)findViewById(R.id.save_settings_button);
+        inputDO = (EditText) findViewById(R.id.input_time_digit_order);
+        inputDS = (EditText) findViewById(R.id.input_time_digit_span);
+        inputCoordDist = (EditText) findViewById(R.id.input_distance_coordination);
+        inputCoordRad = (EditText) findViewById(R.id.input_radius_coordination);
+        inputLT = (EditText) findViewById(R.id.input_time_long_term);
+        pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
-        for(String tempJson:DataOperations.getInstance().readFromSettingsFile()){
-            mSettings=DataOperations.getInstance().JSONToSettings(tempJson);
-        }
+// We need an editor object to make changes
+        final SharedPreferences.Editor edit = pref.edit();
 
-        inputDO.setText(Integer.toString(mSettings.getDigitOrderShowNumberTimeSpan()));
+        startSession = (Button) findViewById(R.id.startSessionButton);
+        saveSettings = (Button) findViewById(R.id.save_settings_button);
+
+        inputDO.setText(Integer.toString(pref.getInt("do", 0)));
+
+
+        startSession.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                if (mTimer != null) {
+                    mTimer.cancel();
+                } else {
+                    mTimer = new Timer();
+                }
+
+                mHandler = new Handler();
+                mTimer.scheduleAtFixedRate(new ActionsTimerTask(),300000,3600000);
+
+            }
+        });
+
         saveSettings.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                DataOperations.getInstance().clearSettingsFile();
+// Set/Store data
+                edit.putInt("do", Integer.parseInt(inputDO.getText().toString()));
+                edit.putInt("ds", Integer.parseInt(inputDS.getText().toString()));
+                edit.putInt("coordRad", Integer.parseInt(inputCoordRad.getText().toString()));
+                edit.putFloat("coordDist", Float.parseFloat(inputCoordDist.getText().toString()));
+                edit.putInt("longTerm", Integer.parseInt(inputLT.getText().toString()));
 
-                mSettings.setCoordDistanceFromCenter(Float.parseFloat(inputCoordDist.getText().toString()));
-                mSettings.setCoordRadiusOfCircle(Integer.parseInt(inputCoordRad.getText().toString()));
-                mSettings.setDigitOrderShowNumberTimeSpan(Integer.parseInt(inputDO.getText().toString()));
-                mSettings.setDigitSpanShowNumberTimeSpan(Integer.parseInt(inputDS.getText().toString()));
-                mSettings.setLongTermShowWordsTimeSpan(Integer.parseInt(inputLT.getText().toString()));
-                String temp = DataOperations.getInstance().settingsToJSON(mSettings);
-                DataOperations.getInstance().writeToSettingsFile(temp);
+// Commit the changes
+                edit.commit();
             }
         });
 
@@ -72,5 +94,18 @@ public class GlobalSettingsActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    class ActionsTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            });
+        }
     }
 }
