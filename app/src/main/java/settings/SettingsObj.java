@@ -3,11 +3,10 @@ package settings;
 /**
  * Created by User1 on 26/4/2015.
  */
-public class SettingsOperations {
+public class SettingsObj {
     int digitOrderShowNumberTimeSpan;
     int coordRadiusOfCircle;
     float coordDistanceFromCenter;
-    float coordForceOfRotation;
     int longTermShowWordsTimeSpan;
     int digitSpanShowNumberTimeSpan;
 
@@ -33,14 +32,6 @@ public class SettingsOperations {
 
     public void setCoordDistanceFromCenter(float coordDistanceFromCenter) {
         this.coordDistanceFromCenter = coordDistanceFromCenter;
-    }
-
-    public float getCoordForceOfRotation() {
-        return coordForceOfRotation;
-    }
-
-    public void setCoordForceOfRotation(float coordForceOfRotation) {
-        this.coordForceOfRotation = coordForceOfRotation;
     }
 
     public int getLongTermShowWordsTimeSpan() {
