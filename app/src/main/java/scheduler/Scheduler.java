@@ -32,9 +32,9 @@ public class Scheduler implements IScheduler {
         task.concludeTask(completion);
 
         Log.i("Scheduler", "writing to json");
-        String JSONstring = DataOperations.taskToJSON(task);
+        String JSONstring = DataOperations.getInstance().taskToJSON(task);
 
-        DataOperations.writeToTaskFile(JSONstring);
+        DataOperations.getInstance().writeToTaskFile(JSONstring);
         Log.i("Scheduler", "writing to json completed");
     }
 }

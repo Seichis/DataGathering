@@ -53,7 +53,7 @@ public class OverviewActivity extends ActionBarActivity {
 
     public List<String> printTodaysAttentionDigitOrderTasks() {
 
-        List<AttentionTaskDigitOrder> DL = DataOperations.getTodaysAttentionDigitOrderTasks();
+        List<AttentionTaskDigitOrder> DL = DataOperations.getInstance().getTodaysAttentionDigitOrderTasks();
         Log.i("Stats overview", DL.toString());
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
@@ -80,7 +80,7 @@ public class OverviewActivity extends ActionBarActivity {
     }
     public List<String> printTodaysAttentionDigitSpanTasks() {
 
-        List<AttentionDigitSpanTask> ADST = DataOperations.getTodaysAttentionDigitSpanTasks();
+        List<AttentionDigitSpanTask> ADST = DataOperations.getInstance().getTodaysAttentionDigitSpanTasks();
         Log.i("Stats overview", ADST.toString());
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
@@ -107,7 +107,7 @@ public class OverviewActivity extends ActionBarActivity {
     }
     public List<String> printTodaysFluencyTasks() {
 
-        List<FluencyTask> FT = DataOperations.getTodaysFluencyTasks();
+        List<FluencyTask> FT = DataOperations.getInstance().getTodaysFluencyTasks();
         Log.i("Stats overview", FT.toString());
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
@@ -134,7 +134,7 @@ public class OverviewActivity extends ActionBarActivity {
     }
     public List<String> printTodaysSpeedTapTasks() {
 
-        List<SpeedTapTask> ST = DataOperations.getTodaysSpeedTapTasks();
+        List<SpeedTapTask> ST = DataOperations.getInstance().getTodaysSpeedTapTasks();
         Log.i("Stats overview", ST.toString());
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
@@ -161,7 +161,7 @@ public class OverviewActivity extends ActionBarActivity {
     }
     public List<String> printTodaysSpeedNumberTasks() {
 
-        List<SpeedNumberTask> ST = DataOperations.getTodaysSpeedNumberTasks();
+        List<SpeedNumberTask> ST = DataOperations.getInstance().getTodaysSpeedNumberTasks();
         Log.i("Stats overview", ST.toString());
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
@@ -188,7 +188,7 @@ public class OverviewActivity extends ActionBarActivity {
     }
     public List<String> printTodaysCoordinationTasks() {
 
-        List<CoordinationTask> CT = DataOperations.getTodaysCoordinationTasks();
+        List<CoordinationTask> CT = DataOperations.getInstance().getTodaysCoordinationTasks();
         Log.i("Stats overview", CT.toString());
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
@@ -215,7 +215,7 @@ public class OverviewActivity extends ActionBarActivity {
     }
     public List<String> printTodaysReactionTimeTasks() {
 
-        List<ReactionTimeTask> RT = DataOperations.getTodaysReactionTimeTasks();
+        List<ReactionTimeTask> RT = DataOperations.getInstance().getTodaysReactionTimeTasks();
         Log.i("Stats overview", RT.toString());
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
@@ -242,7 +242,7 @@ public class OverviewActivity extends ActionBarActivity {
     }
     public List<String> printTodaysSelectiveAttentionTasks() {
 
-        List<SelectiveAttentionTask> RT = DataOperations.getTodaysSelectiveAttentionTasks();
+        List<SelectiveAttentionTask> RT = DataOperations.getInstance().getTodaysSelectiveAttentionTasks();
         Log.i("Stats overview", RT.toString());
         String type ="";
         GregorianCalendar dateStarted,dateFinished;
@@ -269,7 +269,7 @@ public class OverviewActivity extends ActionBarActivity {
     }
     public List<String> printTodaysLongTermMemoryTasks() {
 
-        List<LongTermMemoryTask> RT = DataOperations.getTodaysLongTermMemoryTasks();
+        List<LongTermMemoryTask> RT = DataOperations.getInstance().getTodaysLongTermMemoryTasks();
         Log.i("Stats overview", RT.toString());
         String type ="";
         GregorianCalendar dateStarted,dateFinished;

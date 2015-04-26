@@ -10,6 +10,14 @@ public class SettingsObj {
     int longTermShowWordsTimeSpan;
     int digitSpanShowNumberTimeSpan;
 
+    public SettingsObj() {
+        this.coordDistanceFromCenter = 5.7f;
+        this.coordRadiusOfCircle = 100;
+        this.longTermShowWordsTimeSpan = 1000;
+        this.digitOrderShowNumberTimeSpan = 1000;
+        this.digitSpanShowNumberTimeSpan = 1000;
+    }
+
     public int getDigitSpanShowNumberTimeSpan() {
         return digitSpanShowNumberTimeSpan;
     }

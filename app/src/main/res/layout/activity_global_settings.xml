@@ -1,0 +1,183 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:id="@+id/relative_settings"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+        <TextView
+            android:id="@+id/digit_order_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_margin="20dip"
+            android:layout_weight="1"
+            android:text="Digit Order Settings"
+            android:textStyle="bold|italic"
+           />
+        <LinearLayout
+            android:id="@+id/digit_order_settings_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_below="@id/digit_order_settings">
+
+            <TextView
+                android:id="@+id/digit_order_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_margin="20dip"
+                android:layout_weight="1"
+                android:text="Time between numbers"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="5"
+                android:id="@+id/input_time_digit_order"
+                android:layout_weight="1" />
+
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/digit_span_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_margin="20dip"
+            android:layout_weight="1"
+            android:text="Digit Span Settings"
+            android:layout_below="@id/digit_order_settings_layout"
+            android:textStyle="bold|italic"
+            />
+        <LinearLayout
+            android:id="@+id/digit_span_settings_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_below="@id/digit_span_settings">
+
+            <TextView
+                android:id="@+id/digit_span_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_margin="20dip"
+                android:layout_weight="1"
+                android:text="Time between numbers"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="5"
+                android:id="@+id/input_time_digit_span"
+                android:layout_weight="1" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/coordination_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_margin="20dip"
+            android:layout_weight="1"
+            android:text="Coordination Settings"
+            android:textStyle="bold|italic"
+            android:layout_below="@id/digit_span_settings_layout"
+            />
+        <LinearLayout
+            android:id="@+id/coordination_settings_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_below="@id/coordination_settings">
+
+            <TextView
+                android:id="@+id/coordination_radius"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_margin="20dip"
+                android:layout_weight="1"
+                android:text="Radius of the ball"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="5"
+                android:id="@+id/input_radius_coordination"
+                android:layout_weight="1" />
+            <TextView
+                android:id="@+id/coordination_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_margin="20dip"
+                android:layout_weight="1"
+                android:text="Distance from the center"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="5"
+                android:id="@+id/input_distance_coordination"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/long_term_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_margin="20dip"
+            android:layout_weight="1"
+            android:text="Long term memory Settings"
+            android:layout_below="@id/coordination_settings_layout"
+            android:textStyle="bold|italic"
+            />
+        <LinearLayout
+            android:id="@+id/long_term_settings_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_below="@id/long_term_settings">
+
+            <TextView
+                android:id="@+id/long_term_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_margin="20dip"
+                android:layout_weight="1"
+                android:text="Time between words"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="5"
+                android:id="@+id/input_time_long_term"
+                android:layout_weight="1" />
+
+
+        </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/long_term_settings_layout"
+            android:text="Save"
+            android:id="@+id/save_settings_button"
+            />
+    </RelativeLayout>
+
+</ScrollView>

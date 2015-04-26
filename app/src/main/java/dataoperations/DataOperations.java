@@ -26,6 +26,7 @@ import datastructure.SelectiveAttentionTask;
 import datastructure.SpeedNumberTask;
 import datastructure.SpeedTapTask;
 import datastructure.Task;
+import settings.SettingsObj;
 
 
 public class DataOperations {
@@ -45,7 +46,7 @@ public class DataOperations {
     /**
      * @param content Writes JSON data to task file
      */
-    public static void writeToTaskFile(String content) {
+    public void writeToTaskFile(String content) {
         try {
             File file = new File(Environment.getExternalStorageDirectory()
                     .getPath() + "/task.json");
@@ -63,7 +64,7 @@ public class DataOperations {
         }
     }
 
-    public static void writeToSettingsFile(String content) {
+    public void writeToSettingsFile(String content) {
         try {
             File file = new File(Environment.getExternalStorageDirectory()
                     .getPath() + "/settings.json");
@@ -82,13 +83,11 @@ public class DataOperations {
     }
 
 
-
-
     /**
      * @return JSONlist
      * @throws IOException Reads all the JSON data from the task file to a list of strings
      */
-    public static List<String> readFromTaskFile() {
+    public List<String> readFromTaskFile() {
 //        File file = new File(Environment.getExternalStorageDirectory()
 //                .getPath() + "/task.json");
 //        if (!file.exists())
@@ -117,15 +116,8 @@ public class DataOperations {
     }
 
 
-    public static List<String> readFromSettingsFile() {
-//        File file = new File(Environment.getExternalStorageDirectory()
-//                .getPath() + "/settings.json");
-//        if (!file.exists())
-//            try {
-//                file.createNewFile();
-//            } catch (IOException e1) {
-//                e1.printStackTrace();
-//            }
+    public List<String> readFromSettingsFile() {
+
 
         BufferedReader br;
         List<String> JSONlist = new ArrayList<>();
@@ -151,9 +143,20 @@ public class DataOperations {
      * @return JSON
      * Converts an Task object to a JSON string
      */
-    public static <T extends Task> String taskToJSON(T EX) {
+    public <T extends Task> String taskToJSON(T EX) {
         Gson gson = new GsonBuilder().create();
         String JSONtemp = (gson.toJson(EX));
+        return JSONtemp;
+    }
+
+    /**
+     * @param mSettings
+     * @return JSON
+     * Converts an SettingsObj object to a JSON string
+     */
+    public String settingsToJSON(SettingsObj mSettings) {
+        Gson gson = new GsonBuilder().create();
+        String JSONtemp = (gson.toJson(mSettings));
         return JSONtemp;
     }
 
@@ -162,7 +165,7 @@ public class DataOperations {
      * @return OBJlist
      * Converts a list of task objects to a JSON list
      */
-    public static List<Task> JSONlistToTaskList(List<String> JSONlist) {
+    public List<Task> JSONlistToTaskList(List<String> JSONlist) {
         Gson gson = new GsonBuilder().create();
         List<Task> EXL = new ArrayList<Task>();
         for (String json : JSONlist) {
@@ -177,20 +180,20 @@ public class DataOperations {
      * Converts a JSON string to an Task object
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Task> T JSONToTask(String JSON) {
+    public SettingsObj JSONToSettings(String JSON) {
         Gson gson = new GsonBuilder().create();
-        T EX = (T) gson.fromJson(JSON, Task.class);
-        return EX;
+        SettingsObj mSet = gson.fromJson(JSON, SettingsObj.class);
+        return mSet;
     }
 
 
     /**
      * Clears the data from task file
      */
-    public static void clearTaskFile() {
+    public void clearSettingsFile() {
         try {
             new FileOutputStream(Environment.getExternalStorageDirectory()
-                    .getPath() + "/task.json", false).close();
+                    .getPath() + "/settings.json", false).close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -202,7 +205,7 @@ public class DataOperations {
      * @return a list of Attention objects
      * Converts tasks from today JSON -> Objects
      */
-    public static List<AttentionTaskDigitOrder> getTodaysAttentionDigitOrderTasks() {
+    public List<AttentionTaskDigitOrder> getTodaysAttentionDigitOrderTasks() {
 
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
@@ -218,7 +221,7 @@ public class DataOperations {
      * @return a list of Attention objects
      * Converts tasks from today JSON -> Objects
      */
-    public static List<AttentionDigitSpanTask> getTodaysAttentionDigitSpanTasks() {
+    public List<AttentionDigitSpanTask> getTodaysAttentionDigitSpanTasks() {
 
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
@@ -234,7 +237,7 @@ public class DataOperations {
      * @return a list of Fluency objects
      * Converts tasks from today JSON -> Objects
      */
-    public static List<FluencyTask> getTodaysFluencyTasks() {
+    public List<FluencyTask> getTodaysFluencyTasks() {
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
         List<FluencyTask> SL = new ArrayList<>();
@@ -249,7 +252,7 @@ public class DataOperations {
      * @return a list of Coordination objects
      * Converts tasks from today JSON -> Objects
      */
-    public static List<CoordinationTask> getTodaysCoordinationTasks() {
+    public List<CoordinationTask> getTodaysCoordinationTasks() {
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
         List<CoordinationTask> WL = new ArrayList<>();
@@ -265,7 +268,7 @@ public class DataOperations {
      * @return a list of LongTermMemory objects
      * Converts tasks from today JSON -> Objects
      */
-    public static List<LongTermMemoryTask> getTodaysLongTermMemoryTasks() {
+    public List<LongTermMemoryTask> getTodaysLongTermMemoryTasks() {
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
         List<LongTermMemoryTask> AL = new ArrayList<>();
@@ -280,7 +283,7 @@ public class DataOperations {
      * @return a list of ReactionTime objects
      * Converts tasks from today JSON -> Objects
      */
-    public static List<ReactionTimeTask> getTodaysReactionTimeTasks() {
+    public List<ReactionTimeTask> getTodaysReactionTimeTasks() {
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
         List<ReactionTimeTask> AL = new ArrayList<>();
@@ -295,7 +298,7 @@ public class DataOperations {
      * @return a list of SelectiveAttention objects
      * Converts tasks from today JSON -> Objects
      */
-    public static List<SelectiveAttentionTask> getTodaysSelectiveAttentionTasks() {
+    public List<SelectiveAttentionTask> getTodaysSelectiveAttentionTasks() {
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
         List<SelectiveAttentionTask> AL = new ArrayList<>();
@@ -310,7 +313,7 @@ public class DataOperations {
      * @return a list of Speed Tap objects
      * Converts tasks from today JSON -> Objects
      */
-    public static List<SpeedTapTask> getTodaysSpeedTapTasks() {
+    public List<SpeedTapTask> getTodaysSpeedTapTasks() {
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
         List<SpeedTapTask> AL = new ArrayList<>();
@@ -325,7 +328,7 @@ public class DataOperations {
      * @return a list of Speed Tap objects
      * Converts tasks from today JSON -> Objects
      */
-    public static List<SpeedNumberTask> getTodaysSpeedNumberTasks() {
+    public List<SpeedNumberTask> getTodaysSpeedNumberTasks() {
         List<String> JSONlist = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
         List<SpeedNumberTask> AL = new ArrayList<>();
