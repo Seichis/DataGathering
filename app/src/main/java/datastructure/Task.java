@@ -39,11 +39,11 @@ public abstract class Task {
         return this.taskType;
     }
 
-    public <T extends Task> String getLocation() {
+    public <T extends Task> String getTaskLocation() {
         return location;
     }
 
-    public <T extends Task> void setLocation(String location) {
+    public <T extends Task> void setTaskLocation(String location) {
         this.location = location;
     }
 
