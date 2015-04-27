@@ -37,7 +37,11 @@ public class GlobalSettingsActivity extends Activity {
         startSession = (Button) findViewById(R.id.startSessionButton);
         saveSettings = (Button) findViewById(R.id.save_settings_button);
 
-        inputDO.setText(Integer.toString(pref.getInt("do", 0)));
+        inputDO.setHint(Integer.toString(pref.getInt("do", 0)));
+        inputDS.setHint(Integer.toString(pref.getInt("ds", 0)));
+        inputCoordDist.setHint(Float.toString(pref.getFloat("coordDist", 0f)));
+        inputCoordRad.setHint(Integer.toString(pref.getInt("coordRad", 0)));
+        inputLT.setHint(Integer.toString(pref.getInt("longTerm", 0)));
 
 
         startSession.setOnClickListener(new Button.OnClickListener() {
