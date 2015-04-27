@@ -2,16 +2,22 @@ package com.performance.cognitive.datagathering;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -28,6 +34,7 @@ import datastructure.ReactionTimeTask;
 import datastructure.SelectiveAttentionTask;
 import datastructure.SpeedNumberTask;
 import datastructure.SpeedTapTask;
+import datastructure.Task;
 
 
 public class FeedbackActivity extends Activity {
@@ -36,17 +43,25 @@ public class FeedbackActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
-        WebView browser;
+        final WebView browser;
         TextView taskTitle;
+        final TextView infoText;
         TextView taskAspect;
+        final Button info;
+        final Button overview;
         taskTitle = (TextView) findViewById(R.id.taskTitle);
         taskAspect = (TextView) findViewById(R.id.taskAspect);
+        infoText = (TextView) findViewById(R.id.infoText);
+        infoText.setVisibility(View.INVISIBLE);
+        info = (Button) findViewById(R.id.buttonInfo);
+        overview = (Button) findViewById(R.id.overview);
         Bundle extras = getIntent().getExtras();
         String task = extras.getString("item");
         switch (task) {
             case "Digit Order":
                 taskTitle.setText(task);
                 taskAspect.setText(TEXT + "Working memory");
+                infoText.setText(getResources().getString(R.string.digit_order));
                 break;
             case "Digit Span":
                 taskTitle.setText(task);
@@ -87,6 +102,26 @@ public class FeedbackActivity extends Activity {
         browser.getSettings().setSupportZoom(true);
         browser.addJavascriptInterface(new WebAppInterface(this), "Android");
         browser.loadUrl("file:///android_res/raw/googlechart.html");
+        info.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                browser.setVisibility(View.INVISIBLE);
+                overview.setBackgroundColor(Color.BLACK);
+                info.setBackgroundColor(Color.parseColor("#2196f3"));
+                overview.setTextColor(Color.parseColor("#2196f3"));
+                info.setTextColor(Color.BLACK);
+                infoText.setVisibility(View.VISIBLE);
+            }
+        });
+        overview.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v) {
+                browser.setVisibility(View.VISIBLE);
+                overview.setBackgroundColor(Color.parseColor("#2196f3"));
+                overview.setTextColor(Color.BLACK);
+                info.setBackgroundColor(Color.BLACK);
+                info.setTextColor(Color.parseColor("#2196f3"));
+                infoText.setVisibility(View.INVISIBLE);
+            }
+        });
 
     }
     public class WebAppInterface {
@@ -97,12 +132,12 @@ public class FeedbackActivity extends Activity {
 
         @JavascriptInterface
         public String getData() {
-            Log.d("ok", a1dToJson(plotAttentionDigitOrderTasks()).toString());
+
             Bundle extras = getIntent().getExtras();
             String task = extras.getString("item");
             switch (task) {
                 case "Digit Order":
-                    return a1dToJson(plotAttentionDigitOrderTasks()).toString();
+                    return plotAttentionDigitOrderTasks().toString();
                 case "Digit Span":
                     return a1dToJson(plotAttentionDigitSpanTasks()).toString();
                 case "5 Dots":
@@ -130,23 +165,25 @@ public class FeedbackActivity extends Activity {
         for(int i = 0; i < score.size(); i++) array[i] = score.get(i);
         return array;
     }
-    public int[] plotAttentionDigitOrderTasks() {
+    public JSONArray plotAttentionDigitOrderTasks() {
 
         List<AttentionTaskDigitOrder> DL = DataOperations.getInstance().getTodaysAttentionDigitOrderTasks();
         GregorianCalendar dateStarted,dateFinished;
         int score=0;
         List<Integer> toPlot = new ArrayList<>();
+        JSONObject ret = new JSONObject();
+        JSONArray arr = new JSONArray();
         if (!DL.isEmpty())
             for (AttentionTaskDigitOrder ex : DL) {
                 dateStarted = ex.getStartTimestamp();
                 dateFinished = ex.getEndTimestamp();
                 score=ex.getScore();
                 if (dateStarted != null && dateFinished!=null) {
-                    toPlot.add(score);
+                    arr.put(score);
                 }
             }
         Log.i("List to arr", "" + listToArray(toPlot));
-        return listToArray(toPlot);
+        return arr;
     }
     public int[] plotAttentionDigitSpanTasks() {
 
@@ -293,6 +330,15 @@ public class FeedbackActivity extends Activity {
             }
         return listToArray(toPlot);
     }
+//    public int[] plotTasks() {
+//        List<AttentionTaskDigitOrder> DL = DataOperations.getInstance().getTodaysAttentionDigitOrderTasks();
+//        if (!DL.isEmpty())
+//            for (Task ex : DL) {
+//                String type = ex.getTaskType();
+//
+//            }
+//        return
+//    }
     private String a1dToJson(int[] data) {
         StringBuffer sb = new StringBuffer();
         sb.append("[");

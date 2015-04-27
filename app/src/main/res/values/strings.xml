@@ -31,5 +31,6 @@
     <string name="title_activity_custom_grid_view">CustomGridViewActivity</string>
     <string name="title_activity_image_adapter">ImageAdapter</string>
     <string name="title_activity_feedback">FeedbackActivity</string>
+    <string name="digit_order">Working memory is the system that is responsible for the transient holding and processing of new and already stored information, an important process for reasoning, comprehension, learning and memory updating.</string>
 
 </resources>
