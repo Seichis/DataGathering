@@ -11,15 +11,17 @@ public abstract class Task {
     GregorianCalendar startTimestamp;
     GregorianCalendar endTimestamp;
     boolean completion;
-    int completionNumber;
+
+
+    String location;
     int score;
 
-    public <T extends Task> T createTask(){
+    public <T extends Task> T createTask() {
         this.startTimestamp = new GregorianCalendar();
         return null;
     }
 
-    public <T extends Task> void concludeTask(boolean completion){
+    public <T extends Task> void concludeTask(boolean completion) {
         startTimestamp = getStartTimestamp();
         this.endTimestamp = new GregorianCalendar();
         this.completion = completion;
@@ -37,11 +39,21 @@ public abstract class Task {
         return this.taskType;
     }
 
+    public <T extends Task> String getLocation() {
+        return location;
+    }
+
+    public <T extends Task> void setLocation(String location) {
+        this.location = location;
+    }
+
+
     public <T extends Task> int getScore() {
         return this.score;
     }
+
     public <T extends Task> void setScore(int sc) {
-        this.score=sc;
+        this.score = sc;
     }
 
 
