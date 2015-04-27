@@ -76,7 +76,7 @@ public class MainActivity extends ActionBarActivity {
         });
         statsButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, OverviewActivity.class));
+                startActivity(new Intent(MainActivity.this, PlotList.class));
 
             }
         });

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+>
+    <EditTextPreference
+        android:dialogTitle="Enter Time"
+        android:key="name"
+        android:summary="Enter Time"
+        android:title="Edit Time for Digit Span" />
+    <EditTextPreference
+        android:dialogTitle="Enter Time"
+        android:key="digitordertime"
+        android:summary="Enter Time"
+        android:title="Edit Time for Digit Order" />
+    <EditTextPreference
+        android:dialogTitle="Enter Time"
+        android:key="coordinationtime"
+        android:summary="Enter Time"
+        android:title="Edit Time for Coordination" />
+    <EditTextPreference
+        android:dialogTitle="Enter Time"
+        android:key="fluencytime"
+        android:summary="Enter Time"
+        android:title="Edit Time for Fluency" />
+    <EditTextPreference
+        android:dialogTitle="Enter Time"
+        android:key="wordstime"
+        android:summary="Enter Time"
+        android:title="Edit Time for Words" />
+    <EditTextPreference
+        android:dialogTitle="Enter Time"
+        android:key="reactiontime"
+        android:summary="Enter Time"
+        android:title="Edit Time for Reaction" />
+    <EditTextPreference
+        android:dialogTitle="Enter Time"
+        android:key="selectivetime"
+        android:summary="Enter Time"
+        android:title="Edit Time for Selective Attention" />
+    <EditTextPreference
+        android:dialogTitle="Enter Time"
+        android:key="speedtime"
+        android:summary="Enter Time"
+        android:title="Edit Time for Speed" />
+    <EditTextPreference
+        android:dialogTitle="Enter Time"
+        android:key="taptime"
+        android:summary="Enter Time"
+        android:title="Edit Time for Tap Speed" />
+</PreferenceScreen>
