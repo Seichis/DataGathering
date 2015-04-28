@@ -128,7 +128,7 @@ public class DataOperations {
         return JSONtemp;
     }
 
-    public <T extends Task> List<Task> getTaskListFromJSON(String taskType) {
+    public List<Task> getTaskListFromJSON(String taskType) {
         List<String> mTaskStringList = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
         List<Task> mTaskList = new ArrayList<>();
@@ -210,7 +210,7 @@ public class DataOperations {
 
     }
 
-    public <T extends Task> String[] prepareTaskScoreForJavascript(String taskType) {
+    public String[] prepareTaskScoreForJavascript(String taskType) {
 
         List<Task> DL = getTaskListFromJSON(taskType);
 
