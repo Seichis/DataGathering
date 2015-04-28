@@ -187,6 +187,55 @@ public class DataOperations {
 
     }
 
+    public String[] prepareTaskLocationForJavascript(String taskType) {
+
+        List<Task> DL = getTaskListFromJSON(taskType);
+
+        String[] mLocationStrings = new String[DL.size()];
+
+        if (!DL.isEmpty())
+            for (Task ex : DL) {
+                mLocationStrings[DL.indexOf(ex)] = ex.getTaskLocation();
+            }
+
+        return mLocationStrings;
+    }
+
+    public String[] prepareTaskBestScoreForJavascript(String taskType) {
+        int max =  0;
+        List<Task> DL = getTaskListFromJSON(taskType);
+
+        String[] mBestScoreStrings = new String[DL.size()];
+
+        if (!DL.isEmpty()) {
+            max = DL.get(0).getScore();
+            for (Task ex : DL) {
+                if(max>ex.getScore()){
+                    max=ex.getScore();
+                }
+            }
+        }
+        mBestScoreStrings[0] = Integer.toString(max);
+        return mBestScoreStrings;
+    }
+      public String[] prepareTaskWorstScoreForJavascript(String taskType) {
+        int min =  0;
+        List<Task> DL = getTaskListFromJSON(taskType);
+
+        String[] mWorstScoreStrings = new String[DL.size()];
+
+        if (!DL.isEmpty()) {
+            min = DL.get(0).getScore();
+            for (Task ex : DL) {
+                if(min<ex.getScore()){
+                    min=ex.getScore();
+                }
+            }
+        }
+        mWorstScoreStrings[0] = Integer.toString(min);
+        return mWorstScoreStrings;
+    }
+
     public String[] prepareTaskScoreForJavascript(String taskType) {
 
         List<Task> DL = getTaskListFromJSON(taskType);
