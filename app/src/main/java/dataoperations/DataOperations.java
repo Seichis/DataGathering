@@ -94,29 +94,6 @@ public class DataOperations {
         return JSONlist;
     }
 
-    //   Reads all the JSON data from the settings file to a list of strings
-    public List<String> readFromSettingsFile() {
-
-
-        BufferedReader br;
-        List<String> JSONlist = new ArrayList<>();
-        String line;
-        try {
-            String fpath = Environment.getExternalStorageDirectory().getPath()
-                    + "/settings.json";
-            br = new BufferedReader(new FileReader(fpath));
-            while ((line = br.readLine()) != null) {
-                JSONlist.add(line);
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return JSONlist;
-    }
-
-
     /**
      * @param EX
      * @return JSON
