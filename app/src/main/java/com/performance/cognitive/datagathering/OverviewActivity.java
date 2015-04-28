@@ -34,15 +34,15 @@ public class OverviewActivity extends ActionBarActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         List<String> showStats = new ArrayList<>();
         //showStats.add("TODAY");
-        showStats.addAll(printTodaysAttentionDigitOrderTasks());
-        showStats.addAll(printTodaysAttentionDigitSpanTasks());
-        showStats.addAll(printTodaysFluencyTasks());
-        showStats.addAll(printTodaysSpeedTapTasks());
-        showStats.addAll(printTodaysSpeedNumberTasks());
-        showStats.addAll(printTodaysCoordinationTasks());
-        showStats.addAll(printTodaysReactionTimeTasks());
-        showStats.addAll(printTodaysSelectiveAttentionTasks());
-        showStats.addAll(printTodaysLongTermMemoryTasks());
+//        showStats.addAll(printTodaysAttentionDigitOrderTasks());
+//        showStats.addAll(printTodaysAttentionDigitSpanTasks());
+//        showStats.addAll(printTodaysFluencyTasks());
+//        showStats.addAll(printTodaysSpeedTapTasks());
+//        showStats.addAll(printTodaysSpeedNumberTasks());
+//        showStats.addAll(printTodaysCoordinationTasks());
+//        showStats.addAll(printTodaysReactionTimeTasks());
+//        showStats.addAll(printTodaysSelectiveAttentionTasks());
+//        showStats.addAll(printTodaysLongTermMemoryTasks());
         final ListView listview = (ListView) findViewById(R.id.listview);
         final ArrayAdapter adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, showStats);
@@ -51,249 +51,249 @@ public class OverviewActivity extends ActionBarActivity {
 
     }
 
-    public List<String> printTodaysAttentionDigitOrderTasks() {
-
-        List<AttentionTaskDigitOrder> DL = DataOperations.getInstance().getTodaysAttentionDigitOrderTasks();
-        Log.i("Stats overview", DL.toString());
-        String type ="";
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<String> toPrint = new ArrayList<>();
-        toPrint.add("Attention Digit Order Tasks");
-        if (!DL.isEmpty())
-            for (AttentionTaskDigitOrder ex : DL) {
-                type = ex.getTaskType();
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
-                            + dateStarted.get(dateStarted.MINUTE) + ":"
-                            + dateStarted.get(dateStarted.SECOND) + ","
-                            + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
-                            + dateFinished.get(dateFinished.MINUTE) + ":"
-                            + dateFinished.get(dateFinished.SECOND) + "."
-                            );
-                }
-            }
-        return toPrint;
-    }
-    public List<String> printTodaysAttentionDigitSpanTasks() {
-
-        List<AttentionDigitSpanTask> ADST = DataOperations.getInstance().getTodaysAttentionDigitSpanTasks();
-        Log.i("Stats overview", ADST.toString());
-        String type ="";
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<String> toPrint = new ArrayList<>();
-        toPrint.add("Attention Digit Span Tasks");
-        if (!ADST.isEmpty())
-            for (AttentionDigitSpanTask ex : ADST) {
-                type = ex.getTaskType();
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
-                            + dateStarted.get(dateStarted.MINUTE) + ":"
-                            + dateStarted.get(dateStarted.SECOND) + ","
-                            + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
-                            + dateFinished.get(dateFinished.MINUTE) + ":"
-                            + dateFinished.get(dateFinished.SECOND) + "."
-                            );
-                }
-            }
-        return toPrint;
-    }
-    public List<String> printTodaysFluencyTasks() {
-
-        List<FluencyTask> FT = DataOperations.getInstance().getTodaysFluencyTasks();
-        Log.i("Stats overview", FT.toString());
-        String type ="";
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<String> toPrint = new ArrayList<>();
-        toPrint.add("Fluency Tasks");
-        if (!FT.isEmpty())
-            for (FluencyTask ex : FT) {
-                type = ex.getTaskType();
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
-                            + dateStarted.get(dateStarted.MINUTE) + ":"
-                            + dateStarted.get(dateStarted.SECOND) + ","
-                            + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
-                            + dateFinished.get(dateFinished.MINUTE) + ":"
-                            + dateFinished.get(dateFinished.SECOND) + "."
-                            );
-                }
-            }
-        return toPrint;
-    }
-    public List<String> printTodaysSpeedTapTasks() {
-
-        List<SpeedTapTask> ST = DataOperations.getInstance().getTodaysSpeedTapTasks();
-        Log.i("Stats overview", ST.toString());
-        String type ="";
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<String> toPrint = new ArrayList<>();
-        toPrint.add("Speed Tap Tasks");
-        if (!ST.isEmpty())
-            for (SpeedTapTask ex : ST) {
-                type = ex.getTaskType();
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
-                                    + dateStarted.get(dateStarted.MINUTE) + ":"
-                                    + dateStarted.get(dateStarted.SECOND) + ","
-                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
-                                    + dateFinished.get(dateFinished.MINUTE) + ":"
-                                    + dateFinished.get(dateFinished.SECOND) + "."
-                    );
-                }
-            }
-        return toPrint;
-    }
-    public List<String> printTodaysSpeedNumberTasks() {
-
-        List<SpeedNumberTask> ST = DataOperations.getInstance().getTodaysSpeedNumberTasks();
-        Log.i("Stats overview", ST.toString());
-        String type ="";
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<String> toPrint = new ArrayList<>();
-        toPrint.add("Speed Number Tasks");
-        if (!ST.isEmpty())
-            for (SpeedNumberTask ex : ST) {
-                type = ex.getTaskType();
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
-                                    + dateStarted.get(dateStarted.MINUTE) + ":"
-                                    + dateStarted.get(dateStarted.SECOND) + ","
-                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
-                                    + dateFinished.get(dateFinished.MINUTE) + ":"
-                                    + dateFinished.get(dateFinished.SECOND) + "."
-                    );
-                }
-            }
-        return toPrint;
-    }
-    public List<String> printTodaysCoordinationTasks() {
-
-        List<CoordinationTask> CT = DataOperations.getInstance().getTodaysCoordinationTasks();
-        Log.i("Stats overview", CT.toString());
-        String type ="";
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<String> toPrint = new ArrayList<>();
-        toPrint.add("Coordination Tasks");
-        if (!CT.isEmpty())
-            for (CoordinationTask ex : CT) {
-                type = ex.getTaskType();
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
-                                    + dateStarted.get(dateStarted.MINUTE) + ":"
-                                    + dateStarted.get(dateStarted.SECOND) + ","
-                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
-                                    + dateFinished.get(dateFinished.MINUTE) + ":"
-                                    + dateFinished.get(dateFinished.SECOND) + "."
-                    );
-                }
-            }
-        return toPrint;
-    }
-    public List<String> printTodaysReactionTimeTasks() {
-
-        List<ReactionTimeTask> RT = DataOperations.getInstance().getTodaysReactionTimeTasks();
-        Log.i("Stats overview", RT.toString());
-        String type ="";
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<String> toPrint = new ArrayList<>();
-        toPrint.add("Reaction Time Tasks");
-        if (!RT.isEmpty())
-            for (ReactionTimeTask ex : RT) {
-                type = ex.getTaskType();
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
-                                    + dateStarted.get(dateStarted.MINUTE) + ":"
-                                    + dateStarted.get(dateStarted.SECOND) + ","
-                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
-                                    + dateFinished.get(dateFinished.MINUTE) + ":"
-                                    + dateFinished.get(dateFinished.SECOND) + "."
-                    );
-                }
-            }
-        return toPrint;
-    }
-    public List<String> printTodaysSelectiveAttentionTasks() {
-
-        List<SelectiveAttentionTask> RT = DataOperations.getInstance().getTodaysSelectiveAttentionTasks();
-        Log.i("Stats overview", RT.toString());
-        String type ="";
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<String> toPrint = new ArrayList<>();
-        toPrint.add("Selective Attention Tasks");
-        if (!RT.isEmpty())
-            for (SelectiveAttentionTask ex : RT) {
-                type = ex.getTaskType();
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
-                                    + dateStarted.get(dateStarted.MINUTE) + ":"
-                                    + dateStarted.get(dateStarted.SECOND) + ","
-                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
-                                    + dateFinished.get(dateFinished.MINUTE) + ":"
-                                    + dateFinished.get(dateFinished.SECOND) + "."
-                    );
-                }
-            }
-        return toPrint;
-    }
-    public List<String> printTodaysLongTermMemoryTasks() {
-
-        List<LongTermMemoryTask> RT = DataOperations.getInstance().getTodaysLongTermMemoryTasks();
-        Log.i("Stats overview", RT.toString());
-        String type ="";
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<String> toPrint = new ArrayList<>();
-        toPrint.add("Long Term Memory Tasks");
-        if (!RT.isEmpty())
-            for (LongTermMemoryTask ex : RT) {
-                type = ex.getTaskType();
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
-                                    + dateStarted.get(dateStarted.MINUTE) + ":"
-                                    + dateStarted.get(dateStarted.SECOND) + ","
-                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
-                                    + dateFinished.get(dateFinished.MINUTE) + ":"
-                                    + dateFinished.get(dateFinished.SECOND) + "."
-                    );
-                }
-            }
-        return toPrint;
-    }
+//    public List<String> printTodaysAttentionDigitOrderTasks() {
+//
+//        List<AttentionTaskDigitOrder> DL = DataOperations.getInstance().getTodaysAttentionDigitOrderTasks();
+//        Log.i("Stats overview", DL.toString());
+//        String type ="";
+//        GregorianCalendar dateStarted,dateFinished;
+//        int score=0;
+//        List<String> toPrint = new ArrayList<>();
+//        toPrint.add("Attention Digit Order Tasks");
+//        if (!DL.isEmpty())
+//            for (AttentionTaskDigitOrder ex : DL) {
+//                type = ex.getTaskType();
+//                dateStarted = ex.getStartTimestamp();
+//                dateFinished = ex.getEndTimestamp();
+//                score=ex.getScore();
+//                if (dateStarted != null && dateFinished!=null) {
+//                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+//                            + dateStarted.get(dateStarted.MINUTE) + ":"
+//                            + dateStarted.get(dateStarted.SECOND) + ","
+//                            + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+//                            + dateFinished.get(dateFinished.MINUTE) + ":"
+//                            + dateFinished.get(dateFinished.SECOND) + "."
+//                            );
+//                }
+//            }
+//        return toPrint;
+//    }
+//    public List<String> printTodaysAttentionDigitSpanTasks() {
+//
+//        List<AttentionDigitSpanTask> ADST = DataOperations.getInstance().getTodaysAttentionDigitSpanTasks();
+//        Log.i("Stats overview", ADST.toString());
+//        String type ="";
+//        GregorianCalendar dateStarted,dateFinished;
+//        int score=0;
+//        List<String> toPrint = new ArrayList<>();
+//        toPrint.add("Attention Digit Span Tasks");
+//        if (!ADST.isEmpty())
+//            for (AttentionDigitSpanTask ex : ADST) {
+//                type = ex.getTaskType();
+//                dateStarted = ex.getStartTimestamp();
+//                dateFinished = ex.getEndTimestamp();
+//                score=ex.getScore();
+//                if (dateStarted != null && dateFinished!=null) {
+//                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+//                            + dateStarted.get(dateStarted.MINUTE) + ":"
+//                            + dateStarted.get(dateStarted.SECOND) + ","
+//                            + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+//                            + dateFinished.get(dateFinished.MINUTE) + ":"
+//                            + dateFinished.get(dateFinished.SECOND) + "."
+//                            );
+//                }
+//            }
+//        return toPrint;
+//    }
+//    public List<String> printTodaysFluencyTasks() {
+//
+//        List<FluencyTask> FT = DataOperations.getInstance().getTodaysFluencyTasks();
+//        Log.i("Stats overview", FT.toString());
+//        String type ="";
+//        GregorianCalendar dateStarted,dateFinished;
+//        int score=0;
+//        List<String> toPrint = new ArrayList<>();
+//        toPrint.add("Fluency Tasks");
+//        if (!FT.isEmpty())
+//            for (FluencyTask ex : FT) {
+//                type = ex.getTaskType();
+//                dateStarted = ex.getStartTimestamp();
+//                dateFinished = ex.getEndTimestamp();
+//                score=ex.getScore();
+//                if (dateStarted != null && dateFinished!=null) {
+//                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+//                            + dateStarted.get(dateStarted.MINUTE) + ":"
+//                            + dateStarted.get(dateStarted.SECOND) + ","
+//                            + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+//                            + dateFinished.get(dateFinished.MINUTE) + ":"
+//                            + dateFinished.get(dateFinished.SECOND) + "."
+//                            );
+//                }
+//            }
+//        return toPrint;
+//    }
+//    public List<String> printTodaysSpeedTapTasks() {
+//
+//        List<SpeedTapTask> ST = DataOperations.getInstance().getTodaysSpeedTapTasks();
+//        Log.i("Stats overview", ST.toString());
+//        String type ="";
+//        GregorianCalendar dateStarted,dateFinished;
+//        int score=0;
+//        List<String> toPrint = new ArrayList<>();
+//        toPrint.add("Speed Tap Tasks");
+//        if (!ST.isEmpty())
+//            for (SpeedTapTask ex : ST) {
+//                type = ex.getTaskType();
+//                dateStarted = ex.getStartTimestamp();
+//                dateFinished = ex.getEndTimestamp();
+//                score=ex.getScore();
+//                if (dateStarted != null && dateFinished!=null) {
+//                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+//                                    + dateStarted.get(dateStarted.MINUTE) + ":"
+//                                    + dateStarted.get(dateStarted.SECOND) + ","
+//                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+//                                    + dateFinished.get(dateFinished.MINUTE) + ":"
+//                                    + dateFinished.get(dateFinished.SECOND) + "."
+//                    );
+//                }
+//            }
+//        return toPrint;
+//    }
+//    public List<String> printTodaysSpeedNumberTasks() {
+//
+//        List<SpeedNumberTask> ST = DataOperations.getInstance().getTodaysSpeedNumberTasks();
+//        Log.i("Stats overview", ST.toString());
+//        String type ="";
+//        GregorianCalendar dateStarted,dateFinished;
+//        int score=0;
+//        List<String> toPrint = new ArrayList<>();
+//        toPrint.add("Speed Number Tasks");
+//        if (!ST.isEmpty())
+//            for (SpeedNumberTask ex : ST) {
+//                type = ex.getTaskType();
+//                dateStarted = ex.getStartTimestamp();
+//                dateFinished = ex.getEndTimestamp();
+//                score=ex.getScore();
+//                if (dateStarted != null && dateFinished!=null) {
+//                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+//                                    + dateStarted.get(dateStarted.MINUTE) + ":"
+//                                    + dateStarted.get(dateStarted.SECOND) + ","
+//                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+//                                    + dateFinished.get(dateFinished.MINUTE) + ":"
+//                                    + dateFinished.get(dateFinished.SECOND) + "."
+//                    );
+//                }
+//            }
+//        return toPrint;
+//    }
+//    public List<String> printTodaysCoordinationTasks() {
+//
+//        List<CoordinationTask> CT = DataOperations.getInstance().getTodaysCoordinationTasks();
+//        Log.i("Stats overview", CT.toString());
+//        String type ="";
+//        GregorianCalendar dateStarted,dateFinished;
+//        int score=0;
+//        List<String> toPrint = new ArrayList<>();
+//        toPrint.add("Coordination Tasks");
+//        if (!CT.isEmpty())
+//            for (CoordinationTask ex : CT) {
+//                type = ex.getTaskType();
+//                dateStarted = ex.getStartTimestamp();
+//                dateFinished = ex.getEndTimestamp();
+//                score=ex.getScore();
+//                if (dateStarted != null && dateFinished!=null) {
+//                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+//                                    + dateStarted.get(dateStarted.MINUTE) + ":"
+//                                    + dateStarted.get(dateStarted.SECOND) + ","
+//                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+//                                    + dateFinished.get(dateFinished.MINUTE) + ":"
+//                                    + dateFinished.get(dateFinished.SECOND) + "."
+//                    );
+//                }
+//            }
+//        return toPrint;
+//    }
+//    public List<String> printTodaysReactionTimeTasks() {
+//
+//        List<ReactionTimeTask> RT = DataOperations.getInstance().getTodaysReactionTimeTasks();
+//        Log.i("Stats overview", RT.toString());
+//        String type ="";
+//        GregorianCalendar dateStarted,dateFinished;
+//        int score=0;
+//        List<String> toPrint = new ArrayList<>();
+//        toPrint.add("Reaction Time Tasks");
+//        if (!RT.isEmpty())
+//            for (ReactionTimeTask ex : RT) {
+//                type = ex.getTaskType();
+//                dateStarted = ex.getStartTimestamp();
+//                dateFinished = ex.getEndTimestamp();
+//                score=ex.getScore();
+//                if (dateStarted != null && dateFinished!=null) {
+//                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+//                                    + dateStarted.get(dateStarted.MINUTE) + ":"
+//                                    + dateStarted.get(dateStarted.SECOND) + ","
+//                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+//                                    + dateFinished.get(dateFinished.MINUTE) + ":"
+//                                    + dateFinished.get(dateFinished.SECOND) + "."
+//                    );
+//                }
+//            }
+//        return toPrint;
+//    }
+//    public List<String> printTodaysSelectiveAttentionTasks() {
+//
+//        List<SelectiveAttentionTask> RT = DataOperations.getInstance().getTodaysSelectiveAttentionTasks();
+//        Log.i("Stats overview", RT.toString());
+//        String type ="";
+//        GregorianCalendar dateStarted,dateFinished;
+//        int score=0;
+//        List<String> toPrint = new ArrayList<>();
+//        toPrint.add("Selective Attention Tasks");
+//        if (!RT.isEmpty())
+//            for (SelectiveAttentionTask ex : RT) {
+//                type = ex.getTaskType();
+//                dateStarted = ex.getStartTimestamp();
+//                dateFinished = ex.getEndTimestamp();
+//                score=ex.getScore();
+//                if (dateStarted != null && dateFinished!=null) {
+//                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+//                                    + dateStarted.get(dateStarted.MINUTE) + ":"
+//                                    + dateStarted.get(dateStarted.SECOND) + ","
+//                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+//                                    + dateFinished.get(dateFinished.MINUTE) + ":"
+//                                    + dateFinished.get(dateFinished.SECOND) + "."
+//                    );
+//                }
+//            }
+//        return toPrint;
+//    }
+//    public List<String> printTodaysLongTermMemoryTasks() {
+//
+//        List<LongTermMemoryTask> RT = DataOperations.getInstance().getTodaysLongTermMemoryTasks();
+//        Log.i("Stats overview", RT.toString());
+//        String type ="";
+//        GregorianCalendar dateStarted,dateFinished;
+//        int score=0;
+//        List<String> toPrint = new ArrayList<>();
+//        toPrint.add("Long Term Memory Tasks");
+//        if (!RT.isEmpty())
+//            for (LongTermMemoryTask ex : RT) {
+//                type = ex.getTaskType();
+//                dateStarted = ex.getStartTimestamp();
+//                dateFinished = ex.getEndTimestamp();
+//                score=ex.getScore();
+//                if (dateStarted != null && dateFinished!=null) {
+//                    toPrint.add(type+ " task started :  " + dateStarted.get(dateStarted.HOUR_OF_DAY) + ":"
+//                                    + dateStarted.get(dateStarted.MINUTE) + ":"
+//                                    + dateStarted.get(dateStarted.SECOND) + ","
+//                                    + "Score:  "+ score +"\n"+ type + " task finished :  " + dateFinished.get(dateFinished.HOUR_OF_DAY) + ":"
+//                                    + dateFinished.get(dateFinished.MINUTE) + ":"
+//                                    + dateFinished.get(dateFinished.SECOND) + "."
+//                    );
+//                }
+//            }
+//        return toPrint;
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

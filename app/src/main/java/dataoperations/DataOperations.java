@@ -8,8 +8,6 @@ import com.google.gson.GsonBuilder;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,8 +23,8 @@ import datastructure.ReactionTimeTask;
 import datastructure.SelectiveAttentionTask;
 import datastructure.SpeedNumberTask;
 import datastructure.SpeedTapTask;
+import datastructure.StaticTaskTypes;
 import datastructure.Task;
-import settings.SettingsObj;
 
 
 public class DataOperations {
@@ -64,25 +62,6 @@ public class DataOperations {
         }
     }
 
-    public void writeToSettingsFile(String content) {
-        try {
-            File file = new File(Environment.getExternalStorageDirectory()
-                    .getPath() + "/settings.json");
-            if (!file.exists())
-                file.createNewFile();
-
-            FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(content + "\n");
-            bw.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
-
-
     /**
      * @return JSONlist
      * @throws IOException Reads all the JSON data from the task file to a list of strings
@@ -115,7 +94,7 @@ public class DataOperations {
         return JSONlist;
     }
 
- //   Reads all the JSON data from the settings file to a list of strings
+    //   Reads all the JSON data from the settings file to a list of strings
     public List<String> readFromSettingsFile() {
 
 
@@ -149,181 +128,99 @@ public class DataOperations {
         return JSONtemp;
     }
 
-    /**
-     * @param mSettings
-     * @return JSON
-     * Converts an SettingsObj object to a JSON string
-     */
-    public String settingsToJSON(SettingsObj mSettings) {
+    public <T extends Task> List<Task> getTaskListFromJSON(String taskType) {
+        List<String> mTaskStringList = readFromTaskFile();
         Gson gson = new GsonBuilder().create();
-        String JSONtemp = (gson.toJson(mSettings));
-        return JSONtemp;
-    }
-
-
-
-    /**
-     * @param JSON
-     * @return EX
-     * Converts a JSON string to an Task object
-     */
-    @SuppressWarnings("unchecked")
-    public SettingsObj JSONToSettings(String JSON) {
-        Gson gson = new GsonBuilder().create();
-        SettingsObj mSet = gson.fromJson(JSON, SettingsObj.class);
-        return mSet;
-    }
-
-
-    /**
-     * Clears the data from task file
-     */
-    public void clearSettingsFile() {
-        try {
-            new FileOutputStream(Environment.getExternalStorageDirectory()
-                    .getPath() + "/settings.json", false).close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        List<Task> mTaskList = new ArrayList<>();
+        switch (taskType) {
+            case StaticTaskTypes.digitOrder:
+                for (String tp : mTaskStringList) {
+                    if (tp.contains(taskType))
+                        mTaskList.add(gson.fromJson(tp, AttentionTaskDigitOrder.class));
+                }
+                break;
+            case StaticTaskTypes.digitSpan:
+                for (String tp : mTaskStringList) {
+                    if (tp.contains(taskType))
+                        mTaskList.add(gson.fromJson(tp, AttentionDigitSpanTask.class));
+                }
+                break;
+            case StaticTaskTypes.fluency:
+                for (String tp : mTaskStringList) {
+                    if (tp.contains(taskType))
+                        mTaskList.add(gson.fromJson(tp, FluencyTask.class));
+                }
+                break;
+            case StaticTaskTypes.coord:
+                for (String tp : mTaskStringList) {
+                    if (tp.contains(taskType))
+                        mTaskList.add(gson.fromJson(tp, CoordinationTask.class));
+                }
+                break;
+            case StaticTaskTypes.longterm:
+                for (String tp : mTaskStringList) {
+                    if (tp.contains(taskType))
+                        mTaskList.add(gson.fromJson(tp, LongTermMemoryTask.class));
+                }
+                break;
+            case StaticTaskTypes.speedtap:
+                for (String tp : mTaskStringList) {
+                    if (tp.contains(taskType))
+                        mTaskList.add(gson.fromJson(tp, SpeedTapTask.class));
+                }
+                break;
+            case StaticTaskTypes.selective:
+                for (String tp : mTaskStringList) {
+                    if (tp.contains(taskType))
+                        mTaskList.add(gson.fromJson(tp, SelectiveAttentionTask.class));
+                }
+                break;
+            case StaticTaskTypes.reaction:
+                for (String tp : mTaskStringList) {
+                    if (tp.contains(taskType))
+                        mTaskList.add(gson.fromJson(tp, ReactionTimeTask.class));
+                }
+                break;
+            case StaticTaskTypes.speednum:
+                for (String tp : mTaskStringList) {
+                    if (tp.contains(taskType))
+                        mTaskList.add(gson.fromJson(tp, SpeedNumberTask.class));
+                }
+                break;
         }
-    }
 
-    /**
-     * @return a list of Attention objects
-     * Converts tasks from today JSON -> Objects
-     */
-    public List<AttentionTaskDigitOrder> getTodaysAttentionDigitOrderTasks() {
 
-        List<String> JSONlist = readFromTaskFile();
-        Gson gson = new GsonBuilder().create();
-        List<AttentionTaskDigitOrder> DL = new ArrayList<>();
-        for (String json : JSONlist) {
-            if (json.contains("attentiondigitorder"))
-                DL.add(gson.fromJson(json, AttentionTaskDigitOrder.class));
-        }
-        return DL;
-    }
-
-    /**
-     * @return a list of Attention objects
-     * Converts tasks from today JSON -> Objects
-     */
-    public List<AttentionDigitSpanTask> getTodaysAttentionDigitSpanTasks() {
-
-        List<String> JSONlist = readFromTaskFile();
-        Gson gson = new GsonBuilder().create();
-        List<AttentionDigitSpanTask> DL = new ArrayList<>();
-        for (String json : JSONlist) {
-            if (json.contains("attentiondigitspan"))
-                DL.add(gson.fromJson(json, AttentionDigitSpanTask.class));
-        }
-        return DL;
-    }
-
-    /**
-     * @return a list of Fluency objects
-     * Converts tasks from today JSON -> Objects
-     */
-    public List<FluencyTask> getTodaysFluencyTasks() {
-        List<String> JSONlist = readFromTaskFile();
-        Gson gson = new GsonBuilder().create();
-        List<FluencyTask> SL = new ArrayList<>();
-        for (String json : JSONlist) {
-            if (json.contains("fluency"))
-                SL.add(gson.fromJson(json, FluencyTask.class));
-        }
-        return SL;
-    }
-
-    /**
-     * @return a list of Coordination objects
-     * Converts tasks from today JSON -> Objects
-     */
-    public List<CoordinationTask> getTodaysCoordinationTasks() {
-        List<String> JSONlist = readFromTaskFile();
-        Gson gson = new GsonBuilder().create();
-        List<CoordinationTask> WL = new ArrayList<>();
-        for (String json : JSONlist) {
-            if (json.contains("coordination"))
-                WL.add(gson.fromJson(json, CoordinationTask.class));
-        }
-        return WL;
+        return mTaskList;
     }
 
 
-    /**
-     * @return a list of LongTermMemory objects
-     * Converts tasks from today JSON -> Objects
-     */
-    public List<LongTermMemoryTask> getTodaysLongTermMemoryTasks() {
-        List<String> JSONlist = readFromTaskFile();
-        Gson gson = new GsonBuilder().create();
-        List<LongTermMemoryTask> AL = new ArrayList<>();
-        for (String json : JSONlist) {
-            if (json.contains("longtermmemory"))
-                AL.add(gson.fromJson(json, LongTermMemoryTask.class));
+    public String javascriptFeedbackToJson(String[] data) {
+
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("[");
+        for (int i = 0; i < data.length; i++) {
+            String d = data[i];
+            if (i > 0)
+                sb.append(",");
+            sb.append(d);
         }
-        return AL;
+        sb.append("]");
+        return sb.toString();
+
     }
 
-    /**
-     * @return a list of ReactionTime objects
-     * Converts tasks from today JSON -> Objects
-     */
-    public List<ReactionTimeTask> getTodaysReactionTimeTasks() {
-        List<String> JSONlist = readFromTaskFile();
-        Gson gson = new GsonBuilder().create();
-        List<ReactionTimeTask> AL = new ArrayList<>();
-        for (String json : JSONlist) {
-            if (json.contains("reactiontime"))
-                AL.add(gson.fromJson(json, ReactionTimeTask.class));
-        }
-        return AL;
-    }
+    public <T extends Task> String[] prepareTaskScoreForJavascript(String taskType) {
 
-    /**
-     * @return a list of SelectiveAttention objects
-     * Converts tasks from today JSON -> Objects
-     */
-    public List<SelectiveAttentionTask> getTodaysSelectiveAttentionTasks() {
-        List<String> JSONlist = readFromTaskFile();
-        Gson gson = new GsonBuilder().create();
-        List<SelectiveAttentionTask> AL = new ArrayList<>();
-        for (String json : JSONlist) {
-            if (json.contains("selectiveattention"))
-                AL.add(gson.fromJson(json, SelectiveAttentionTask.class));
-        }
-        return AL;
-    }
+        List<Task> DL = getTaskListFromJSON(taskType);
 
-    /**
-     * @return a list of Speed Tap objects
-     * Converts tasks from today JSON -> Objects
-     */
-    public List<SpeedTapTask> getTodaysSpeedTapTasks() {
-        List<String> JSONlist = readFromTaskFile();
-        Gson gson = new GsonBuilder().create();
-        List<SpeedTapTask> AL = new ArrayList<>();
-        for (String json : JSONlist) {
-            if (json.contains("speedtap"))
-                AL.add(gson.fromJson(json, SpeedTapTask.class));
-        }
-        return AL;
-    }
+        String[] mScoreStrings = new String[DL.size()];
 
-    /**
-     * @return a list of Speed Tap objects
-     * Converts tasks from today JSON -> Objects
-     */
-    public List<SpeedNumberTask> getTodaysSpeedNumberTasks() {
-        List<String> JSONlist = readFromTaskFile();
-        Gson gson = new GsonBuilder().create();
-        List<SpeedNumberTask> AL = new ArrayList<>();
-        for (String json : JSONlist) {
-            if (json.contains("speednumber"))
-                AL.add(gson.fromJson(json, SpeedNumberTask.class));
-        }
-        return AL;
+        if (!DL.isEmpty())
+            for (Task ex : DL) {
+                mScoreStrings[DL.indexOf(ex)] = Integer.toString(ex.getScore());
+            }
+
+        return mScoreStrings;
     }
 }

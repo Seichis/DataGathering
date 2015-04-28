@@ -2,43 +2,21 @@ package com.performance.cognitive.datagathering;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 import dataoperations.DataOperations;
-import datastructure.AttentionDigitSpanTask;
-import datastructure.AttentionTaskDigitOrder;
-import datastructure.CoordinationTask;
-import datastructure.FluencyTask;
-import datastructure.LongTermMemoryTask;
-import datastructure.ReactionTimeTask;
-import datastructure.SelectiveAttentionTask;
-import datastructure.SpeedNumberTask;
-import datastructure.SpeedTapTask;
-import datastructure.Task;
+import datastructure.StaticTaskTypes;
 
 
 public class FeedbackActivity extends Activity {
     String TEXT = "Cognitive aspect: ";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +74,7 @@ public class FeedbackActivity extends Activity {
                 taskAspect.setText(TEXT + "Long-term memory");
                 break;
         }
-        browser=(WebView)findViewById(R.id.webkit);
+        browser = (WebView) findViewById(R.id.webkit);
         browser.getSettings().setJavaScriptEnabled(true);
         browser.getSettings().setBuiltInZoomControls(true);
         browser.getSettings().setSupportZoom(true);
@@ -112,7 +90,7 @@ public class FeedbackActivity extends Activity {
                 infoText.setVisibility(View.VISIBLE);
             }
         });
-        overview.setOnClickListener(new Button.OnClickListener(){
+        overview.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 browser.setVisibility(View.VISIBLE);
                 overview.setBackgroundColor(Color.parseColor("#2196f3"));
@@ -124,8 +102,10 @@ public class FeedbackActivity extends Activity {
         });
 
     }
+
     public class WebAppInterface {
         Context mContext;
+
         WebAppInterface(Context c) {
             mContext = c;
         }
@@ -137,221 +117,28 @@ public class FeedbackActivity extends Activity {
             String task = extras.getString("item");
             switch (task) {
                 case "Digit Order":
-                    return plotAttentionDigitOrderTasks().toString();
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.digitOrder));
                 case "Digit Span":
-                    return a1dToJson(plotAttentionDigitSpanTasks()).toString();
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.digitSpan));
                 case "5 Dots":
-                    return a1dToJson(plotFluencyTasks()).toString();
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.fluency));
                 case "Tap Speed":
-                    return a1dToJson(plotSpeedTapTasks()).toString();
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.speedtap));
                 case "8 Numbers":
-                    return a1dToJson(plotSpeedNumberTasks()).toString();
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.speednum));
                 case "Bubble":
-                    return a1dToJson(plotCoordinationTasks()).toString();
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.coord));
                 case "Color Tap":
-                    return a1dToJson(plotReactionTimeTasks()).toString();
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.reaction));
                 case "Find the T":
-                    return a1dToJson(plotSelectiveAttentionTasks()).toString();
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.selective));
                 case "10 Words":
-                    return a1dToJson(plotLongTermMemoryTasks()).toString();
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.longterm));
                 default:
-                    return a1dToJson(plotLongTermMemoryTasks()).toString();
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.longterm));
             }
         }
-
     }
-    public int[] listToArray(List<Integer> score){
-        int[] array = new int[score.size()];
-        for(int i = 0; i < score.size(); i++) array[i] = score.get(i);
-        return array;
-    }
-    public JSONArray plotAttentionDigitOrderTasks() {
-
-        List<AttentionTaskDigitOrder> DL = DataOperations.getInstance().getTodaysAttentionDigitOrderTasks();
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<Integer> toPlot = new ArrayList<>();
-        JSONObject ret = new JSONObject();
-        JSONArray arr = new JSONArray();
-        if (!DL.isEmpty())
-            for (AttentionTaskDigitOrder ex : DL) {
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    arr.put(score);
-                }
-            }
-        Log.i("List to arr", "" + listToArray(toPlot));
-        return arr;
-    }
-    public int[] plotAttentionDigitSpanTasks() {
-
-        List<AttentionDigitSpanTask> DL = DataOperations.getInstance().getTodaysAttentionDigitSpanTasks();
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<Integer> toPlot = new ArrayList<>();
-        if (!DL.isEmpty())
-            for (AttentionDigitSpanTask ex : DL)
-            {
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPlot.add(score);
-                }
-            }
-        return listToArray(toPlot);
-    }
-
-    public int[] plotFluencyTasks() {
-
-        List<FluencyTask> DL = DataOperations.getInstance().getTodaysFluencyTasks();
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<Integer> toPlot = new ArrayList<>();
-        if (!DL.isEmpty())
-            for (FluencyTask ex : DL)
-            {
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPlot.add(score);
-                }
-            }
-        return listToArray(toPlot);
-    }
-    public int[] plotSpeedTapTasks() {
-
-        List<SpeedTapTask> DL = DataOperations.getInstance().getTodaysSpeedTapTasks();
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<Integer> toPlot = new ArrayList<>();
-        if (!DL.isEmpty())
-            for (SpeedTapTask ex : DL)
-            {
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPlot.add(score);
-                }
-            }
-        return listToArray(toPlot);
-    }
-    public int[] plotSpeedNumberTasks() {
-
-        List<SpeedNumberTask> DL = DataOperations.getInstance().getTodaysSpeedNumberTasks();
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<Integer> toPlot = new ArrayList<>();
-        if (!DL.isEmpty())
-            for (SpeedNumberTask ex : DL)
-            {
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPlot.add(score);
-                }
-            }
-        return listToArray(toPlot);
-    }
-    public int[] plotCoordinationTasks() {
-
-        List<CoordinationTask> DL = DataOperations.getInstance().getTodaysCoordinationTasks();
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<Integer> toPlot = new ArrayList<>();
-        if (!DL.isEmpty())
-            for (CoordinationTask ex : DL)
-            {
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPlot.add(score);
-                }
-            }
-        return listToArray(toPlot);
-    }
-    public int[] plotReactionTimeTasks() {
-
-        List<ReactionTimeTask> DL = DataOperations.getInstance().getTodaysReactionTimeTasks();
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<Integer> toPlot = new ArrayList<>();
-        if (!DL.isEmpty())
-            for (ReactionTimeTask ex : DL)
-            {
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPlot.add(score);
-                }
-            }
-        return listToArray(toPlot);
-    }
-    public int[] plotSelectiveAttentionTasks() {
-
-        List<SelectiveAttentionTask> DL = DataOperations.getInstance().getTodaysSelectiveAttentionTasks();
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<Integer> toPlot = new ArrayList<>();
-        if (!DL.isEmpty())
-            for (SelectiveAttentionTask ex : DL)
-            {
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPlot.add(score);
-                }
-            }
-        return listToArray(toPlot);
-    }
-    public int[] plotLongTermMemoryTasks() {
-
-        List<LongTermMemoryTask> DL = DataOperations.getInstance().getTodaysLongTermMemoryTasks();
-        GregorianCalendar dateStarted,dateFinished;
-        int score=0;
-        List<Integer> toPlot = new ArrayList<>();
-        if (!DL.isEmpty())
-            for (LongTermMemoryTask ex : DL)
-            {
-                dateStarted = ex.getStartTimestamp();
-                dateFinished = ex.getEndTimestamp();
-                score=ex.getScore();
-                if (dateStarted != null && dateFinished!=null) {
-                    toPlot.add(score);
-                }
-            }
-        return listToArray(toPlot);
-    }
-//    public int[] plotTasks() {
-//        List<AttentionTaskDigitOrder> DL = DataOperations.getInstance().getTodaysAttentionDigitOrderTasks();
-//        if (!DL.isEmpty())
-//            for (Task ex : DL) {
-//                String type = ex.getTaskType();
-//
-//            }
-//        return
-//    }
-    private String a1dToJson(int[] data) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("[");
-        for (int i = 0; i < data.length; i++) {
-            int d = data[i];
-            if (i > 0)
-                sb.append(",");
-            sb.append(d);
-        }
-        sb.append("]");
-        return sb.toString();
-    }
-
 
 
 }
