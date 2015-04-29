@@ -14,13 +14,14 @@ import datastructure.SelectiveAttentionTask;
 
 public class MainActivity extends ActionBarActivity {
     Button attention1Button, attention2Button, coordinationButton, fluencyButton, longTermMemoryButton, tapSpeedButton, reactionTimeButton, selectiveAttentionButton, speedButton, statsButton, settingsButton;
-
+    public static String taskLocation;
     boolean pressedTest = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        taskLocation="Ballerup";
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         attention1Button = (Button) findViewById(R.id.attention1_button);
         attention2Button = (Button) findViewById(R.id.attention2_button);
@@ -125,4 +126,7 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }

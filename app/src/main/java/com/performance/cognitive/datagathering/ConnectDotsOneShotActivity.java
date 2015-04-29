@@ -88,6 +88,7 @@ public class ConnectDotsOneShotActivity extends Activity {
                     if(second>30){
                         mTimerProgress.cancel();
                         fluency.setScore(DrawingPanelOneShot.score);
+                        fluency.setTaskLocation(MainActivity.taskLocation);
                         Scheduler.getInstance().activityStop(fluency,true);
                         DrawingPanelOneShot.score=0;
                         second=0;

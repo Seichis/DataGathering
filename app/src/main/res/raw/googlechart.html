@@ -18,7 +18,7 @@
         var arrayFromJava = Android.getData(); arrayFromJava = JSON.parse(arrayFromJava);
         for (var i=0; i<arrayFromJava.length; i++) {
         	dates.push(i);
-        	score.push(arrayFromJava[i]);
+        	score.push(parseInt(arrayFromJava[i]));
   	    }
 
 		 var data = new google.visualization.DataTable();
@@ -32,16 +32,16 @@
         var options = {
           curveType: 'function',
           legend: { position: 'bottom' },
-          width: 410,
-          chartArea: {left:17, width: '80%', height: '60%'},
-          height: 300,
+          width: 250,
+          chartArea: {left:30, width: '80%', height: '60%'},
+          height: 350,
           explorer: {
             maxZoomOut:2,
             keepInBounds: true
             }
         };
 
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+        var chart = new google.visualization.ColumnChart(document.getElementById('curve_chart'));
 
         chart.draw(data, options);
       }
@@ -55,7 +55,7 @@
         $(document).ready(function() {
             var worst = Android.getWorst(); worst = JSON.parse(worst);
             var best = Android.getBest(); best = JSON.parse(best);
-            $("#best").text("Best score: " + best[0] + ", " + best[2] + "/" + best[3] + "/"
+            $("#best").text("Best score: " + best[0] + " @ "+ best[1] +", "  + best[2] + "/" + best[3] + "/"
                 + best[4] + ", " + best[5] + ":" + best[6]);
             $("#best").css("color", "green");
             $("#worst").text("Worst score: " + worst[0] + ", " + worst[2] + "/" + worst[3] + "/"
@@ -68,7 +68,7 @@
 <body>
 
 <div id="curve_chart"></div>
-<div id="best"></div>
-<div id="worst"></div>
+<div><p id="best">oh yeaaah</p></div>
+<div><p id="worst">kampooom</p></div>
 </body>
 </html>

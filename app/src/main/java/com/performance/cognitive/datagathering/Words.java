@@ -32,8 +32,6 @@ public class Words extends ActionBarActivity {
     Handler sHandler;
     TextView word;
     int i;
-    //String[] WORDS = {"table", "sun", "toast", "justice", "car", "yogurt", "red", "bag", "flag", "spoon", "absence","kid",
-          //  "music", "go", "watch", "balloon", "plane", "secret", "boss", "energy" };
     private static final String LOG_TAG = "AudioRecordTest";
     private static String mFileName = null;
     private Button mRecordButton;
@@ -119,6 +117,7 @@ public class Words extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        longTermMemory.setTaskLocation(MainActivity.taskLocation);
         Scheduler.getInstance().activityStop(longTermMemory,true);
     }
 
@@ -138,7 +137,7 @@ public class Words extends ActionBarActivity {
                         mRecordButton.setVisibility(View.VISIBLE);
                         word.setVisibility(View.INVISIBLE);
                         i = 0;
-                        //Scheduler.getInstance().activityStop(mAttentionTask, true);
+
                     }
                 }
             });
@@ -161,7 +160,7 @@ public class Words extends ActionBarActivity {
                     }else {
                         sTimer.cancel();
                         Words.this.finish();
-                        //Scheduler.getInstance().activityStop(mAttentionTask, true);
+
                     }
                 }
             });

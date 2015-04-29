@@ -51,11 +51,13 @@ public class TrailMakingActivity extends Activity {
         mHandler = new Handler();
         mTimer.scheduleAtFixedRate(new ActionsTimerTask(), 0, 500);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
 
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -83,8 +85,8 @@ public class TrailMakingActivity extends Activity {
                         Log.i("Seconds", "  " + getSecondElapsed());
                         mTimer.cancel();
                         speed.setScore(score);
+                        speed.setTaskLocation(MainActivity.taskLocation);
                         Scheduler.getInstance().activityStop(speed, true);
-//
                         TrailMakingActivity.this.finish();
                     }
                 }

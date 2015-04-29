@@ -181,6 +181,7 @@ public class DigitSpan extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        attention.setTaskLocation(MainActivity.taskLocation);
         attention.setScore(level);
         Scheduler.getInstance().activityStop(attention, true);
     }

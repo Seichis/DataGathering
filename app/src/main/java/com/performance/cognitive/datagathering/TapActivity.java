@@ -27,6 +27,7 @@ public class TapActivity extends ActionBarActivity {
     Button playButton;
     SpeedTapTask speed;
     public static int i;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +56,7 @@ public class TapActivity extends ActionBarActivity {
                 info.setVisibility(View.INVISIBLE);
                 playButton.setVisibility(View.INVISIBLE);
                 i = 0;
-                speed=new SpeedTapTask();
+                speed = new SpeedTapTask();
                 Scheduler.getInstance().activityStart(speed);
                 count = new CountDownTimer(4000, 1000) {
                     public void onTick(long millisUntilFinished) {
@@ -81,17 +82,15 @@ public class TapActivity extends ActionBarActivity {
 
                             public void onFinish() {
                                 speed.setScore(i);
-
+                                speed.setTaskLocation(MainActivity.taskLocation);
                                 Scheduler.getInstance().activityStop(speed, true);
-//                        Intent intent = new Intent(TapActivity.this, TapResults.class);
-//                        startActivity(intent);
+
                                 TapActivity.this.finish();
                             }
                         }.start();
 
                     }
                 }.start();
-
 
 
             }

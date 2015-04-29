@@ -236,9 +236,8 @@ public class DigitOrder extends ActionBarActivity {
                         }
 
                         mAttentionTaskDigitOrder.setScore(counter);
+                        mAttentionTaskDigitOrder.setTaskLocation(MainActivity.taskLocation);
                         Scheduler.getInstance().activityStop(mAttentionTaskDigitOrder, true);
-//                        Intent intent = new Intent(DigitOrder.this, DigitOrderResults.class);
-//                        startActivity(intent);
                         mTimer.cancel();
                         DigitOrder.this.finish();
 

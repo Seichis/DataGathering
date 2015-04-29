@@ -63,6 +63,7 @@ public class SelectiveActivity extends ActionBarActivity implements View.OnTouch
             }
 
             public void onFinish() {
+                mSelectiveAttentionTask.setTaskLocation(MainActivity.taskLocation);
                 mSelectiveAttentionTask.setScore(score);
                 Scheduler.getInstance().activityStop(mSelectiveAttentionTask,true);
                 SelectiveActivity.this.finish();

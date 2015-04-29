@@ -17,10 +17,11 @@ import datastructure.StaticTaskTypes;
 
 public class FeedbackActivity extends Activity {
     String TEXT = "Cognitive aspect: ";
-
+    Bundle extras;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        extras=getIntent().getExtras();
         setContentView(R.layout.activity_feedback);
         final WebView browser;
         TextView taskTitle;
@@ -115,15 +116,15 @@ public class FeedbackActivity extends Activity {
         @JavascriptInterface
         public String getData() {
 
-            Bundle extras = getIntent().getExtras();
+
             String task = extras.getString("item");
             switch (task) {
                 case "Digit Order":
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.digitOrder));
                 case "Digit Span":
-                    Log.i("lal", DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.digitSpan)));
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.digitSpan));
                 case "5 Dots":
+                    Log.i("dots"," "+DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.fluency)));
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.fluency));
                 case "Tap Speed":
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.speedtap));
@@ -138,13 +139,13 @@ public class FeedbackActivity extends Activity {
                 case "10 Words":
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.longterm));
                 default:
-                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.longterm));
+                    return "Nothing to show";
             }
         }
 
         @JavascriptInterface
         public String getWorst() {
-            Bundle extras = getIntent().getExtras();
+
             String task = extras.getString("item");
             switch (task) {
                 case "Digit Order":
@@ -166,12 +167,12 @@ public class FeedbackActivity extends Activity {
                 case "10 Words":
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskWorstScoreForJavascript(StaticTaskTypes.longterm));
                 default:
-                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskWorstScoreForJavascript(StaticTaskTypes.longterm));
+                    return "Nothing to show";
             }
         }
         @JavascriptInterface
         public String getBest() {
-            Bundle extras = getIntent().getExtras();
+
             String task = extras.getString("item");
             switch (task) {
                 case "Digit Order":
@@ -193,7 +194,7 @@ public class FeedbackActivity extends Activity {
                 case "10 Words":
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.longterm));
                 default:
-                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.longterm));
+                    return "Nothing to show";
             }
         }
     }

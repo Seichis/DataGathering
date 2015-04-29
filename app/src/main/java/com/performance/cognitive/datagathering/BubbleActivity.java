@@ -82,6 +82,7 @@ public class BubbleActivity extends Activity implements Orientation.Listener, Se
                     bubbleView.invalidate();
                     if (sec > 30) {
                         coordination.setScore((int) bubbleView.getScore());
+                        coordination.setTaskLocation(MainActivity.taskLocation);
                         Scheduler.getInstance().activityStop(coordination, true);
                         BubbleActivity.this.finish();
                         mTimer.cancel();
