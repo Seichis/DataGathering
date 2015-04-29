@@ -82,6 +82,18 @@
             android:name=".ResultsActivity"
             android:label="@string/title_activity_results" >
         </activity>
+        <activity
+            android:name=".FetchAddressIntentService"
+            android:label="@string/title_activity_fetch_address_intent_service" >
+        </activity>
+        <activity
+            android:name=".Location"
+            android:label="@string/title_activity_location" >
+        </activity>
+        <activity
+            android:name=".LocationActivity"
+            android:label="@string/title_activity_location" >
+        </activity>
     </application>
 
 </manifest>

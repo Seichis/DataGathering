@@ -8,7 +8,7 @@
               'packages':['corechart']
             }]
           }"></script>
-
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script type="text/javascript">
       google.setOnLoadCallback(drawChart);
 
@@ -41,7 +41,7 @@
             }
         };
 
-        var chart = new google.visualization.ColumnChart(document.getElementById('curve_chart'));
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 
         chart.draw(data, options);
       }
@@ -51,8 +51,24 @@
       }
 
     </script>
+    <script>
+        $(document).ready(function() {
+            var worst = Android.getWorst(); worst = JSON.parse(worst);
+            var best = Android.getBest(); best = JSON.parse(best);
+            $("#best").text("Best score: " + best[0] + ", " + best[2] + "/" + best[3] + "/"
+                + best[4] + ", " + best[5] + ":" + best[6]);
+            $("#best").css("color", "green");
+            $("#worst").text("Worst score: " + worst[0] + ", " + worst[2] + "/" + worst[3] + "/"
+                + worst[4] + ", " + worst[5] + ":" + worst[6]);
+            $("#worst").css("color", "red");
+    })
+
+    </script>
 </head>
 <body>
-<div id="curve_chart" style="width:10%; height:30%;"></div>
+
+<div id="curve_chart"></div>
+<div id="best"></div>
+<div id="worst"></div>
 </body>
 </html>

@@ -207,12 +207,12 @@ public class DataOperations {
         List<Task> DL = getTaskListFromJSON(taskType);
         GregorianCalendar taskDate=new GregorianCalendar();
         String loc = "";
-        String[] mBestScoreStrings = new String[DL.size()];
+        String[] mBestScoreStrings = new String[7];
 
         if (!DL.isEmpty()) {
             max = DL.get(0).getScore();
             for (Task ex : DL) {
-                if (max > ex.getScore()) {
+                if (max < ex.getScore()) {
                     max = ex.getScore();
                     loc = ex.getTaskLocation();
                     taskDate=ex.getEndTimestamp();
@@ -234,12 +234,12 @@ public class DataOperations {
         List<Task> DL = getTaskListFromJSON(taskType);
         GregorianCalendar taskDate=new GregorianCalendar();
         String loc = "";
-        String[] mWorstScoreStrings = new String[DL.size()];
+        String[] mWorstScoreStrings = new String[7];
 
         if (!DL.isEmpty()) {
             min = DL.get(0).getScore();
             for (Task ex : DL) {
-                if (min < ex.getScore()) {
+                if (min > ex.getScore()) {
                     min = ex.getScore();
                     loc = ex.getTaskLocation();
                     taskDate=ex.getEndTimestamp();

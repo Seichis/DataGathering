@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -120,6 +121,7 @@ public class FeedbackActivity extends Activity {
                 case "Digit Order":
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.digitOrder));
                 case "Digit Span":
+                    Log.i("lal", DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.digitSpan)));
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.digitSpan));
                 case "5 Dots":
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.fluency));
@@ -137,6 +139,61 @@ public class FeedbackActivity extends Activity {
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.longterm));
                 default:
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.longterm));
+            }
+        }
+
+        @JavascriptInterface
+        public String getWorst() {
+            Bundle extras = getIntent().getExtras();
+            String task = extras.getString("item");
+            switch (task) {
+                case "Digit Order":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskWorstScoreForJavascript(StaticTaskTypes.digitOrder));
+                case "Digit Span":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskWorstScoreForJavascript(StaticTaskTypes.digitSpan));
+                case "5 Dots":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskWorstScoreForJavascript(StaticTaskTypes.fluency));
+                case "Tap Speed":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskWorstScoreForJavascript(StaticTaskTypes.speedtap));
+                case "8 Numbers":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskWorstScoreForJavascript(StaticTaskTypes.speednum));
+                case "Bubble":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskWorstScoreForJavascript(StaticTaskTypes.coord));
+                case "Color Tap":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskWorstScoreForJavascript(StaticTaskTypes.reaction));
+                case "Find the T":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskWorstScoreForJavascript(StaticTaskTypes.selective));
+                case "10 Words":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskWorstScoreForJavascript(StaticTaskTypes.longterm));
+                default:
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskWorstScoreForJavascript(StaticTaskTypes.longterm));
+            }
+        }
+        @JavascriptInterface
+        public String getBest() {
+            Bundle extras = getIntent().getExtras();
+            String task = extras.getString("item");
+            switch (task) {
+                case "Digit Order":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.digitOrder));
+                case "Digit Span":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.digitSpan));
+                case "5 Dots":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.fluency));
+                case "Tap Speed":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.speedtap));
+                case "8 Numbers":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.speednum));
+                case "Bubble":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.coord));
+                case "Color Tap":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.reaction));
+                case "Find the T":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.selective));
+                case "10 Words":
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.longterm));
+                default:
+                    return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.longterm));
             }
         }
     }

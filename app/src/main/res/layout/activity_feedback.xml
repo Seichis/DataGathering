@@ -72,7 +72,7 @@
 
         android:id="@+id/webkit"
         android:layout_width="300dp"
-        android:layout_height="290dp"
+        android:layout_height="400dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/taskAspect"/>
 </RelativeLayout>

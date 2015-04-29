@@ -32,5 +32,14 @@
     <string name="title_activity_image_adapter">ImageAdapter</string>
     <string name="title_activity_feedback">FeedbackActivity</string>
     <string name="digit_order">Working memory is the system that is responsible for the transient holding and processing of new and already stored information, an important process for reasoning, comprehension, learning and memory updating.</string>
+    <string name="title_activity_fetch_address_intent_service">FetchAddressIntentService</string>
+    <string name="no_geocoder_available">No geocoder available</string>
+    <string name="fetch_address">Fetch address</string>
+    <string name="address_found">Address found</string>
+    <string name="no_address_found">Sorry, no address found</string>
+    <string name="no_location_data_provided">No location data provided</string>
+    <string name="service_not_available">Sorry, the service is not available</string>
+    <string name="invalid_lat_long_used">Invalid latitude or longitude used</string>
+    <string name="title_activity_location">Location</string>
 
 </resources>
