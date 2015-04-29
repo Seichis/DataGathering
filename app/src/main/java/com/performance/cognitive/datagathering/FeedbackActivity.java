@@ -78,6 +78,7 @@ public class FeedbackActivity extends Activity {
         browser.getSettings().setJavaScriptEnabled(true);
         browser.getSettings().setBuiltInZoomControls(true);
         browser.getSettings().setSupportZoom(true);
+        browser.getSettings().setDisplayZoomControls(false);
         browser.addJavascriptInterface(new WebAppInterface(this), "Android");
         browser.loadUrl("file:///android_res/raw/googlechart.html");
         info.setOnClickListener(new Button.OnClickListener() {

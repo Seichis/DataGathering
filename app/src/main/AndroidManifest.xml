@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.performance.cognitive.datagathering">
+    package="com.performance.cognitive.datagathering" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -10,10 +10,10 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,12 +46,10 @@
             android:name=".DigitSpan"
             android:label="@string/title_activity_digit_span"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".DigitOrder"
             android:label="@string/title_activity_digit_order"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Words"
             android:label="@string/title_activity_words"
@@ -60,31 +58,30 @@
             android:name=".TapActivity"
             android:label="@string/title_activity_tap"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ColorTapActivity"
             android:label="@string/title_activity_color_tap"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".SelectiveActivity"
             android:label="@string/title_activity_selective"
             android:screenOrientation="portrait" />
-
-
         <activity
             android:name=".PlotList"
             android:label="@string/title_activity_plot_list"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FeedbackActivity"
             android:label="@string/title_activity_feedback"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".GlobalSettingsActivity"
             android:label="@string/title_activity_global_settings"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ResultsActivity"
+            android:label="@string/title_activity_results" >
+        </activity>
     </application>
 
 </manifest>
