@@ -227,7 +227,7 @@ public class DataOperations {
         mBestScoreStrings[0] = Integer.toString(max);
         mBestScoreStrings[1] = loc;
         mBestScoreStrings[2] = String.valueOf(taskDate.get(taskDate.YEAR));
-        mBestScoreStrings[3] = String.valueOf(taskDate.get(taskDate.MONTH));
+        mBestScoreStrings[3] = String.valueOf(taskDate.get(taskDate.MONTH)+1);
         mBestScoreStrings[4] = String.valueOf(taskDate.get(taskDate.DAY_OF_MONTH));
         mBestScoreStrings[5] = String.valueOf(taskDate.get(taskDate.HOUR_OF_DAY));
         mBestScoreStrings[6] = String.valueOf(taskDate.get(taskDate.MINUTE));
@@ -256,7 +256,7 @@ public class DataOperations {
         mWorstScoreStrings[0] = Integer.toString(min);
         mWorstScoreStrings[1] = loc;
         mWorstScoreStrings[2] = String.valueOf(taskDate.get(taskDate.YEAR));
-        mWorstScoreStrings[3] = String.valueOf(taskDate.get(taskDate.MONTH));
+        mWorstScoreStrings[3] = String.valueOf(taskDate.get(taskDate.MONTH)+1);
         mWorstScoreStrings[4] = String.valueOf(taskDate.get(taskDate.DAY_OF_MONTH));
         mWorstScoreStrings[5] = String.valueOf(taskDate.get(taskDate.HOUR_OF_DAY));
         mWorstScoreStrings[6] = String.valueOf(taskDate.get(taskDate.MINUTE));

@@ -41,7 +41,7 @@
             }
         };
 
-        var chart = new google.visualization.ColumnChart(document.getElementById('curve_chart'));
+        var chart = new google.visualization.AreaChart(document.getElementById('curve_chart'));
 
         chart.draw(data, options);
       }
@@ -55,11 +55,11 @@
         $(document).ready(function() {
             var worst = Android.getWorst(); worst = JSON.parse(worst);
             var best = Android.getBest(); best = JSON.parse(best);
-            $("#best").text("Best score: " + best[0] + " @ "+ best[1] +", "  + best[2] + "/" + best[3] + "/"
-                + best[4] + ", " + best[5] + ":" + best[6]);
+            $("#best").text("Best score: " + best[0] + " @ "+ best[1] +", "  + best[4] + "/" + best[3] + "/"
+                + best[2] + ", " + best[5] + ":" + best[6]);
             $("#best").css("color", "green");
-            $("#worst").text("Worst score: " + worst[0] + ", " + worst[2] + "/" + worst[3] + "/"
-                + worst[4] + ", " + worst[5] + ":" + worst[6]);
+            $("#worst").text("Worst score: " + worst[0] +" @ " + worst[1] + ", " + worst[4] + "/" + worst[3] + "/"
+                + worst[2] + ", " + worst[5] + ":" + worst[6]);
             $("#worst").css("color", "red");
     })
 

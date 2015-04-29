@@ -18,12 +18,13 @@ import datastructure.StaticTaskTypes;
 public class FeedbackActivity extends Activity {
     String TEXT = "Cognitive aspect: ";
     Bundle extras;
+    WebView browser;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         extras=getIntent().getExtras();
         setContentView(R.layout.activity_feedback);
-        final WebView browser;
+
         TextView taskTitle;
         final TextView infoText;
         TextView taskAspect;
@@ -106,6 +107,12 @@ public class FeedbackActivity extends Activity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        browser.destroy();
+    }
+
     public class WebAppInterface {
         Context mContext;
 
@@ -127,6 +134,7 @@ public class FeedbackActivity extends Activity {
                     Log.i("dots"," "+DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.fluency)));
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.fluency));
                 case "Tap Speed":
+                    Log.i("tapp", DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskBestScoreForJavascript(StaticTaskTypes.speedtap)));
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.speedtap));
                 case "8 Numbers":
                     return DataOperations.getInstance().javascriptFeedbackToJson(DataOperations.getInstance().prepareTaskScoreForJavascript(StaticTaskTypes.speednum));

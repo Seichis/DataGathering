@@ -1,5 +1,8 @@
-package constants;
+package com.google.android.gms.location;
 
+/**
+ * Constant values reused in this sample.
+ */
 public final class Constants {
     public static final int SUCCESS_RESULT = 0;
 

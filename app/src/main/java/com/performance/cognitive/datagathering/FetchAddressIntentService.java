@@ -10,7 +10,7 @@ import android.os.ResultReceiver;
 import android.text.TextUtils;
 import android.util.Log;
 
-import constants.Constants;
+import com.google.android.gms.location.Constants;
 
 import java.io.IOException;
 import java.util.ArrayList;
