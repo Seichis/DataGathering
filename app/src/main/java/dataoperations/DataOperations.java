@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import datastructure.AttentionDigitSpanTask;
@@ -202,37 +203,57 @@ public class DataOperations {
     }
 
     public String[] prepareTaskBestScoreForJavascript(String taskType) {
-        int max =  0;
+        int max = 0;
         List<Task> DL = getTaskListFromJSON(taskType);
-
+        GregorianCalendar taskDate=new GregorianCalendar();
+        String loc = "";
         String[] mBestScoreStrings = new String[DL.size()];
 
         if (!DL.isEmpty()) {
             max = DL.get(0).getScore();
             for (Task ex : DL) {
-                if(max>ex.getScore()){
-                    max=ex.getScore();
+                if (max > ex.getScore()) {
+                    max = ex.getScore();
+                    loc = ex.getTaskLocation();
+                    taskDate=ex.getEndTimestamp();
                 }
             }
         }
         mBestScoreStrings[0] = Integer.toString(max);
+        mBestScoreStrings[1] = loc;
+        mBestScoreStrings[2] = String.valueOf(taskDate.get(taskDate.YEAR));
+        mBestScoreStrings[3] = String.valueOf(taskDate.get(taskDate.MONTH));
+        mBestScoreStrings[4] = String.valueOf(taskDate.get(taskDate.DAY_OF_MONTH));
+        mBestScoreStrings[5] = String.valueOf(taskDate.get(taskDate.HOUR_OF_DAY));
+        mBestScoreStrings[6] = String.valueOf(taskDate.get(taskDate.MINUTE));
         return mBestScoreStrings;
     }
-      public String[] prepareTaskWorstScoreForJavascript(String taskType) {
-        int min =  0;
-        List<Task> DL = getTaskListFromJSON(taskType);
 
+    public String[] prepareTaskWorstScoreForJavascript(String taskType) {
+        int min = 0;
+        List<Task> DL = getTaskListFromJSON(taskType);
+        GregorianCalendar taskDate=new GregorianCalendar();
+        String loc = "";
         String[] mWorstScoreStrings = new String[DL.size()];
 
         if (!DL.isEmpty()) {
             min = DL.get(0).getScore();
             for (Task ex : DL) {
-                if(min<ex.getScore()){
-                    min=ex.getScore();
+                if (min < ex.getScore()) {
+                    min = ex.getScore();
+                    loc = ex.getTaskLocation();
+                    taskDate=ex.getEndTimestamp();
+
                 }
             }
         }
         mWorstScoreStrings[0] = Integer.toString(min);
+        mWorstScoreStrings[1] = loc;
+        mWorstScoreStrings[2] = String.valueOf(taskDate.get(taskDate.YEAR));
+        mWorstScoreStrings[3] = String.valueOf(taskDate.get(taskDate.MONTH));
+        mWorstScoreStrings[4] = String.valueOf(taskDate.get(taskDate.DAY_OF_MONTH));
+        mWorstScoreStrings[5] = String.valueOf(taskDate.get(taskDate.HOUR_OF_DAY));
+        mWorstScoreStrings[6] = String.valueOf(taskDate.get(taskDate.MINUTE));
         return mWorstScoreStrings;
     }
 
