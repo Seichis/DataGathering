@@ -39,7 +39,7 @@ public class MainActivity extends ActionBarActivity implements
 
     protected String mAddressOutput;
     private AddressResultReceiver mResultReceiver;
-    Button attention1Button, attention2Button, coordinationButton, fluencyButton, longTermMemoryButton, tapSpeedButton, reactionTimeButton, selectiveAttentionButton, speedButton, statsButton, settingsButton;
+    Button attention1Button, attention2Button, coordinationButton, fluencyButton, longTermMemoryButton, tapSpeedButton, reactionTimeButton, selectiveAttentionButton, speedButton, statsButton, settingsButton, resultsButton;
     public static String taskLocation;
     boolean pressedTest = false;
 
@@ -75,7 +75,7 @@ public class MainActivity extends ActionBarActivity implements
         reactionTimeButton = (Button) findViewById(R.id.reactiontime_button);
         selectiveAttentionButton = (Button) findViewById(R.id.selectiveattention_button);
         settingsButton = (Button) findViewById(R.id.settings_button);
-
+        resultsButton = (Button) findViewById(R.id.results_button);
 
 
         attention1Button.setOnClickListener(new Button.OnClickListener() {
@@ -143,7 +143,11 @@ public class MainActivity extends ActionBarActivity implements
             }
         });
 
-
+        resultsButton.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ResultsActivity.class));
+            }
+        });
 
     }
 

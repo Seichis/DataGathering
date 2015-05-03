@@ -1,4 +1,4 @@
-<html>
+<html xmlns:margin="http://www.w3.org/1999/xhtml">
 <head>
     <script type="text/javascript"
             src="https://www.google.com/jsapi?autoload={
@@ -31,10 +31,11 @@
 
         var options = {
           curveType: 'function',
-          legend: { position: 'bottom' },
-          width: 250,
-          chartArea: {left:30, width: '80%', height: '60%'},
-          height: 350,
+          legend : { position:"none"},
+          width: '95%',
+          height: '70%',
+          chartArea: {left:30, top:19, width: '80%', height: '70%'},
+
           explorer: {
             maxZoomOut:2,
             keepInBounds: true
@@ -67,8 +68,8 @@
 </head>
 <body>
 
-<div id="curve_chart"></div>
-<div><p id="best">oh yeaaah</p></div>
+<div id="curve_chart" ></div>
+<div id="best">oh yeaaah</div>
 <div><p id="worst">kampooom</p></div>
 </body>
 </html>

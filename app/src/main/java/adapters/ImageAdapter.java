@@ -46,16 +46,16 @@ public class ImageAdapter extends BaseAdapter {
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ImageView imageView;
+        ImageView bubble;
 
-        imageView = new ImageView(mContext);
-        imageView.setLayoutParams(new GridView.LayoutParams(100, 100));
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setPadding(8, 8, 8, 8);
+        bubble = new ImageView(mContext);
+        bubble.setLayoutParams(new GridView.LayoutParams(100, 100));
+        bubble.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        bubble.setPadding(8, 8, 8, 8);
 
-        imageView.setImageBitmap(mBitmaps.get(position));
+        bubble.setImageBitmap(mBitmaps.get(position));
         Log.i("Adapter", " if  " + position);
-        return imageView;
+        return bubble;
 
     }
 
