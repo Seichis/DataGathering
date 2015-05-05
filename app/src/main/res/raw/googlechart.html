@@ -30,7 +30,6 @@
         	}
 
         var options = {
-          curveType: 'function',
           legend : { position:"none"},
           width: '95%',
           height: '70%',
@@ -42,7 +41,7 @@
             }
         };
 
-        var chart = new google.visualization.AreaChart(document.getElementById('curve_chart'));
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 
         chart.draw(data, options);
       }
