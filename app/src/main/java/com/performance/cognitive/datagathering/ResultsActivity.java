@@ -22,6 +22,7 @@ public class ResultsActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        MainActivity.sessionStarted=false;
         setContentView(R.layout.activity_results);
 
         gridView = (GridView) findViewById(R.id.gridView1);

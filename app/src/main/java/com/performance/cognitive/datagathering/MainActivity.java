@@ -13,10 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -25,23 +22,28 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.location.Constants;
 import com.google.android.gms.location.LocationServices;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 public class MainActivity extends ActionBarActivity implements
         ConnectionCallbacks, OnConnectionFailedListener {
 
     protected static final String TAG = "main-activity";
-
     protected static final String ADDRESS_REQUESTED_KEY = "address-request-pending";
     protected static final String LOCATION_ADDRESS_KEY = "location-address";
     protected GoogleApiClient mGoogleApiClient;
     protected Location mLastLocation;
     protected boolean mAddressRequested;
-
     protected String mAddressOutput;
     private AddressResultReceiver mResultReceiver;
-    Button attention1Button, attention2Button, coordinationButton, fluencyButton, longTermMemoryButton, tapSpeedButton, reactionTimeButton, selectiveAttentionButton, speedButton, statsButton, settingsButton, resultsButton;
+    Button startSessionButton,attention1Button, attention2Button, coordinationButton, fluencyButton, longTermMemoryButton, tapSpeedButton, reactionTimeButton, selectiveAttentionButton, speedButton, statsButton, settingsButton, resultsButton;
     public static String taskLocation;
-    boolean pressedTest = false;
+    public static boolean sessionStarted;
+    List<Intent> mIntents;
+    Intent attention1Intent, attention2Intent, coordinationIntent, fluencyIntent, longTermMemoryIntent, tapSpeedIntent, reactionTimeIntent, selectiveAttentionIntent, speedIntent;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class MainActivity extends ActionBarActivity implements
         mAddressRequested = false;
         mAddressOutput = "";
         updateValuesFromBundle(savedInstanceState);
+        sessionStarted = false;
 
         //updateUIWidgets();
         buildGoogleApiClient();
@@ -62,93 +65,25 @@ public class MainActivity extends ActionBarActivity implements
 
         mAddressRequested = true;
 
-        taskLocation="Ballerup";
+        taskLocation = "Ballerup";
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
-        attention1Button = (Button) findViewById(R.id.attention1_button);
-        attention2Button = (Button) findViewById(R.id.attention2_button);
-        fluencyButton = (Button) findViewById(R.id.fluency_button);
-        speedButton = (Button) findViewById(R.id.speed_button);
-        coordinationButton = (Button) findViewById(R.id.coordination_button);
-        statsButton = (Button) findViewById(R.id.stats_button);
-        longTermMemoryButton = (Button) findViewById(R.id.longtermmemory_button);
-        tapSpeedButton = (Button) findViewById(R.id.tapspeed_button);
-        reactionTimeButton = (Button) findViewById(R.id.reactiontime_button);
-        selectiveAttentionButton = (Button) findViewById(R.id.selectiveattention_button);
-        settingsButton = (Button) findViewById(R.id.settings_button);
-        resultsButton = (Button) findViewById(R.id.results_button);
-
-
-        attention1Button.setOnClickListener(new Button.OnClickListener() {
+        setIntents();
+        startSessionButton = (Button) findViewById(R.id.start_session_button);
+        startSessionButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
 
-                startActivity(new Intent(MainActivity.this, DigitSpan.class));
+                sessionStarted=true;
+                handleSession(mIntents);
 
             }
         });
-        attention2Button.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
+     //   setButtons();
+    }
 
-                startActivity(new Intent(MainActivity.this, DigitOrder.class));
-
-            }
-        });
-        fluencyButton.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-
-                startActivity(new Intent(MainActivity.this, ConnectDotsOneShotActivity.class));
-
-
-            }
-        });
-        speedButton.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-
-                startActivity(new Intent(MainActivity.this, TrailMakingActivity.class));
-
-
-            }
-        });
-        coordinationButton.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-
-                startActivity(new Intent(MainActivity.this, BubbleActivity.class));
-
-
-            }
-        });
-        statsButton.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, PlotList.class));
-
-            }
-        });
-        longTermMemoryButton.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Words.class));
-            }
-        });
-        tapSpeedButton.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, TapActivity.class));
-            }
-        });
-        reactionTimeButton.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ColorTapActivity.class));
-            }
-        });
-        selectiveAttentionButton.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SelectiveActivity.class));
-            }
-        });
-
-        resultsButton.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ResultsActivity.class));
-            }
-        });
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        handleSession(mIntents);
     }
 
     /**
@@ -259,7 +194,7 @@ public class MainActivity extends ActionBarActivity implements
      * Updates the address in the UI.
      */
     protected void displayAddressOutput() {
-        taskLocation = mAddressOutput.replace("\n",", ");
+        taskLocation = mAddressOutput.replace("\n", ", ");
 
     }
 
@@ -283,7 +218,7 @@ public class MainActivity extends ActionBarActivity implements
         }
 
         /**
-         *  Receives data sent from FetchAddressIntentService and updates the UI in Feedback.
+         * Receives data sent from FetchAddressIntentService and updates the UI in Feedback.
          */
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
@@ -302,6 +237,7 @@ public class MainActivity extends ActionBarActivity implements
             //updateUIWidgets();
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -318,12 +254,135 @@ public class MainActivity extends ActionBarActivity implements
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(MainActivity.this,GlobalSettingsActivity.class));
+            startActivity(new Intent(MainActivity.this, GlobalSettingsActivity.class));
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void handleSession(List<Intent> mIntentList) {
+        if (sessionStarted && mIntentList.size()>0){
+            startActivity(mIntentList.get(0));
+            mIntents.remove(0);
+        }else if(mIntentList.size()==0){
+            startActivity(new Intent(MainActivity.this,ResultsActivity.class));
+            setIntents();
+        }else{
+            return;
+        }
+    }
+
+
+
+
+    private void setIntents() {
+        mIntents = new ArrayList<>();
+        attention1Intent = new Intent(MainActivity.this, DigitOrder.class);
+        attention2Intent = new Intent(MainActivity.this, DigitSpan.class);
+        coordinationIntent = new Intent(MainActivity.this, BubbleActivity.class);
+        fluencyIntent = new Intent(MainActivity.this, ConnectDotsOneShotActivity.class);
+        longTermMemoryIntent = new Intent(MainActivity.this, Words.class);
+        tapSpeedIntent = new Intent(MainActivity.this, TapActivity.class);
+        reactionTimeIntent = new Intent(MainActivity.this, ColorTapActivity.class);
+        selectiveAttentionIntent = new Intent(MainActivity.this, SelectiveActivity.class);
+        speedIntent = new Intent(MainActivity.this, TrailMakingActivity.class);
+        mIntents.add(attention1Intent);
+        mIntents.add(attention2Intent);
+        mIntents.add(coordinationIntent);
+        mIntents.add(fluencyIntent);
+        mIntents.add(longTermMemoryIntent);
+        mIntents.add(tapSpeedIntent);
+        mIntents.add(reactionTimeIntent);
+        mIntents.add(selectiveAttentionIntent);
+        mIntents.add(speedIntent);
+        Collections.shuffle(mIntents);
+    }
+
+//    private void setButtons() {
+//        attention1Button = (Button) findViewById(R.id.attention1_button);
+//        attention2Button = (Button) findViewById(R.id.attention2_button);
+//        fluencyButton = (Button) findViewById(R.id.fluency_button);
+//        speedButton = (Button) findViewById(R.id.speed_button);
+//        coordinationButton = (Button) findViewById(R.id.coordination_button);
+//        statsButton = (Button) findViewById(R.id.stats_button);
+//        longTermMemoryButton = (Button) findViewById(R.id.longtermmemory_button);
+//        tapSpeedButton = (Button) findViewById(R.id.tapspeed_button);
+//        reactionTimeButton = (Button) findViewById(R.id.reactiontime_button);
+//        selectiveAttentionButton = (Button) findViewById(R.id.selectiveattention_button);
+//        settingsButton = (Button) findViewById(R.id.settings_button);
+//        resultsButton = (Button) findViewById(R.id.results_button);
+//        attention1Button.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//
+//                startActivity(new Intent(MainActivity.this, DigitSpan.class));
+//
+//            }
+//        });
+//        attention2Button.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//
+//                startActivity(new Intent(MainActivity.this, DigitOrder.class));
+//
+//            }
+//        });
+//        fluencyButton.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//
+//                startActivity(new Intent(MainActivity.this, ConnectDotsOneShotActivity.class));
+//
+//
+//            }
+//        });
+//        speedButton.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//
+//                startActivity(new Intent(MainActivity.this, TrailMakingActivity.class));
+//
+//
+//            }
+//        });
+//        coordinationButton.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//
+//                startActivity(new Intent(MainActivity.this, BubbleActivity.class));
+//
+//
+//            }
+//        });
+//        statsButton.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainActivity.this, PlotList.class));
+//
+//            }
+//        });
+//        longTermMemoryButton.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainActivity.this, Words.class));
+//            }
+//        });
+//        tapSpeedButton.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainActivity.this, TapActivity.class));
+//            }
+//        });
+//        reactionTimeButton.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainActivity.this, ColorTapActivity.class));
+//            }
+//        });
+//        selectiveAttentionButton.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainActivity.this, SelectiveActivity.class));
+//            }
+//        });
+//
+//        resultsButton.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainActivity.this, ResultsActivity.class));
+//            }
+//        });
+//
+//    }
 }
 
