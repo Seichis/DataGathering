@@ -94,9 +94,9 @@ public class ResultsImageAdapter extends BaseAdapter {
                         }else {
                             digitOrderLatest = digitOrderScore[digitOrderScore.length - 1];
                             if (Float.parseFloat(digitOrderLatest) > average(digitOrderScore)) {
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_green));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.green));
                             }else if (Float.parseFloat(digitOrderLatest) < average(digitOrderScore)){
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_red));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.red));
                             }
                         }
                         bubble.setText(digitOrderLatest + " round");
@@ -107,9 +107,9 @@ public class ResultsImageAdapter extends BaseAdapter {
                         }else{
                             digitSpanLatest = digitSpanScore[digitSpanScore.length - 1];
                             if (Float.parseFloat(digitSpanLatest) > average(digitSpanScore)) {
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_green));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.green));
                             }else if (Float.parseFloat(digitSpanLatest) < average(digitSpanScore)){
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_red));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.red));
                             }
                         }
                         bubble.setText(digitSpanLatest + " round");
@@ -120,9 +120,9 @@ public class ResultsImageAdapter extends BaseAdapter {
                         }else {
                             fluencyLatest = fluencyScore[fluencyScore.length -1 ];
                             if (Float.parseFloat(fluencyLatest) > average(fluencyScore)) {
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_green));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.green));
                             }else if (Float.parseFloat(fluencyLatest) < average(fluencyScore)){
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_red));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.red));
                             }
                         }
                         bubble.setText(fluencyLatest + " figures");
@@ -133,9 +133,9 @@ public class ResultsImageAdapter extends BaseAdapter {
                         }else {
                             speedTapLatest = speedTapScore[speedTapScore.length - 1];
                             if (Float.parseFloat(speedTapLatest) > average(speedTapScore)) {
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_green));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.green));
                             }else if (Float.parseFloat(speedTapLatest) < average(speedTapScore)){
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_red));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.red));
                             }
                         }
                         bubble.setText(speedTapLatest + " taps");
@@ -146,9 +146,9 @@ public class ResultsImageAdapter extends BaseAdapter {
                         }else{
                             speedNumberLatest = speedNumberScore[speedNumberScore.length - 1];
                             if (Float.parseFloat(speedNumberLatest) > average(speedNumberScore)) {
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_green));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.green));
                             }else if (Float.parseFloat(speedNumberLatest) < average(speedNumberScore)){
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_red));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.red));
                             }
                         }
 
@@ -160,9 +160,9 @@ public class ResultsImageAdapter extends BaseAdapter {
                         }else {
                             coordinationLatest  =coordinationScore[coordinationScore.length - 1];
                             if (Float.parseFloat(coordinationLatest) > average(coordinationScore)) {
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_green));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.green));
                             }else if (Float.parseFloat(coordinationLatest) < average(coordinationScore)){
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_red));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.red));
                             }
                         }
                         bubble.setText(coordinationLatest + " points");
@@ -173,9 +173,9 @@ public class ResultsImageAdapter extends BaseAdapter {
                         }else {
                             reactionLatest = reactionScore[reactionScore.length - 1];
                             if (Float.parseFloat(reactionLatest) > average(reactionScore)) {
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_green));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.green));
                             }else if (Float.parseFloat(reactionLatest) < average(reactionScore)){
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_red));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.red));
                             }
                         }
                         bubble.setText(reactionLatest + " sec");
@@ -186,9 +186,9 @@ public class ResultsImageAdapter extends BaseAdapter {
                         }else {
                             selectiveAttentionLatest = selectiveAttentionScore[selectiveAttentionScore.length - 1];
                             if (Float.parseFloat(selectiveAttentionLatest) > average(selectiveAttentionScore)) {
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_green));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.green));
                             }else if (Float.parseFloat(selectiveAttentionLatest) < average(selectiveAttentionScore)){
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_red));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.red));
                             }
                         }
                         bubble.setText(selectiveAttentionLatest + " rounds");
@@ -199,9 +199,9 @@ public class ResultsImageAdapter extends BaseAdapter {
                         }else {
                             longMemoryLatest = longMemoryScore[longMemoryScore.length - 1];
                             if (Float.parseFloat(longMemoryLatest) > average(longMemoryScore)) {
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_green));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.green));
                             }else if (Float.parseFloat(longMemoryLatest) < average(longMemoryScore)){
-                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bubbles_red));
+                                bubble.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.red));
                             }
                         }
                         bubble.setText(longMemoryLatest + " words");
