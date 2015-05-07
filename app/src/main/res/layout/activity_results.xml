@@ -1,19 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/androidlayout"
-    tools:context="com.performance.cognitive.datagathering.ResultsActivity">
+    tools:context="com.performance.cognitive.datagathering.ResultsActivity"
+    android:background="#212121">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Results"
-        android:textColor="#fff"
-        android:id="@+id/textView2"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -26,7 +16,7 @@
             android:gravity="center"
             android:numColumns="auto_fit"
             android:stretchMode="columnWidth"
-            android:layout_marginTop="188dp"
+            android:layout_marginTop="108dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true">
@@ -37,11 +27,22 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Good Job!"
+            android:textColor="#fff"
             android:id="@+id/textView"
             android:textSize="30dp"
+            android:layout_marginTop="23dp"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="73dp" />
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Your latest performance"
+            android:textColor="#fff"
+            android:id="@+id/textView2"
+            android:layout_below="@+id/textView"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
 

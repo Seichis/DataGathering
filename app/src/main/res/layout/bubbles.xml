@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="koko"
+        android:textColor="#fff"
         android:layout_marginLeft="15dp"
         android:textSize="15sp" >
     </TextView>
@@ -17,11 +18,12 @@
         android:id="@+id/textview1"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:gravity="center"
-        android:textColor="#000000"
+        android:textColor="#fff"
         android:textStyle="bold"
         android:text="Random Text"
-        android:background="@drawable/bubbles"
+        android:background="@drawable/orange"
         android:layout_width="100dp"
+
         android:layout_height="100dp"/>
 
 
