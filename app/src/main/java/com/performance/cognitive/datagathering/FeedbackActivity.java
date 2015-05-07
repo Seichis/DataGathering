@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -15,7 +16,7 @@ import dataoperations.DataOperations;
 import datastructure.StaticTaskTypes;
 
 
-public class FeedbackActivity extends Activity {
+public class FeedbackActivity extends ActionBarActivity {
     String TEXT = "Cognitive aspect: ";
     Bundle extras;
     WebView browser;
@@ -87,10 +88,8 @@ public class FeedbackActivity extends Activity {
         info.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 browser.setVisibility(View.INVISIBLE);
-                overview.setBackgroundColor(Color.BLACK);
+                overview.setBackgroundColor(Color.parseColor("#ff9800"));
                 info.setBackgroundColor(Color.parseColor("#2196f3"));
-                overview.setTextColor(Color.parseColor("#2196f3"));
-                info.setTextColor(Color.BLACK);
                 infoText.setVisibility(View.VISIBLE);
             }
         });
@@ -98,9 +97,7 @@ public class FeedbackActivity extends Activity {
             public void onClick(View v) {
                 browser.setVisibility(View.VISIBLE);
                 overview.setBackgroundColor(Color.parseColor("#2196f3"));
-                overview.setTextColor(Color.BLACK);
-                info.setBackgroundColor(Color.BLACK);
-                info.setTextColor(Color.parseColor("#2196f3"));
+                info.setBackgroundColor(Color.parseColor("#ff9800"));
                 infoText.setVisibility(View.INVISIBLE);
             }
         });

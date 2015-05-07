@@ -1,7 +1,11 @@
 package com.performance.cognitive.datagathering;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
@@ -12,6 +16,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -77,6 +83,13 @@ public class MainActivity extends ActionBarActivity implements
 
             }
         });
+        resultsButton = (Button) findViewById(R.id.results_button);
+        resultsButton.setOnClickListener(new Button.OnClickListener() {
+        public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ResultsActivity.class));
+            }
+        });
+
      //   setButtons();
     }
 
