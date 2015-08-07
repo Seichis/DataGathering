@@ -1,4 +1,6 @@
 # DataGathering
+An Android application that measures cognitive performance based on scientifically validated cognitive games for attention, short-term and long-term memory, speed, reaction time. The data are stored in order to be accessible from the reseachers, while the user can explore her scores through visualisations and history overview.
+
 The Android application prototype represents a standalone Android application which
 handles cognitive performance data when completing the tasks and provides
 scheduling and alarm capabilities. All data collected is stored for later usage,
